@@ -227,7 +227,7 @@ bot.on('text', async(ctx) => {
 
 
             // Salva il messaggio nel file JSON dell'utente
-            const filePath = `${username}.json`;
+            const filePath = path.join('tmp', username +'.json');
             let userMessages = [];
             if (fs.existsSync(filePath)) {
                 const data = fs.readFileSync(filePath);
