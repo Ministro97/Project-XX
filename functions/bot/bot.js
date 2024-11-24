@@ -13,7 +13,7 @@ bot.start(ctx => {
 });
 
 bot.command('readjson', ctx => {
-  fs.readFile('./nome_del_file.json', 'utf8', (err, data) => {
+  fs.readFile('validPrefixes.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Errore nella lettura del file:', err);
       return ctx.reply('Errore nella lettura del file');
