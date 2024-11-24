@@ -31,7 +31,7 @@ bot.command('readjson', ctx => {
 
 bot.command('markup', ctx => {
   return ctx.replyWithMarkdownV2(
-    '*Ciao!* _Questo è un messaggio con markup_\n\n' +
+    '*Ciao\\!* _Questo è un messaggio con markup_\n\n' +
     'Link a Telegram\n' +
     '`Codice inline`\n' +
     '```javascript\nconsole.log("Hello, world!");\n```'
