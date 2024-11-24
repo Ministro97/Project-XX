@@ -350,10 +350,7 @@ Benvenuti creativi allenatori! È il momento di liberare la vostra immaginazione
 
 Ecco i tags che potrete utilizzare: 
 
-${firstPrefix} + [il tuo messaggio]  
-${secondPrefix} + [il tuo messaggio]
-${thirdPrefix} + [il tuo messaggio] 
-${fourthPrefix} + [il tuo messaggio] 
+
 
 Non vedo l’ora di vedere le vostre idee folli! 💡
 
