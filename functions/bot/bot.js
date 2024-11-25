@@ -600,19 +600,33 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 
 async function startBrainstorming(ctx) {
 
-
-
     canOpenSession = false;
 
     set_tags_active = false;
 
 
 
+    function getValidPrefixes() {
 
+        const filePath = path.join(__dirname, 'validPrefixes.json');
 
-    // Funzione per leggere i prefissi validi da un file JSON
+        if (fs.existsSync(filePath)) {
 
-    function getValidPrefixes() { const filePath = path.join(__dirname, 'validPrefixes.json'); if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('File validPrefixes.json non trovato.'); return []; } }
+            const data = fs.readFileSync(filePath);
+
+            const prefixes = JSON.parse(data);
+
+            return prefixes.validPrefixes;
+
+        } else {
+
+            console.error('File validPrefixes.json non trovato.');
+
+            return [];
+
+        }
+
+    }
 
 
 
@@ -628,27 +642,19 @@ async function startBrainstorming(ctx) {
 
 
 
-
-
-
-
-
-
-
-
     try {
 
         if (await isAdmin(ctx)) {
 
-            const seconds = 120; // Imposta sempre a 1000 secondi
+            const seconds = 50;
 
             timerActive = true;
 
             let remainingTime = seconds;
 
-            messageCounts = {}; // Resetta i contatori dei messaggi
+            messageCounts = {};
 
-            ideas = []; // Resetta le idee
+            ideas = [];
 
 
 
@@ -680,13 +686,7 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
 
 
-
-
-
-
 <code> © 2024-2025 Project XX </code>
-
-
 
 `);
 
@@ -702,69 +702,29 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
 
 
-            intervalId = setInterval(async() => {
+            intervalId = setInterval(async () => {
 
                 try {
 
                     if (remainingTime > 0) {
 
-                        remainingTime -= 60;
+                        remainingTime -= 10;
 
-                        if (remainingTime < 0) {
-
-                            await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, `Tempo rimanente: 0 secondi.`);
-
-                        } else {
-
-                            await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
-
-                        }
+                        await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
 
                         await ctx.telegram.pinChatMessage(ctx.chat.id, messageId);
 
-                    } else if (remainingTime <= 0) {
+                    } else {
 
                         clearInterval(intervalId);
 
-                        const countdownMessage = await ctx.replyWithHTML(`Tempo rimanente: 0 secondi.`);
+                        await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, 'La sessione di Brain Storming XX è terminata, di seguito potrete visualizzare i risultati della sessione.');
 
-                        countdownMessageId = countdownMessage.message_id;
+                        timerActive = false;
 
+                        await ctx.telegram.unpinChatMessage(ctx.chat.id, messageId);
 
-
-                        intervalId = setInterval(async() => {
-
-                            try {
-
-                                if (remainingTime > 0) {
-
-                                    remainingTime--;
-
-                                    await ctx.telegram.editMessageText(ctx.chat.id, countdownMessageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
-
-                                    await ctx.telegram.pinChatMessage(ctx.chat.id, countdownMessageId);
-
-                                } else {
-
-                                    clearInterval(intervalId);
-
-                                    await ctx.telegram.editMessageText(ctx.chat.id, countdownMessageId, null, 'La sessione di Brain Storming XX è terminata, di seguito potrete visualizare i risultati della sessione.');
-
-                                    timerActive = false;
-
-                                    await ctx.telegram.unpinChatMessage(ctx.chat.id, countdownMessageId);
-
-                                    await sendSummary(ctx);
-
-                                }
-
-                            } catch (err) {
-
-                                console.error('Errore durante il countdown:', err);
-
-                            }
-
-                        }, 3000);
+                        await sendSummary(ctx);
 
                     }
 
@@ -774,7 +734,7 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
                 }
 
-            }, 60000);
+            }, 10000);
 
         } else {
 
@@ -966,4 +926,4 @@ exports.handler = async event => {
 
 
 
-                      
+            
