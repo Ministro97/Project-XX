@@ -774,7 +774,7 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
                 }
 
-            }, 100000);
+            }, 60000);
 
         } else {
 
@@ -966,3 +966,4 @@ exports.handler = async event => {
 
 
 
+                    
