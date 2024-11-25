@@ -640,7 +640,7 @@ async function startBrainstorming(ctx) {
 
         if (await isAdmin(ctx)) {
 
-            const seconds = 120; // Imposta sempre a 1000 secondi
+            const seconds = 60; // Imposta sempre a 1000 secondi
 
             timerActive = true;
 
@@ -774,7 +774,7 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
                 }
 
-            }, 60000);
+            }, 20000;
 
         } else {
 
@@ -966,4 +966,4 @@ exports.handler = async event => {
 
 
 
-                    
+    
