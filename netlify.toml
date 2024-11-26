@@ -5,3 +5,7 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+  [[functions.schedule]]
+name = "updateTimer"
+cron = "* * * * *" # Ogni minuto
