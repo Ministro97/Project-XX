@@ -4,6 +4,16 @@ const fs = require('fs');
 
 const path = require('path');
 
+const { schedule } = require('@netlify/functions');
+
+
+
+
+
+
+
+
+
 const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
 
 
@@ -598,63 +608,59 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 
 
 
-async function startBrainstorming(ctx) {
-
-    canOpenSession = false;
-
-    set_tags_active = false;
 
 
 
-    function getValidPrefixes() {
-
-        const filePath = path.join(__dirname, 'validPrefixes.json');
-
-        if (fs.existsSync(filePath)) {
-
-            const data = fs.readFileSync(filePath);
-
-            const prefixes = JSON.parse(data);
-
-            return prefixes.validPrefixes;
-
-        } else {
-
-            console.error('File validPrefixes.json non trovato.');
-
-            return [];
-
-        }
-
-    }
 
 
 
-    const validPrefixes = getValidPrefixes();
-
-    const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
-
-    const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
-
-    const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
-
-    const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
 
 
+
+
+const startBrainstorming = async (ctx) => {
+
+  
+
+  let canOpenSession = false;
+
+
+
+let set_tags_active = false;
+
+  
+
+  const validPrefixes = getValidPrefixes();
+
+
+
+const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
+
+
+
+const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
+
+const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
+
+const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
+
+  
+
+  
 
     try {
 
         if (await isAdmin(ctx)) {
 
-            const seconds = 50;
+            const seconds = 50; // Imposta sempre a 50 secondi
 
             timerActive = true;
 
             let remainingTime = seconds;
 
-            messageCounts = {};
+            messageCounts = {}; // Resetta i contatori dei messaggi
 
-            ideas = [];
+            ideas = []; // Resetta le idee
 
 
 
@@ -702,39 +708,59 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
 
 
-            intervalId = setInterval(async () => {
+            const updateTimer = async () => {
 
-                try {
+                if (remainingTime > 0) {
 
-                    if (remainingTime > 0) {
+                    remainingTime -= 10;
 
-                        remainingTime -= 10;
+                    await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
 
-                        await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
+                    await ctx.telegram.pinChatMessage(ctx.chat.id, messageId);
 
-                        await ctx.telegram.pinChatMessage(ctx.chat.id, messageId);
+                } else {
 
-                    } else {
+                    clearInterval(intervalId);
 
-                        clearInterval(intervalId);
+                    const countdownMessage = await ctx.replyWithHTML(`Tempo rimanente: 0 secondi.`);
 
-                        await ctx.telegram.editMessageText(ctx.chat.id, messageId, null, 'La sessione di Brain Storming XX è terminata, di seguito potrete visualizzare i risultati della sessione.');
+                    countdownMessageId = countdownMessage.message_id;
 
-                        timerActive = false;
 
-                        await ctx.telegram.unpinChatMessage(ctx.chat.id, messageId);
 
-                        await sendSummary(ctx);
+                    const countdownIntervalId = setInterval(async () => {
 
-                    }
+                        if (remainingTime > 0) {
 
-                } catch (err) {
+                            remainingTime--;
 
-                    console.error('Errore durante l\'intervallo:', err);
+                            await ctx.telegram.editMessageText(ctx.chat.id, countdownMessageId, null, `Tempo rimanente: ${remainingTime} secondi.`);
+
+                            await ctx.telegram.pinChatMessage(ctx.chat.id, countdownMessageId);
+
+                        } else {
+
+                            clearInterval(countdownIntervalId);
+
+                            await ctx.telegram.editMessageText(ctx.chat.id, countdownMessageId, null, 'La sessione di Brain Storming XX è terminata, di seguito potrete visualizzare i risultati della sessione.');
+
+                            timerActive = false;
+
+                            await ctx.telegram.unpinChatMessage(ctx.chat.id, countdownMessageId);
+
+                            await sendSummary(ctx);
+
+                        }
+
+                    }, 3000);
 
                 }
 
-            }, 10000);
+            };
+
+
+
+            const intervalId = setInterval(updateTimer, 10000);
 
         } else {
 
@@ -750,7 +776,9 @@ Non vedo l’ora di vedere le vostre idee folli! 💡
 
     }
 
-}
+};
+
+
 
 
 
@@ -902,6 +930,7 @@ exports.handler = async event => {
 
 
 
+module.exports.handler = schedule('@hourly', startBrainstorming);
 
 
 
@@ -926,4 +955,4 @@ exports.handler = async event => {
 
 
 
-            
+
