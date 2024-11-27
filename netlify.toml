@@ -7,8 +7,3 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-[functions."updateTimer"]
-  schedule = "@hourly"
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
