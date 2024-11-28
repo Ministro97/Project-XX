@@ -39,7 +39,7 @@ bot.command('stop_brainstorming', async(ctx) => {
 
 
 // Funzione per leggere i prefissi validi da un file JSON
-function getValidPrefixes() { const filePath = path.join(__dirname, 'validPrefixes.json'); if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('File validPrefixes.json non trovato.'); return []; } }
+function getValidPrefixes() { const filePath = path.join(__dirname, 'tmp/validPrefixes.json'); if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('File validPrefixes.json non trovato.'); return []; } }
 
 
 
@@ -240,7 +240,7 @@ bot.on('text', async(ctx) => {
 
 
             // Salva il messaggio nel file JSON dell'utente
-            const filePath = `${username}.json`;
+            const filePath = `tmp/${username}.json`;
             let userMessages = [];
             if (fs.existsSync(filePath)) {
                 const data = fs.readFileSync(filePath);
@@ -263,7 +263,7 @@ bot.on('text', async(ctx) => {
             if (args.length === 2) {
                 let username = args[1];
                 username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
-                const filePath = `${username}.json`;
+                const filePath = `tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
@@ -300,7 +300,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                 idea.voters.add(userId);
 
                 // Aggiorna il file JSON dell'utente
-                const filePath = `${idea.autore}.json`;
+                const filePath = `tmp/${idea.autore}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
