@@ -8,5 +8,5 @@
   status = 200
 
 [functions]
-included_files = ["bot/functions/**.json"]
+included_files = ["functions/bot/**.json"]
  
