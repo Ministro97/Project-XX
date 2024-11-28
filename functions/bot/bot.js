@@ -1,7 +1,7 @@
 const { Telegraf, Markup } = require('telegraf');
 const fs = require('fs');
 const path = require('path');
-const bot = new Telegraf('7573266694:AAF5xn5gmlJXo6f5_rSUyBsjymlgUZfrDwg');
+const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
 
 let timerActive = false;
 let set_tags_active = true;
