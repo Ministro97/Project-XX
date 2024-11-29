@@ -37,14 +37,14 @@ bot.command('stop_brainstorming', async(ctx) => {
 
 // Funzione per salvare i prefissi validi in un file JSON 
 function saveValidPrefixes(prefixes) {
-    const filePath = path.join('/tmp','validPrefixes.json');
+    const filePath = path.join('/tmp/','validPrefixes.json');
     const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
     fs.writeFileSync(filePath, data);
 }
 
 
 // Funzione per leggere i prefissi validi da un file JSON
-function getValidPrefixes() { const filePath = path.join( '/tmp', 'validPrefixes.json'); if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('File validPrefixes.json non trovato.'); return []; } }
+function getValidPrefixes() { const filePath = path.join( '/tmp/', 'validPrefixes.json'); if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('File validPrefixes.json non trovato.'); return []; } }
 
 
 
