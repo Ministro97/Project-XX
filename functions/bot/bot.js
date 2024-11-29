@@ -15,7 +15,7 @@ let brainstormingActive = false;
 let pinnedMessageId = null;
 let copyright = "\n\n\n<code> © 2024-2025 Project XX </code>"
 
-
+let sessionOwner = null;
 
 
 
@@ -25,16 +25,24 @@ let copyright = "\n\n\n<code> © 2024-2025 Project XX </code>"
 
 // Comando per terminare la sessione di brainstorming
 bot.command('stop_brainstorming', async(ctx) => {
-    if (await isAdmin(ctx)) {
+  if (sessionOwner === null)
+      console.log ("No owner: " + sessionOwner);
+  await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_Bs_XX');
+  
+  
+    else if (ctx.from.id === sessionOwner.id || await isAdmin(ctx)) {
+       console.log ("Owner: " + sessionOwner);
         brainstormingActive = false;
-        await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata. \n\n\n<code> © 2024-2025 Project XX </code>');
+        sessionOwner = null;
+        await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.');
         if (pinnedMessageId) {
             await ctx.telegram.unpinChatMessage(ctx.chat.id, pinnedMessageId);
             pinnedMessageId = null;
         }
         await sendSummary(ctx);
     } else {
-        const warningMessage = await ctx.replyWithHTML('Solo gli amministratori possono terminare la sessione di brainstorming. \n\n\n<code> © 2024-2025 Project XX </code>');
+        console.log ("Err owner: " + sessionOwner);
+        const warningMessage = await ctx.replyWithHTML("Non sei autorizzato a terminare questa sessione di Brainstorming XX, per poter terminare questa sessione chiedi all' admin del gruppo o al creatore di questa sessione.");
         setTimeout(() => {
             ctx.deleteMessage(warningMessage.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio di avviso:', err));
             ctx.deleteMessage(ctx.message.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio dell\'utente:', err));
@@ -383,13 +391,19 @@ async function startBrainstorming(ctx) {
     const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
 
     try {
-        if (await isAdmin(ctx)) {
+        if (sessionOwner === null) {
+            console.log ("pre: " + sessionOwner);
+          sessionOwner = ctx.from.id;
+            console.log ("start: " + sessionOwner);
             brainstormingActive = true;
             messageCounts = {}; // Resetta i contatori dei messaggi
             ideas = []; // Resetta le idee
 
             await ctx.replyWithHTML(`
-<b>Sessione di Brain storming XX</b> 🔥 
+<b>Sessione di Brainstorming XX</b> 🔥 
+
+<i> Avviata da ${ctx.from.first_name}</i>
+
 
 Benvenuti creativi allenatori! È il momento di liberare la vostra immaginazione e contribuire con idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tags corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa \n\n
 
@@ -400,7 +414,11 @@ ${secondPrefix} + [il tuo messaggio]
 ${thirdPrefix} + [il tuo messaggio] 
 ${fourthPrefix} + [il tuo messaggio] 
 
-Non vedo l’ora di vedere le vostre idee folli! 💡
+Non vedo l’ora di vedere le vostre idee folli!
+💡
+
+
+
 
 <code> © 2024-2025 Project XX </code>
 `);
