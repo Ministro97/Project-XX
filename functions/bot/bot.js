@@ -238,13 +238,14 @@ bot.command('brain_storming_xx', async(ctx) => {
     }
 });
 
+/*
 console.log("3 "+ getValidPrefixes())
 const validPrefixes = getValidPrefixes();
 const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
 const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
 const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
 const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
-
+*/
 
 
 
@@ -256,6 +257,16 @@ function containsBadWords(text) {
 }
 
 bot.on('text', async(ctx) => {
+
+console.log("3 "+ getValidPrefixes())
+const validPrefixes = getValidPrefixes();
+const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
+const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
+const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
+const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
+
+
+    
     if (ctx.message.text.toLowerCase().includes('brain storming xx') && ctx.message.entities) {
         const botWasMentioned = ctx.message.entities.some(entity => entity.type === 'mention' && ctx.message.text.substring(entity.offset, entity.offset + entity.length) === `@${ctx.botInfo.username}`);
         if (botWasMentioned && await isAdmin(ctx) && canOpenSession === true) {
