@@ -154,7 +154,7 @@ async function isAdmin(ctx) {
 
 
 // Comando per cambiare i prefissi
-bot.command('set_tags_XX', async(ctx) => {
+bot.command('set_tags_XX', async (ctx) => {
     if (await isAdmin(ctx) && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
@@ -172,7 +172,6 @@ bot.command('set_tags_XX', async(ctx) => {
         await ctx.reply(`Tags aggiornati: ${newPrefixes.join(', ')}`);
     } else if (set_tags_active === false) {
         await ctx.reply('Non puoi cambiare i tags mentre la sessione di Brain Storming XX è attiva.');
-
     } else {
         await ctx.replyWithHTML('Solo gli amministratori possono aggiornare i tags. \n\n\n<code> © 2024-2025 Project XX </code>');
     }
