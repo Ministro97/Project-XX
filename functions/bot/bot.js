@@ -24,10 +24,10 @@ let sessionOwner = null;
 
 
 // Comando per terminare la sessione di brainstorming
-bot.command('stop_brainstorming', async(ctx) => {
+bot.command('stop_bs_xx', async(ctx) => {
   if (sessionOwner === null) {
       console.log ("No owner: " + sessionOwner);
-  await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_Bs_XX');
+  await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
   }
   
     else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
@@ -127,7 +127,7 @@ async function isAdmin(ctx) {
 
 
 // Comando per cambiare i prefissi
-bot.command('set_tags_XX', async (ctx) => {
+bot.command('set_tags_xx', async (ctx) => {
     if (await isAdmin(ctx) && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
@@ -186,7 +186,7 @@ async function generateLeaderboard(ctx) {
 
 
 
-bot.command('leaderboard_XX', async(ctx) => { await generateLeaderboard(ctx); });
+bot.command('leaderboard_xx', async(ctx) => { await generateLeaderboard(ctx); });
 
 
 bot.use(async(ctx, next) => { if (ctx.message && ctx.message.text && ctx.message.text.toLowerCase().includes('classifica') && !ctx.message.text.startsWith('/')) { await generateLeaderboard(ctx); } else { await next(); } });
@@ -195,7 +195,7 @@ bot.use(async(ctx, next) => { if (ctx.message && ctx.message.text && ctx.message
 
 
 
-bot.command('brain_storming_xx', async(ctx) => {
+bot.command('start_bs_xx', async(ctx) => {
     if (canOpenSession === true) {
         await startBrainstorming(ctx);
 
@@ -407,7 +407,7 @@ async function startBrainstorming(ctx) {
 <i> Avviata da ${ctx.from.first_name}</i>
 
 
-Benvenuti creativi allenatori! È il momento di liberare la vostra immaginazione e contribuire con idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tags corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa \n\n
+Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
 
 Ecco i tags che potrete utilizzare: 
 
@@ -416,9 +416,7 @@ ${secondPrefix} + [il tuo messaggio]
 ${thirdPrefix} + [il tuo messaggio] 
 ${fourthPrefix} + [il tuo messaggio] 
 
-Non vedo l’ora di vedere le vostre idee folli!
-💡
-
+Non vedo l’ora di vedere le vostre idee folli!💡
 
 
 
