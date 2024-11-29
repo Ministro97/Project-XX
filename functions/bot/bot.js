@@ -361,14 +361,14 @@ const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
             const args = ctx.message.text.split(' ');
             if (args.length === 2) {
                 let username = args[1];
-                username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
+                username = username.replace(/\s+/g, ' '); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
                     let response = `Idee totali inviate da ${username}: ${userMessages.length}\n\n`;
                     userMessages.forEach(msg => {
-                        response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}`;
+                        response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
                     });
                     ctx.replyWithHTML(response + copyright);
                 } else {
