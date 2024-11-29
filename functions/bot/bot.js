@@ -42,14 +42,7 @@ bot.command('stop_brainstorming', async(ctx) => {
     }
 });
 
-// Funzione per salvare i prefissi validi in un file JSON 
-/* function saveValidPrefixes(prefixes) {
-    const filePath = path.join('/tmp/', 'validPrefixes.json');
-    const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
-    fs.writeFileSync(filePath, data);
-    console.log(filePath, data);
-}
-*/
+// Funzione per salvare i tags validi in un file JSON 
 function saveValidPrefixes(prefixes) {
     const filePath = path.join('/tmp/', 'validPrefixes.json');
     try {
@@ -72,28 +65,7 @@ function saveValidPrefixes(prefixes) {
 
 
 
-// Funzione per leggere i prefissi validi da un file JSON
-/*function getValidPrefixes() {
-
-
-
-    
-    const filePath = path.join('/tmp/' ,'validPrefixes.json');
-    try {
-        if (fs.existsSync(filePath)) {
-            const data = fs.readFileSync(filePath, 'utf8');
-            const prefixes = JSON.parse(data);
-            return prefixes.validPrefixes;
-        } else {
-            console.error('Impossibile ottenere i tags: file non trovato');
-            return [];
-        }
-    } catch (error) {
-        console.error('Errore durante la lettura del file:', error);
-        return [];
-    }
-}
-*/
+// Funzione per leggere i tags validi da un file JSON
 function getValidPrefixes() {
     const filePath = path.join('/tmp/', 'validPrefixes.json');
     try {
@@ -117,8 +89,6 @@ function getValidPrefixes() {
 
 
 
-
-
 // Middleware per verificare i prefissi nei messaggi
 bot.use(async(ctx, next) => {
 console.log(getValidPrefixes());
@@ -133,13 +103,6 @@ console.log(getValidPrefixes());
     }
     await next();
 });
-
-
-
-
-
-
-
 
 
 
@@ -222,15 +185,6 @@ bot.use(async(ctx, next) => { if (ctx.message && ctx.message.text && ctx.message
 
 
 
-
-
-
-
-
-
-
-
-
 bot.command('brain_storming_xx', async(ctx) => {
     if (canOpenSession === true) {
         await startBrainstorming(ctx);
@@ -238,19 +192,8 @@ bot.command('brain_storming_xx', async(ctx) => {
     }
 });
 
-/*
-console.log("3 "+ getValidPrefixes())
-const validPrefixes = getValidPrefixes();
-const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
-const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
-const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
-const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
-*/
 
-
-
-
-const badWords = ['parola1']; // Aggiungi qui le parole inappropriate file json
+const badWords = ['parola1']; // Aggiungere file json BadWords.json
 
 function containsBadWords(text) {
     return badWords.some(word => text.toLowerCase().includes(word));
