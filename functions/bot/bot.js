@@ -45,7 +45,7 @@ function saveValidPrefixes(prefixes) {
 
 // Funzione per leggere i prefissi validi da un file JSON
 function getValidPrefixes() {
-    const filePath = "/tmp/validPrefixes.json";
+    const filePath = path.join(__dirname, '/tmp/validPrefixes.json');
     try {
         if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf8');
