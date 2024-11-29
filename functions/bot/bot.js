@@ -16,6 +16,33 @@ let pinnedMessageId = null;
 let copyright = "\n\n\n<code> © 2024-2025 Project XX </code>"
 
 
+function createValidPrefixesFile() {
+    const filePath = path.join('/tmp/', 'validPrefixes.json');
+    const prefixes = {
+        validPrefixes: [
+            "#gameplay",
+            "#storia",
+            "#grafica",
+            "#dialoghi"
+        ]
+    };
+
+    fs.writeFile(filePath, JSON.stringify(prefixes, null, 2), (err) => {
+        if (err) {
+            console.error('Errore durante la creazione del file:', err);
+        } else {
+            console.log('File creato con successo:', filePath);
+        }
+    });
+}
+
+createValidPrefixesFile();
+
+
+
+
+
+
 // Comando per terminare la sessione di brainstorming
 bot.command('stop_brainstorming', async(ctx) => {
     if (await isAdmin(ctx)) {
