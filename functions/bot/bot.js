@@ -201,7 +201,7 @@ function containsBadWords(text) {
 
 bot.on('text', async(ctx) => {
 
-console.log("3 "+ getValidPrefixes())
+
 const validPrefixes = getValidPrefixes();
 const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
 const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
@@ -444,9 +444,9 @@ async function sendSummary(ctx) {
         await ctx.replyWithHTML('Non sono state aggiunte altre idee dai partecipanti del gruppo in questa sessione di Brain Storming.\n\n\n<code> © 2024-2025 Project XX </code>');
         set_tags_active = true;
         canOpenSession = true;
-        pinnedMessageId = null;
+        await ctx.telegram.unpinAllChatMessages(ctx.chat.id);
     } else {
-        pinnedMessageId = null;
+        await ctx.telegram.unpinAllChatMessages(ctx.chat.id);
         const data = new Date().toLocaleDateString()
         let summary = `<b>Risultati Brain Storming XX</b> 📊\n\nData sessione: ${data} \n\n`;
         for (const [username, counts] of Object.entries(messageCounts)) {
