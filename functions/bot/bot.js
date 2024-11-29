@@ -238,7 +238,7 @@ bot.command('brain_storming_xx', async(ctx) => {
     }
 });
 
-
+console.log("3 "+ getValidPrefixes())
 const validPrefixes = getValidPrefixes();
 const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
 const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
