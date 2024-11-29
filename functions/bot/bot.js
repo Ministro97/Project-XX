@@ -121,7 +121,7 @@ async function generateLeaderboard(ctx) {
         const userVotes = {};
         for (const file of userFiles) {
             try {
-                const data = fs.readFileSync(path.join('./', file));
+                const data = fs.readFileSync(path.join('/tmp', file));
                 const userMessages = JSON.parse(data);
                 const username = path.basename(file, '.json');
                 userVotes[username] = userMessages.reduce((total, msg) => total + (msg.voti || 0), 0);
