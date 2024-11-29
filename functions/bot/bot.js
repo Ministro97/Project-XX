@@ -67,7 +67,7 @@ bot.use(async(ctx, next) => {
 
 // Funzione per salvare i prefissi validi in un file JSON 
 function saveValidPrefixes(prefixes) {
-    const filePath = path.join('tmp','/tmp/validPrefixes.json');
+    const filePath = path.join('tmp','validPrefixes.json');
     const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
     fs.writeFileSync(filePath, data);
 }
