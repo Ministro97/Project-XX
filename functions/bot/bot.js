@@ -65,7 +65,12 @@ bot.use(async(ctx, next) => {
 
 
 
-
+// Funzione per salvare i prefissi validi in un file JSON 
+function saveValidPrefixes(prefixes) {
+    const filePath = path.join(__dirname, '/tmp/validPrefixes.json');
+    const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
+    fs.writeFileSync(filePath, data);
+}
 
 
 
@@ -74,6 +79,7 @@ async function isAdmin(ctx) {
     const member = await ctx.telegram.getChatMember(ctx.chat.id, ctx.from.id);
     return member.status === 'administrator' || member.status === 'creator';
 }
+
 
 
 
@@ -111,7 +117,7 @@ bot.command('set_tags_XX', async(ctx) => {
 // Funzione per generare la classifica degli utenti
 async function generateLeaderboard(ctx) {
     try {
-        const userFiles = fs.readdirSync('./').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
+        const userFiles = fs.readdirSync('./tmp').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
         const userVotes = {};
         for (const file of userFiles) {
             try {
@@ -218,7 +224,20 @@ bot.on('text', async(ctx) => {
                 return;
             }
 
-            const timestamp = new Date().toLocaleString();
+
+
+
+            const oldTimestamp = new Date().toLocaleString();
+
+            const date = new Date(oldTimestamp);
+            date.setHours(date.getHours() + 1);
+
+            const timestamp = date.toLocaleString();
+
+
+
+
+
             const messageData = { hashtag: prefix, messaggio: text, voti: 0, id: ctx.message.message_id, autore: username, timestamp: timestamp };
             ideas.push(messageData);
 
@@ -269,9 +288,9 @@ bot.on('text', async(ctx) => {
                     const userMessages = JSON.parse(data);
                     let response = `Idee totali inviate da ${username}: ${userMessages.length}\n\n`;
                     userMessages.forEach(msg => {
-                        response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n\n<code> © 2024-2025 Project XX </code>`;
+                        response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}`;
                     });
-                    ctx.replyWithHTML(response);
+                    ctx.replyWithHTML(response + copyright);
                 } else {
                     ctx.reply(`Non ci sono messaggi per l'utente ${username}.`);
                 }
