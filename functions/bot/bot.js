@@ -30,9 +30,9 @@ bot.command('stop_brainstorming', async(ctx) => {
   await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_Bs_XX');
   }
   
-    else if (await ctx.from.id === sessionOwner.id || await isAdmin(ctx)) {
+    else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
        console.log ("Owner: " + sessionOwner);
-      console.log (ctx.from.id === sessionOwner.id);
+      console.log (ctx.from.id === sessionOwner);
       console.log ("1 " + ctx.from.id + "2 " + sessionOwner.id)
         brainstormingActive = false;
         sessionOwner = null;
