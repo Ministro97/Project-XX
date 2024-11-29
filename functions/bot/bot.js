@@ -43,16 +43,37 @@ bot.command('stop_brainstorming', async(ctx) => {
 });
 
 // Funzione per salvare i prefissi validi in un file JSON 
-function saveValidPrefixes(prefixes) {
+/* function saveValidPrefixes(prefixes) {
     const filePath = path.join('/tmp/', 'validPrefixes.json');
     const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
     fs.writeFileSync(filePath, data);
     console.log(filePath, data);
 }
+*/
+function saveValidPrefixes(prefixes) {
+    const filePath = path.join('/tmp/', 'validPrefixes.json');
+    try {
+        if (!fs.existsSync(filePath)) {
+            console.log('File non trovato, creazione del file...');
+            const defaultPrefixes = {
+                validPrefixes: ["#gameplay", "#storia", "#grafica", "#dialoghi"]
+            };
+            fs.writeFileSync(filePath, JSON.stringify(defaultPrefixes, null, 2));
+        }
+
+        const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
+        fs.writeFileSync(filePath, data);
+        console.log('File aggiornato con successo:', filePath);
+    } catch (error) {
+        console.error('Errore durante la scrittura del file:', error);
+    }
+}
+
+
 
 
 // Funzione per leggere i prefissi validi da un file JSON
-function getValidPrefixes() {
+/*function getValidPrefixes() {
 
 
 
@@ -72,6 +93,29 @@ function getValidPrefixes() {
         return [];
     }
 }
+*/
+function getValidPrefixes() {
+    const filePath = path.join('/tmp/', 'validPrefixes.json');
+    try {
+        if (!fs.existsSync(filePath)) {
+            console.log('File non trovato, creazione del file con prefissi di default...');
+            const defaultPrefixes = {
+                validPrefixes: ["#gameplay", "#storia", "#grafica", "#dialoghi"]
+            };
+            fs.writeFileSync(filePath, JSON.stringify(defaultPrefixes, null, 2));
+        }
+
+        const data = fs.readFileSync(filePath, 'utf8');
+        const prefixes = JSON.parse(data);
+        return prefixes.validPrefixes;
+    } catch (error) {
+        console.error('Errore durante la lettura del file:', error);
+        return [];
+    }
+}
+
+console.log(getValidPrefixes());
+
 
 
 
