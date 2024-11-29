@@ -44,8 +44,20 @@ function saveValidPrefixes(prefixes) {
 
 
 // Funzione per leggere i prefissi validi da un file JSON
-function getValidPrefixes() { const filePath = "/tmp/validPrefixes.json"; console.log(`Verifica esistenza file: ${filePath}`);if (fs.existsSync(filePath)) { const data = fs.readFileSync(filePath); const prefixes = JSON.parse(data); return prefixes.validPrefixes; } else { console.error('Impossibile ottnere i tags'); return []; } }
-
+function getValidPrefixes() {
+    const filePath = "/tmp/validPrefixes.json";
+    console.log(`Verifica esistenza file: ${filePath}`);
+    if (fs.existsSync(filePath)) {
+        console.log('File trovato, lettura in corso...');
+        const data = fs.readFileSync(filePath);
+        const prefixes = JSON.parse(data);
+        console.log('Prefissi validi letti con successo');
+        return prefixes.validPrefixes;
+    } else {
+        console.error('Impossibile ottenere i tags');
+        return [];
+    }
+}
 
 
 
