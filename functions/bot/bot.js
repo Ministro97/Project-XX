@@ -117,7 +117,7 @@ bot.command('set_tags_XX', async(ctx) => {
 // Funzione per generare la classifica degli utenti
 async function generateLeaderboard(ctx) {
     try {
-        const userFiles = fs.readdirSync('./tmp').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
+        const userFiles = fs.readdirSync('/tmp').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
         const userVotes = {};
         for (const file of userFiles) {
             try {
