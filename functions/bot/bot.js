@@ -16,27 +16,7 @@ let pinnedMessageId = null;
 let copyright = "\n\n\n<code> © 2024-2025 Project XX </code>"
 
 
-function createValidPrefixesFile() {
-    const filePath = path.join('/tmp/', 'validPrefixes.json');
-    const prefixes = {
-        validPrefixes: [
-            "#gameplay",
-            "#storia",
-            "#grafica",
-            "#dialoghi"
-        ]
-    };
 
-    fs.writeFile(filePath, JSON.stringify(prefixes, null, 2), (err) => {
-        if (err) {
-            console.error('Errore durante la creazione del file:', err);
-        } else {
-            console.log('File creato con successo:', filePath);
-        }
-    });
-}
-
-createValidPrefixesFile();
 
 
 
@@ -72,7 +52,11 @@ function saveValidPrefixes(prefixes) {
 
 // Funzione per leggere i prefissi validi da un file JSON
 function getValidPrefixes() {
-    const filePath = path.join(__dirname, '/tmp/validPrefixes.json');
+
+
+
+    
+    const filePath = path.join('/tmp/', 'validPrefixes.json');
     try {
         if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf8');
@@ -158,7 +142,7 @@ bot.command('set_tags_XX', async(ctx) => {
 // Funzione per generare la classifica degli utenti
 async function generateLeaderboard(ctx) {
     try {
-        const userFiles = fs.readdirSync('/tmp').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
+        const userFiles = fs.readdirSync('/tmp/').filter(file => file.endsWith('.json') && file !== 'package.json' && file !== 'package-lock.json' && file !== 'validPrefixes.json');
         const userVotes = {};
         for (const file of userFiles) {
             try {
