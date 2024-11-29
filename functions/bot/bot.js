@@ -25,10 +25,10 @@ let sessionOwner = null;
 
 // Comando per terminare la sessione di brainstorming
 bot.command('stop_brainstorming', async(ctx) => {
-  if (sessionOwner === null)
+  if (sessionOwner === null) {
       console.log ("No owner: " + sessionOwner);
   await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_Bs_XX');
-  
+  }
   
     else if (ctx.from.id === sessionOwner.id || await isAdmin(ctx)) {
        console.log ("Owner: " + sessionOwner);
