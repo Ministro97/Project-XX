@@ -444,7 +444,9 @@ async function sendSummary(ctx) {
         await ctx.replyWithHTML('Non sono state aggiunte altre idee dai partecipanti del gruppo in questa sessione di Brain Storming.\n\n\n<code> © 2024-2025 Project XX </code>');
         set_tags_active = true;
         canOpenSession = true;
+        pinnedMessageId = null;
     } else {
+        pinnedMessageId = null;
         const data = new Date().toLocaleDateString()
         let summary = `<b>Risultati Brain Storming XX</b> 📊\n\nData sessione: ${data} \n\n`;
         for (const [username, counts] of Object.entries(messageCounts)) {
