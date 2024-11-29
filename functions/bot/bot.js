@@ -57,7 +57,7 @@ function getValidPrefixes() {
 
 
     
-    const filePath = path.join(__dirname, '/tmp/validPrefixes.json');
+    const filePath = path.join('/tmp/' ,'validPrefixes.json');
     try {
         if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf8');
