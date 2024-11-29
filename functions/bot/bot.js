@@ -32,6 +32,8 @@ bot.command('stop_brainstorming', async(ctx) => {
   
     else if (await ctx.from.id === sessionOwner.id || await isAdmin(ctx)) {
        console.log ("Owner: " + sessionOwner);
+      console.log (ctx.from.id === sessionOwner.id);
+      console.log ("1 " + ctx.from.id + "2 " + sessionOwner.id)
         brainstormingActive = false;
         sessionOwner = null;
         await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.');
