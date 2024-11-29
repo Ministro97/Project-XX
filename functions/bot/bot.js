@@ -47,7 +47,7 @@ function saveValidPrefixes(prefixes) {
     const filePath = path.join('/tmp/', 'validPrefixes.json');
     const data = JSON.stringify({ validPrefixes: prefixes }, null, 2);
     fs.writeFileSync(filePath, data);
-    console.log(data);
+    console.log(filePath, data);
 }
 
 
