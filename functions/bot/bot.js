@@ -114,16 +114,16 @@ function getValidPrefixes() {
     }
 }
 
-console.log(getValidPrefixes());
+
 
 
 
 
 // Middleware per verificare i prefissi nei messaggi
 bot.use(async(ctx, next) => {
-
+console.log(getValidPrefixes());
     if (brainstormingActive === true && ctx.message && ctx.message.text) {
-        const validPrefixes = getValidPrefixes(); // [firstPrefix, secondPrefix, thirdPrefix, fourthPrefix];
+        const validPrefixes = saveValidPrefixes(); // [firstPrefix, secondPrefix, thirdPrefix, fourthPrefix];
 
         const botMentioned = ctx.message.entities && ctx.message.entities.some(entity => entity.type === 'mention' && ctx.message.text.substring(entity.offset, entity.offset + entity.length) === `@${ctx.botInfo.username}`);
         if (!validPrefixes.some(prefix => ctx.message.text.startsWith(prefix)) || ctx.message.text.startsWith('/') || botMentioned) {
