@@ -431,6 +431,8 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 
 Nota: la sessione verrà automaticamente terminata se non saranno inviate nuove idee.
 
+
+
 <code> © 2024-2025 Project XX </code>
 `);
 
