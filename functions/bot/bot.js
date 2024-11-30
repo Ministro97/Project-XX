@@ -127,7 +127,7 @@ async function isAdmin(ctx) {
 
 
 // Comando per cambiare i prefissi
-bot.command('set_tags_xx', async (ctx) => {
+bot.command('set_tags_bs_xx', async (ctx) => {
     if (await isAdmin(ctx) && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
