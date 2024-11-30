@@ -343,6 +343,11 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         const userId = ctx.from.id;
 
         if (idea) {
+            if (idea.autore === userId) {
+                await ctx.answerCbQuery('Non puoi votare per la tua idea!');
+                return;
+            }
+
             if (!idea.voters) {
                 idea.voters = new Set();
             }
@@ -375,6 +380,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         await ctx.answerCbQuery('Si è verificato un errore durante il voto. Per favore, riprova più tardi.');
     }
 });
+
 
 
 
