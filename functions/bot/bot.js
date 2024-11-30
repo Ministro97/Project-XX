@@ -1,4 +1,4 @@
-const { Telegraf, Markup } = require('telegraf');
+const { Telegraf, Markup, Scenes, session } = require('telegraf');
 const fs = require('fs');
 const path = require('path');
 const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
@@ -20,28 +20,47 @@ let sessionOwner = null;
 
 
 
-const askForTopicTitle = (ctx, next) => {
+
+const { WizardScene, Stage } = Scenes;
+
+
+
+// Step 1: Ask for the topic title
+const step1 = (ctx) => {
+  ctx.reply('Per favore, invia il titolo del nuovo topic.');
+  return ctx.wizard.next();
+};
+
+// Step 2: Create the topic with the provided title
+const step2 = async (ctx) => {
+  const topicName = ctx.message.text;
+  try {
+    const topicMessage = await ctx.telegram.createForumTopic(ctx.chat.id, topicName);
+    const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
+    await ctx.reply(`Topic creato: ${topicName}`, { parse_mode: 'Markdown' });
+  } catch (error) {
+    console.error(error);
+    await ctx.reply('Errore nella creazione del topic.');
+  }
+  return ctx.scene.leave();
+};
+
+// Create a wizard scene
+const createTopicWizard = new WizardScene('create-topic-wizard', step1, step2);
+
+// Create a stage and register the wizard scene
+const stage = new Stage([createTopicWizard]);
+bot.use(session());
+bot.use(stage.middleware());
+
+// Command to start the wizard
+bot.command('createtopic', (ctx) => {
   if (ctx.message.chat.type === 'supergroup' && ctx.message.message_thread_id === undefined) {
-    ctx.reply('Per favore, invia il titolo del nuovo topic.');
-    bot.on('text', (ctx) => {
-      const topicName = ctx.message.text;
-      bot.telegram.createForumTopic(ctx.chat.id, topicName)
-        .then((topicMessage) => {
-          const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
-          ctx.reply(`Topic creato: ${topicName}`, { parse_mode: 'Markdown' });
-        })
-        .catch((error) => {
-          console.error(error);
-          ctx.reply('Errore nella creazione del topic.');
-        });
-    });
+    ctx.scene.enter('create-topic-wizard');
   } else {
     ctx.reply('Puoi creare un topic solo dalla chat generale del gruppo.');
   }
-  next();
-};
-
-bot.command('createtopic', askForTopicTitle);
+});
 
 
 
