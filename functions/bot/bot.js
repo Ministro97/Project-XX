@@ -230,7 +230,7 @@ const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
         if (validPrefixes.some(prefix => ctx.message.text.startsWith(prefix))) {
 
             let username = ctx.from.username || ctx.from.first_name;
-            username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
+            username = username.replace(/\s+/g, ' '); // Sostituisce gli spazi con _
             const prefix = validPrefixes.find(prefix => ctx.message.text.startsWith(prefix));
             const text = ctx.message.text.replace(prefix, '').trim();
 
@@ -342,11 +342,11 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         const idea = ideas.find(i => i.id === ideaId);
         const userId = ctx.from.id;
 
-      console.log ("I " + idea.autore + "U " + ctx.from.username);
-      console.log (idea.autore === ctx.from.username);
+      console.log ("I " + idea.autore + "U " + ctx.from.first_name);
+      console.log (idea.autore === ctx.from.first_name);
 
         if (idea) {
-            if (idea.autore === ctx.from.username) {
+            if (idea.autore === ctx.from.first_name) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
                 return;
             }
