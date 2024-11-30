@@ -410,7 +410,7 @@ async function startBrainstorming(ctx) {
             messageCounts = {}; // Resetta i contatori dei messaggi
             ideas = []; // Resetta le idee
 
-            await ctx.replyWithHTML(`
+      const message =  await ctx.replyWithHTML(`
 <b>Sessione di Brainstorming XX</b> 🔥 
 
 <i> Avviata da ${ctx.from.first_name}</i>
@@ -432,7 +432,7 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 <code> © 2024-2025 Project XX </code>
 `);
 
-            const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
+         // const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
             pinnedMessageId = message.message_id;
             await ctx.telegram.pinChatMessage(ctx.chat.id, pinnedMessageId);
         } else {
@@ -483,10 +483,10 @@ async function sendSummary(ctx) {
             }
             summary += '\n';
         }
-        summary += '\n\n🔥 Classifica idee  🔥';
+        summary += '\n\n🔥 Classifica idee 🔥';
         ideas.sort((a, b) => b.voti - a.voti);
         ideas.forEach(idea => {
-            summary += `\n\n💡 ${idea.messaggio} (<i>di ${idea.autore}</i>) \n- Voti: ${idea.voti}\n\n`;
+            summary += `\n\n💡 ${idea.messaggio} (<i>di ${idea.autore}</i>) \n• Voti: ${idea.voti}\n\n`;
         });
         await ctx.replyWithHTML(`${summary}\n\n\n<code> © 2024-2025 Project XX </code>`);
 
