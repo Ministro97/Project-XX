@@ -341,11 +341,13 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         const ideaId = parseInt(ctx.match[1]);
         const idea = ideas.find(i => i.id === ideaId);
         const userId = ctx.from.id;
+
+      console.log ("I " + idea.autore + "U " + userId)
       
 
         if (idea) {
-            if (idea.autore === ctx.from.username) {
-                await ctx.answerCbQuery('Non puoi votare per la tua idea!');
+            if (idea.autore === userId) {
+                await ctx.answerCbQuery('Non puoi votare per la tua idea.');
                 return;
             }
 
