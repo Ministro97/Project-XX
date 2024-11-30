@@ -429,6 +429,7 @@ ${fourthPrefix} + [il tuo messaggio]
 Non vedo l’ora di vedere le vostre idee folli!💡
 
 
+Nota: la sessione verrà automaticamente terminata se non saranno inviate nuove idee.
 
 <code> © 2024-2025 Project XX </code>
 `);
@@ -476,7 +477,7 @@ async function sendSummary(ctx) {
     } else {
         await ctx.telegram.unpinAllChatMessages(ctx.chat.id);
         const data = new Date().toLocaleDateString()
-        let summary = `<b>Risultati Brain Storming XX</b> 📊\n\nData sessione: ${data} \n\n`;
+        let summary = `<b>Risultati Brain Storming XX</b> 📊\n\nData sessione: ${data} \n\n\n\n`;
         for (const [username, counts] of Object.entries(messageCounts)) {
             summary += `👤 ${username}:\n`;
             for (const [prefix, count] of Object.entries(counts)) {
@@ -484,7 +485,7 @@ async function sendSummary(ctx) {
             }
             summary += '\n';
         }
-        summary += '\n\n🔥 Classifica idee 🔥';
+        summary += '\n\n🔥 Classifica idee 🔥\n\n';
         ideas.sort((a, b) => b.voti - a.voti);
         ideas.forEach(idea => {
             summary += `\n\n💡 ${idea.messaggio} (<i>di ${idea.autore}</i>) \n• Voti: ${idea.voti}\n\n`;
