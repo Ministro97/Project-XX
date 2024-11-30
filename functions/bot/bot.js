@@ -20,6 +20,37 @@ let sessionOwner = null;
 
 
 
+const askForTopicTitle = (ctx, next) => {
+  if (ctx.message.chat.type === 'supergroup' && ctx.message.message_thread_id === undefined) {
+    ctx.reply('Per favore, invia il titolo del nuovo topic.');
+    bot.on('text', (ctx) => {
+      const topicName = ctx.message.text;
+      bot.telegram.createForumTopic(ctx.chat.id, topicName)
+        .then((topicMessage) => {
+          const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
+          ctx.reply(`Topic creato: ${topicName}`, { parse_mode: 'Markdown' });
+        })
+        .catch((error) => {
+          console.error(error);
+          ctx.reply('Errore nella creazione del topic.');
+        });
+    });
+  } else {
+    ctx.reply('Puoi creare un topic solo dalla chat generale del gruppo.');
+  }
+  next();
+};
+
+bot.command('createtopic', askForTopicTitle);
+
+
+
+
+
+
+
+
+
 
 
 
