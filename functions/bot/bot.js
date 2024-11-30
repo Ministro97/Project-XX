@@ -170,7 +170,7 @@ async function generateLeaderboard(ctx) {
             } catch (err) { console.error(`Errore durante la lettura del file ${file}:`, err); }
         }
         const sortedUsers = Object.entries(userVotes).sort((a, b) => b[1] - a[1]);
-        let leaderboard = 'Classifica degli utenti 🏆\n\n';
+        let leaderboard = 'Classifica generale Bs XX 🏆\n\n';
         sortedUsers.forEach(([username, votes], index) => {
             let rank;
             if (votes >= 1000) { rank = '<i>Mentore XX</i>'; } else if (votes >= 500) { rank = '<i>Veterano XX</i>'; } else if (votes >= 300) { rank = '<i>Esperto XX</i>'; } else if (votes >= 200) { rank = '<i>Assistente</i>'; } else if (votes >= 100) { rank = '<I>Apprendista Grado 1</i>'; } else if (votes >= 50) { rank = '<i>Apprendista Grado 2</i>'; } else { rank = '<i>Apprendista Grado 3</i>'; }
@@ -410,10 +410,11 @@ async function startBrainstorming(ctx) {
             messageCounts = {}; // Resetta i contatori dei messaggi
             ideas = []; // Resetta le idee
 
-      const message =  await ctx.replyWithHTML(`
-<b>Sessione di Brainstorming XX</b> 🔥 
+          
+const message = await ctx.replyWithHTML('<b>Sessione di BrainStorming XX per Pokémon XX ♀️</b>') 
 
-<i> Avviata da ${ctx.from.first_name}</i>
+         
+       await ctx.replyWithHTML(`<i> Avviata da ${ctx.from.first_name}</i>
 
 
 Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
