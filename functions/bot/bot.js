@@ -21,6 +21,7 @@ let sessionOwner = null;
 
 
 
+
 const { WizardScene, Stage } = Scenes;
 
 
@@ -182,7 +183,7 @@ async function isAdmin(ctx) {
 
 // Comando per cambiare i prefissi
 bot.command('set_tags_bs_xx', async (ctx) => {
-    if (await isAdmin(ctx) && set_tags_active === true) {
+    if (ctx.message.message_thread_id !== undefined  && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
             await ctx.replyWithHTML('Devi specificare esattamente 4 tags. \n\n\n<code> © 2024-2025 Project XX </code>');
@@ -191,7 +192,7 @@ bot.command('set_tags_bs_xx', async (ctx) => {
 
         const newPrefixes = args.map(prefix => prefix.trim()).filter(prefix => prefix.startsWith('#') && prefix.length <= 15);
         if (newPrefixes.length !== args.length) {
-            await ctx.replyWithHTML('Ogni tags deve essere preceduto da # e non più lungo di 10 lettere.\n\n\n<code> © 2024-2025 Project XX </code>');
+            await ctx.replyWithHTML('Ogni tags deve essere preceduto da # e non più lungo di 15 lettere.\n\n\n<code> © 2024-2025 Project XX </code>');
             return;
         }
 
@@ -200,7 +201,7 @@ bot.command('set_tags_bs_xx', async (ctx) => {
     } else if (set_tags_active === false) {
         await ctx.reply('Non puoi cambiare i tags mentre la sessione di Brain Storming XX è attiva.');
     } else {
-        await ctx.replyWithHTML('Solo gli amministratori possono aggiornare i tags. \n\n\n<code> © 2024-2025 Project XX </code>');
+        await ctx.replyWithHTML("Non puoi cambiare i tags all'interno del MCS, se hai dubbi sull'uso di questa direttiva clicca su /masterdir");
     }
 });
 
