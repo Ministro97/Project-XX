@@ -41,6 +41,12 @@ const step2 = async (ctx) => {
     const topicLink = `https://t.me/c/2423172017/${ctx.message.message_id + 1}`;
     await ctx.replyWithMarkdown(`Topic creato da ${ctx.wizard.state.creator}: ${topicName}\n\n${topicLink}`, { parse_mode: 'Markdown' });
     await ctx.telegram.sendMessage(ctx.from.id, `Hai creato un nuovo topic: ${topicName}`, { parse_mode: 'Markdown' });
+    // Aggiunta del messaggio predefinito
+const predefinedMessage = 'Questo è un messaggio predefinito per il topic.';
+
+// Invio del messaggio predefinito al topic appena creato
+await ctx.telegram.sendMessage(ctx.chat.id, predefinedMessage, { message_thread_id: topicMessage.message_id });
+
   } catch (error) {
     console.error(error);
     await ctx.reply('Errore nella creazione del topic.');
