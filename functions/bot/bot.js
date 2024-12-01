@@ -37,7 +37,7 @@ const step2 = async (ctx) => {
   try {
     const topicMessage = await ctx.telegram.createForumTopic(ctx.chat.id, topicName);
     const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
-    await ctx.reply(`Topic creato: ${topicName}\n\nhttps://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`, { parse_mode: 'Markdown' });
+    await ctx.reply(`Topic creato: ${topicName}\n\nAccedi da questo link: ${topicLink}`, { parse_mode: 'Markdown' });
   } catch (error) {
     console.error(error);
     await ctx.reply('Errore nella creazione del topic.');
