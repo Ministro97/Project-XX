@@ -32,13 +32,13 @@ const step1 = (ctx) => {
 
 // Step 2: Create the topic with the provided title and store the title
 const step2 = async (ctx) => {
-  const topicName = ctx.message.text;
-  ctx.wizard.state.topicName = topicName + " by " + ctx.from.first_name; // Store the topic name in the wizard state
+  const topicName = ctx.message.text + " by " + ctx.from.first_name;
+  ctx.wizard.state.topicName = topicName; // Store the topic name in the wizard state
   ctx.wizard.state.creator = ctx.from.first_name; // Store the creator's username
   try {
     const topicMessage = await ctx.telegram.createForumTopic(ctx.chat.id, topicName);
-    const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
-    await ctx.reply(`Topic creato da @${ctx.wizard.state.creator}: ${topicName}`, { parse_mode: 'Markdown' });
+    const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message.message_id}`;
+    await ctx.replyWithMarkdown(`Topic creato da @${ctx.wizard.state.creator}: ${topicName}`, { parse_mode: 'Markdown' });
     await ctx.telegram.sendMessage(ctx.from.id, `Hai creato un nuovo topic: ${topicName}`, { parse_mode: 'Markdown' });
   } catch (error) {
     console.error(error);
