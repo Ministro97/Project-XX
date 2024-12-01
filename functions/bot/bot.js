@@ -37,8 +37,8 @@ const step2 = async (ctx) => {
   ctx.wizard.state.creator = ctx.from.first_name; // Store the creator's username
   try {
     const topicMessage = await ctx.telegram.createForumTopic(ctx.chat.id, topicName);
-    const topicLink = `https://t.me/c/${ctx.chat.id}/${topicMessage.message_id}`;
-    await ctx.replyWithMarkdown(`Topic creato da ${ctx.wizard.state.creator}: ${topicName}/n/n${topicLink}`, { parse_mode: 'Markdown' });
+    const topicLink = `https://t.me/c/2423172017/${ctx.message_message_id}`;
+    await ctx.replyWithMarkdown(`Topic creato da ${ctx.wizard.state.creator}: ${topicName}\n\n${topicLink}`, { parse_mode: 'Markdown' });
     await ctx.telegram.sendMessage(ctx.from.id, `Hai creato un nuovo topic: ${topicName}`, { parse_mode: 'Markdown' });
   } catch (error) {
     console.error(error);
