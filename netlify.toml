@@ -4,7 +4,7 @@
 
 
 [template.environment]
-  FAUNA_SECRET_KEY = "fnAFxTvgHpAA0Eq3JUCTUXy_OJUehNnxmqFrcKEk"
+  FAUNA_SECRET_KEY = "fnacapi_omd2ZXJzaW9uAWdwYXlsb2FkWFiiYmlkcjQxNjIwNTMwODg5OTA5OTIxMGZzZWNyZXR4OFVqWUNUZ1ZFVDVnUmtvL3RocTBBY3B4Z2x5dGJiaVk3MUgxanBkQXVsNkxyeDRsblNVYmExUT09"
 
 
 [[redirects]]
