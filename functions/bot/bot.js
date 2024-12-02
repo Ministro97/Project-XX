@@ -76,9 +76,18 @@ bot.command('createtopic', (ctx) => {
   }
 });
 
+bot.command('info', (ctx) => {
+  const chatId = ctx.message.chat.id;
+  const messageId = ctx.message.message_id;
+  ctx.reply(`Chat ID: ${chatId}\nMessage ID: ${messageId}`);
+  console.log(`Chat ID: ${chatId}, Message ID: ${messageId}`);
+});
+
+
+
 let predefinedMessage = "ciao"
 
-
+/*
 bot.command('send', async (ctx) => {
   try {
     const chatId = "2423172017";
@@ -91,6 +100,7 @@ bot.command('send', async (ctx) => {
     console.error('Errore nell\'invio del messaggio:', error);
   }
 });
+  */
 
 
 
