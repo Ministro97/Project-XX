@@ -137,6 +137,7 @@ const verifyFaunaConnection = async () => {
   }
 };
 
+  verifyFaunaConnection()
 
   
     const topicName = ctx.message.text + " by " + ctx.from.first_name;
