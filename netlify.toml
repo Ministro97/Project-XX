@@ -2,6 +2,11 @@
   functions = "functions"
   command = "netlify-lambda install && mkdir ./public"
 
+
+[template.environment]
+  FAUNA_SECRET_KEY = "fnAFxTvgHpAA0Eq3JUCTUXy_OJUehNnxmqFrcKEk"
+
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
