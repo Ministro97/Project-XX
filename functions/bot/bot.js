@@ -113,7 +113,9 @@ const faunadb = require('faunadb');
 const q = faunadb.query;
 
 // Configura il client FaunaDB
-const client = new faunadb.Client({ secret: "fnAFxTvgHpAA0Eq3JUCTUXy_OJUehNnxmqFrcKEk" });
+const client = new faunadb.Client({
+  secret: process.env.FAUNADB_SERVER_SECRET,
+});
 
 const { WizardScene, Stage } = Scenes;
 
@@ -174,6 +176,8 @@ bot.command('createtopic', (ctx) => {
     }
 });
 
+
+/*
 // Listener per i messaggi
 bot.on('message', async(ctx) => {
     if (ctx.message.message_thread_id) {
@@ -191,7 +195,7 @@ bot.on('message', async(ctx) => {
         }
     }
 });
-
+*/
 
 
 
