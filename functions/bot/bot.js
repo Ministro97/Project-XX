@@ -19,7 +19,15 @@ let sessionOwner = null;
 
 
 
-
+// Funzione per verificare la connessione a FaunaDB
+const verifyFaunaConnection = async () => {
+  try {
+    const result = await client.query(q.Paginate(q.Collections()));
+    console.log('Connessione a FaunaDB riuscita:', result);
+  } catch (error) {
+    console.error('Errore nella connessione a FaunaDB:', error);
+  }
+};
 
 
 
