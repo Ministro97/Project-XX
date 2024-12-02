@@ -43,10 +43,10 @@ const step2 = async (ctx) => {
     await ctx.telegram.sendMessage(ctx.from.id, `Hai creato un nuovo topic: ${topicName}`, { parse_mode: 'Markdown' });
     // Aggiunta del messaggio predefinito
 const predefinedMessage = 'Questo è un messaggio predefinito per il topic.';
-console.log (ctx.message.message_id )  
-    console.log( ctx.chat.id)
+console.log (ctx.message.message_id + 1)  
+    console.log( topicMessage.message_id)
 // Invio del messaggio predefinito al topic appena creato
-await ctx.telegram.sendMessage("2423172017", predefinedMessage, { message_thread_id: ctx.message.message_id + 1 });
+await ctx.telegram.sendMessage("2423172017", predefinedMessage, { message_thread_id: topicMessage.message_id});
   
 
   } catch (error) {
