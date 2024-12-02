@@ -47,7 +47,7 @@ const predefinedMessage = 'Questo è un messaggio predefinito per il topic.';
     let topicId = ctx.message.message_id + 1;
   
 // Invio del messaggio predefinito al topic appena creato
-await ctx.telegram.sendMessage("2423172017", predefinedMessage, {
+await ctx.telegram.sendMessage(chatId, predefinedMessage, {
   message_thread_id: topicId 
 });
 console.log(topicId);
@@ -76,12 +76,14 @@ bot.command('createtopic', (ctx) => {
   }
 });
 
-bot.command('info', (ctx) => {
+
+bot.command('topicinfo', (ctx) => {
   const chatId = ctx.message.chat.id;
-  const messageId = ctx.message.message_id;
-  ctx.reply(`Chat ID: ${chatId}\nMessage ID: ${messageId}`);
-  console.log(`Chat ID: ${chatId}, Message ID: ${messageId}`);
+  const threadId = ctx.message.message_thread_id;
+  ctx.reply(`Chat ID: ${chatId}\nTopic ID: ${threadId}`);
+  console.log(`Chat ID: ${chatId}, Topic ID: ${threadId}`);
 });
+
 
 
 
