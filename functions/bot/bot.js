@@ -22,8 +22,11 @@ let sessionOwner = null;
 
 
 
-const { WizardScene, Stage } = Scenes;
 
+
+
+
+/*
 
 // Step 1: Ask for the topic title
 const step1 = (ctx) => {
@@ -106,6 +109,105 @@ bot.command('send', async (ctx) => {
 
 
 
+const faunadb = require('faunadb');
+const q = faunadb.query;
+
+// Configura il client FaunaDB
+const client = new faunadb.Client({ secret: process.env.FAUNA_SECRET_KEY });
+
+const { WizardScene, Stage } = Scenes;
+
+// Step 1: Chiedi il titolo del topic
+const step1 = (ctx) => {
+    ctx.reply('Per favore, invia il titolo del nuovo topic.');
+    return ctx.wizard.next();
+};
+
+// Step 2: Crea il topic con il titolo fornito e salva i dati su FaunaDB
+const step2 = async(ctx) => {
+    const topicName = ctx.message.text + " by " + ctx.from.first_name;
+    ctx.wizard.state.topicName = topicName; // Memorizza il nome del topic nello stato del wizard
+    ctx.wizard.state.creator = ctx.from.first_name; // Memorizza il nome dell'utente che ha creato il topic
+    try {
+        const topicMessage = await ctx.telegram.createForumTopic(ctx.chat.id, topicName);
+        const topicLink = `https://t.me/c/2423172017/${ctx.message.message_id + 1}`;
+        await ctx.replyWithMarkdown(`Topic creato da ${ctx.wizard.state.creator}: ${topicName}\n\n${topicLink}`, { parse_mode: 'Markdown' });
+        await ctx.telegram.sendMessage(ctx.from.id, ` Hai creato un nuovo topic: ${topicName}`, { parse_mode: 'Markdown' });
+
+        // Aggiunta del messaggio predefinito
+        const predefinedMessage = 'Questo è un messaggio predefinito per il topic.';
+        let topicId = ctx.message.message_id + 1;
+        await ctx.telegram.sendMessage(ctx.message.chat.id, predefinedMessage, {
+            message_thread_id: topicId
+        });
+
+        // Salva i dati del topic su FaunaDB
+        const result = await client.query(
+            q.Create(
+                q.Collection('topics'), { data: { name: topicName, creator: ctx.from.first_name, link: topicLink, topicId: topicId } }
+            )
+        );
+        console.log('Topic salvato su FaunaDB:', result);
+
+    } catch (error) {
+        console.error(error);
+        await ctx.reply('Errore nella creazione del topic.');
+    }
+    return ctx.scene.leave();
+};
+
+// Crea una scena wizard
+const createTopicWizard = new WizardScene('create-topic-wizard', step1, step2);
+
+// Crea uno stage e registra la scena wizard
+const stage = new Stage([createTopicWizard]);
+
+bot.use(session());
+bot.use(stage.middleware());
+
+// Comando per avviare il wizard
+bot.command('createtopic', (ctx) => {
+    if (ctx.message.chat.type === 'supergroup' && ctx.message.message_thread_id === undefined) {
+        ctx.scene.enter('create-topic-wizard');
+    } else {
+        ctx.reply('Puoi creare un topic solo dalla chat generale del gruppo.');
+    }
+});
+
+// Listener per i messaggi
+bot.on('message', async(ctx) => {
+    if (ctx.message.message_thread_id) {
+        try {
+            const result = await client.query(
+                q.Get(
+                    q.Match(q.Index('topic_by_id'), ctx.message.message_thread_id)
+                )
+            );
+            const topicName = result.data.name;
+            await ctx.reply(`Il nome del topic corrente è: ${topicName}`);
+        } catch (error) {
+            console.error(error);
+            await ctx.reply('Errore nel recupero del nome del topic.');
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,15 +216,13 @@ bot.command('send', async (ctx) => {
 
 // Comando per terminare la sessione di brainstorming
 bot.command('stop_bs_xx', async(ctx) => {
-  if (sessionOwner === null) {
-      console.log ("No owner: " + sessionOwner);
-  await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
-  }
-  
-    else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
-       console.log ("Owner: " + sessionOwner);
-      console.log (ctx.from.id === sessionOwner);
-      console.log ("1 " + ctx.from.id + "2 " + sessionOwner.id)
+    if (sessionOwner === null) {
+        console.log("No owner: " + sessionOwner);
+        await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
+    } else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
+        console.log("Owner: " + sessionOwner);
+        console.log(ctx.from.id === sessionOwner);
+        console.log("1 " + ctx.from.id + "2 " + sessionOwner.id)
         brainstormingActive = false;
         sessionOwner = null;
         await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.');
@@ -132,7 +232,7 @@ bot.command('stop_bs_xx', async(ctx) => {
         }
         await sendSummary(ctx);
     } else {
-        console.log ("Err owner: " + sessionOwner);
+        console.log("Err owner: " + sessionOwner);
         const warningMessage = await ctx.replyWithHTML("Non sei autorizzato a terminare questa sessione di Brainstorming XX, per poter terminare questa sessione chiedi all' admin del gruppo o al creatore di questa sessione.");
         setTimeout(() => {
             ctx.deleteMessage(warningMessage.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio di avviso:', err));
@@ -190,7 +290,7 @@ function getValidPrefixes() {
 
 // Middleware per verificare i prefissi nei messaggi
 bot.use(async(ctx, next) => {
-console.log(getValidPrefixes());
+    console.log(getValidPrefixes());
     if (brainstormingActive === true && ctx.message && ctx.message.text) {
         const validPrefixes = getValidPrefixes(); // [firstPrefix, secondPrefix, thirdPrefix, fourthPrefix];
 
@@ -216,8 +316,8 @@ async function isAdmin(ctx) {
 
 
 // Comando per cambiare i prefissi
-bot.command('set_tags_bs_xx', async (ctx) => {
-    if (ctx.message.message_thread_id !== undefined  && set_tags_active === true) {
+bot.command('set_tags_bs_xx', async(ctx) => {
+    if (ctx.message.message_thread_id !== undefined && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
             await ctx.replyWithHTML('Devi specificare esattamente 4 tags. \n\n\n<code> © 2024-2025 Project XX </code>');
@@ -301,14 +401,14 @@ function containsBadWords(text) {
 bot.on('text', async(ctx) => {
 
 
-const validPrefixes = getValidPrefixes();
-const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
-const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
-const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
-const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
+    const validPrefixes = getValidPrefixes();
+    const firstPrefix = validPrefixes.length > 0 ? validPrefixes[0] : null;
+    const secondPrefix = validPrefixes.length > 1 ? validPrefixes[1] : null;
+    const thirdPrefix = validPrefixes.length > 2 ? validPrefixes[2] : null;
+    const fourthPrefix = validPrefixes.length > 3 ? validPrefixes[3] : null;
 
 
-    
+
     if (ctx.message.text.toLowerCase().includes('brain storming xx') && ctx.message.entities) {
         const botWasMentioned = ctx.message.entities.some(entity => entity.type === 'mention' && ctx.message.text.substring(entity.offset, entity.offset + entity.length) === `@${ctx.botInfo.username}`);
         if (botWasMentioned && await isAdmin(ctx) && canOpenSession === true) {
@@ -431,8 +531,8 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         const idea = ideas.find(i => i.id === ideaId);
         const userId = ctx.from.id;
 
-      console.log ("I " + idea.autore + "U " + ctx.from.first_name);
-      console.log (idea.autore === ctx.from.first_name);
+        console.log("I " + idea.autore + "U " + ctx.from.first_name);
+        console.log(idea.autore === ctx.from.first_name);
 
         if (idea) {
             if (idea.autore === ctx.from.first_name) {
@@ -492,18 +592,18 @@ async function startBrainstorming(ctx) {
 
     try {
         if (sessionOwner === null) {
-            console.log ("pre: " + sessionOwner);
-          sessionOwner = ctx.from.id;
-            console.log ("start: " + sessionOwner);
+            console.log("pre: " + sessionOwner);
+            sessionOwner = ctx.from.id;
+            console.log("start: " + sessionOwner);
             brainstormingActive = true;
             messageCounts = {}; // Resetta i contatori dei messaggi
             ideas = []; // Resetta le idee
 
-          
-const message = await ctx.replyWithHTML('<b>Sessione di BrainStorming XX per Pokémon XX ♀️</b>') 
 
-         
-       await ctx.replyWithHTML(`<i> Avviata da ${ctx.from.first_name}</i>
+            const message = await ctx.replyWithHTML('<b>Sessione di BrainStorming XX per Pokémon XX ♀️</b>')
+
+
+            await ctx.replyWithHTML(`<i> Avviata da ${ctx.from.first_name}</i>
 
 
 Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
@@ -526,7 +626,7 @@ Nota: la sessione verrà automaticamente terminata se non saranno inviate nuove 
 <code> © 2024-2025 Project XX </code>
 `);
 
-         // const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
+            // const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
             pinnedMessageId = message.message_id;
             await ctx.telegram.pinChatMessage(ctx.chat.id, pinnedMessageId);
         } else {
