@@ -76,10 +76,21 @@ bot.command('createtopic', (ctx) => {
   }
 });
 
+let predefinedMessage = "ciao"
 
 
-
-
+bot.command('send', async (ctx) => {
+  try {
+    const chatId = "2423172017";
+    const messageId = ctx.message.message_id;
+    await ctx.telegram.sendMessage(chatId, predefinedMessage, {
+      message_thread_id: 239
+    });
+    console.log(`Messaggio inviato con ID: ${messageId}`);
+  } catch (error) {
+    console.error('Errore nell\'invio del messaggio:', error);
+  }
+});
 
 
 
