@@ -19,15 +19,6 @@ let sessionOwner = null;
 
 
 
-// Funzione per verificare la connessione a FaunaDB
-const verifyFaunaConnection = async () => {
-  try {
-    const result = await client.query(q.Paginate(q.Collections()));
-    console.log('Connessione a FaunaDB riuscita:', result);
-  } catch (error) {
-    console.error('Errore nella connessione a FaunaDB:', error);
-  }
-};
 
 
 
@@ -135,6 +126,19 @@ const step1 = (ctx) => {
 
 // Step 2: Crea il topic con il titolo fornito e salva i dati su FaunaDB
 const step2 = async(ctx) => {
+
+// Funzione per verificare la connessione a FaunaDB
+const verifyFaunaConnection = async () => {
+  try {
+    const result = await client.query(q.Paginate(q.Collections()));
+    console.log('Connessione a FaunaDB riuscita:', result);
+  } catch (error) {
+    console.error('Errore nella connessione a FaunaDB:', error);
+  }
+};
+
+
+  
     const topicName = ctx.message.text + " by " + ctx.from.first_name;
     ctx.wizard.state.topicName = topicName; // Memorizza il nome del topic nello stato del wizard
     ctx.wizard.state.creator = ctx.from.first_name; // Memorizza il nome dell'utente che ha creato il topic
