@@ -146,7 +146,7 @@ const { WizardScene, Stage } = Scenes;
 bot.start((ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
-    timeout: 10000, // Timeout di 10 secondi
+    query_timeout_ms: 60_000
   });
 
 // Funzione per verificare la connessione
