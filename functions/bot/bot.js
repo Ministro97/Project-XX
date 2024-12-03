@@ -111,21 +111,11 @@ const { Client, fql} = require('fauna');
 
 
 // Configura il client Fauna con il tuo segreto
-const client = new Client({ secret: process.env.FAUNA_SECRET });
 
-// Funzione per verificare la connessione
-async function verifyConnection() {
-  try {
-    // Esegui una semplice query per verificare la connessione
-    const result = await client.query(fql`1`);
-    console.log('Connessione a FaunaDB riuscita:', result);
-  } catch (error) {
-    console.error('Errore nella connessione a FaunaDB:', error);
-  }
-}
+
+
 
 // Chiama la funzione per verificare la connessione
-verifyConnection();
 
 
 
@@ -154,6 +144,26 @@ const { WizardScene, Stage } = Scenes;
 ///
 
 bot.start((ctx) => {
+  const client = new faunadb.Client({
+    secret: process.env.FAUNA_SECRET,
+    timeout: 10000, // Timeout di 10 secondi
+  });
+
+// Funzione per verificare la connessione
+async function verifyConnection() {
+  try {
+    // Esegui una semplice query per verificare la connessione
+    const result = await client.query(fql`1`);
+    console.log('Connessione a FaunaDB riuscita:', result);
+  } catch (error) {
+    console.error('Errore nella connessione a FaunaDB:', error);
+  }
+}
+
+  verifyConnection();
+
+
+  
   const username = ctx.from.id;
 
   if (!username) {
