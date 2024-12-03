@@ -238,6 +238,9 @@ bot.start(async (ctx) => {
 
 
 
+;
+
+// Comando per ottenere il nome utente salvato
 bot.command('getusername', async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -247,7 +250,7 @@ bot.command('getusername', async (ctx) => {
   const username = ctx.from.id;
 
   const getUserQuery = fql`
-    Users.byUsername(${username}) {
+    Users.byIndex('users_by_username', ${username}) {
       username
     }
   `;
@@ -266,6 +269,7 @@ bot.command('getusername', async (ctx) => {
     client.close();
   }
 });
+
 
 
 
