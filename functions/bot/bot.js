@@ -279,11 +279,11 @@ bot.command('getusername', async (ctx) => {
     console.log('Users:', users);
 
     
-    if (users.data.length > 0) {
+    if (users) {
       // Estrai e visualizza i dati correttamente
-      const user = response.data[0];
+      const user = response.data[2];
       console.log('User:', user);
-      ctx.reply(`Il tuo nome utente salvato è: ${user.username}`);
+      ctx.reply(`Il tuo nome utente salvato è: ${user}`);
     } else {
       ctx.reply('Nome utente non trovato nel database.');
     }
