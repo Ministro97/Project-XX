@@ -109,7 +109,7 @@ bot.command('send', async (ctx) => {
 const { Client, fql } = require('fauna');
 
 // Configura il client Fauna con il tuo segreto
-const client = new Client({ secret: process.env.FAUNA_SECRET });
+const client = new Client({ secret: process.env.FAUNA_SECRET , timeout: 10000 });
 
 // Funzione per verificare la connessione
 async function verifyConnection() {
@@ -159,7 +159,7 @@ bot.start((ctx) => {
 
 
 bot.command('getusername', (ctx) => {
-  const username = ctx.message.from.username;
+  const username = ctx.from.id;
 
   // Query per recuperare il nome utente da FaunaDB
   const getUserQuery = fql`
