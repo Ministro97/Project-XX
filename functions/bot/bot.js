@@ -128,16 +128,16 @@ verifyConnection();
 
 
 
-
+///
 
 
 const { WizardScene, Stage } = Scenes;
 
-
+///
 
 
 bot.start((ctx) => {
-  const username = ctx.message.from.username;
+  const username = ctx.from.id;
 
   // Query per salvare il nome utente in FaunaDB
   const saveUserQuery = fql`
