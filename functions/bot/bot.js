@@ -109,7 +109,7 @@ bot.command('send', async (ctx) => {
 const { Client, fql } = require('fauna');
 
 // Configura il client Fauna con il tuo segreto
-const client = new Client({ secret: process.env.FAUNA_SECRET' });
+const client = new Client({ secret: process.env.FAUNA_SECRET});
 
 // Funzione per verificare la connessione
 async function verifyConnection() {
