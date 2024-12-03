@@ -107,7 +107,7 @@ bot.command('send', async (ctx) => {
   */
 
 
-const { Client, fql, query: q } = require('fauna');
+const { Client, fql} = require('fauna');
 
 
 // Configura il client Fauna con il tuo segreto
@@ -137,9 +137,6 @@ const { WizardScene, Stage } = Scenes;
 
 ///
 
-
-
-// Comando per salvare il nome utente
 bot.start((ctx) => {
   const username = ctx.from.id;
 
@@ -149,10 +146,12 @@ bot.start((ctx) => {
   }
 
   // Query per salvare il nome utente in FaunaDB
-  const saveUserQuery = q.Create(
-    q.Collection('Users'),
-    { data: { username: username } }
-  );
+  const saveUserQuery = fql`
+    Users.create({ username: ${username} }) {
+      id,
+      username
+    }
+  `;
 
   client.query(saveUserQuery)
     .then((response) => {
@@ -164,8 +163,9 @@ bot.start((ctx) => {
     });
 });
 
+
 // Comando per recuperare il nome utente
-bot.command('getusername', (ctx) => {
+bot.command('getuserid', (ctx) => {
   const username = ctx.from.id;
 
   if (!username) {
@@ -173,32 +173,33 @@ bot.command('getusername', (ctx) => {
     return;
   }
 
-  // Query per recuperare il nome utente da FaunaDB utilizzando l'indice
-  const getUserQuery = q.Let(
-    {
-      userRef: q.Match(q.Index('users_by_username'), username)
-    },
-    q.If(
-      q.Exists(q.Var('userRef')),
-      q.Get(q.Var('userRef')),
-      null
+  // Query per recuperare l'ID dell'utente da FaunaDB utilizzando l'indice
+  const getUserQuery = fql`
+    Let(
+      {
+        userRef: Match(Index("users_by_username"), ${username})
+      },
+      If(
+        Exists(Var("userRef")),
+        Get(Var("userRef")),
+        null
+      )
     )
-  );
+  `;
 
   client.query(getUserQuery)
     .then((response) => {
       if (response) {
-        ctx.reply(`Il tuo nome utente salvato è: ${response.data.username}`);
+        ctx.reply(`Il tuo ID utente salvato è: ${response.data.id}`);
       } else {
         ctx.reply('Nome utente non trovato.');
       }
     })
     .catch((error) => {
       console.error('Errore nel recupero:', error);
-      ctx.reply('Si è verificato un errore nel recupero del tuo nome utente.');
+      ctx.reply('Si è verificato un errore nel recupero del tuo ID utente.');
     });
 });
-
 
 
 
