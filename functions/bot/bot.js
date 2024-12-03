@@ -109,13 +109,28 @@ bot.command('send', async (ctx) => {
 
 
 
-const faunadb = require('faunadb');
+const faunadb = require('fauna');
 const q = faunadb.query;
 
 // Configura il client FaunaDB
-const client = new faunadb.Client({ secret: "fnAFxTvgHpAA0Eq3JUCTUXy_OJUehNnxmqFrcKEk" });
+const client = new faunadb.Client({ secret: process.env.FAUNA_SECRET });
 
 const { WizardScene, Stage } = Scenes;
+
+
+const verifyFaunaConnection = async() => {
+    try {
+        const result = await client.query(q.Paginate(q.Collections()));
+        console.log('Connessione a FaunaDB riuscita:', result);
+    } catch (error) {
+        console.error('Errore nella connessione a FaunaDB:', error);
+    }
+};
+
+verifyFaunaConnection()
+
+
+
 
 // Step 1: Chiedi il titolo del topic
 const step1 = (ctx) => {

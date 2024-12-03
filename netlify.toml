@@ -2,10 +2,7 @@
   functions = "functions"
   command = "netlify-lambda install && mkdir ./public"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 45a14899ce7b8733acb4dec094c1720f92feccf8
 
 
 [[redirects]]
