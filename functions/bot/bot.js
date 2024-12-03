@@ -242,26 +242,31 @@ bot.start(async (ctx) => {
 
 
 // Comando per ottenere il nome utente salvato
+
+
+// Comando per ottenere il nome utente salvato
 bot.command('getusername', async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
-  const username = ctx.from.id;
+  const username = ctx.from.username; // Usa ctx.from.username invece di ctx.from.id
 
   const getUserQuery = fql`
     Users.where(.username == ${username}) {
+      id,
       username
     }
   `;
 
   try {
     const response = await client.query(getUserQuery);
-    console.log('Username:', username);
-console.log('Response:', response);
+    console.log('Response:', response);
+
     if (response.data.length > 0) {
-      ctx.reply(`Il tuo nome utente salvato è: ${response.data[0].username}`);
+      const user = response.data[0];
+      ctx.reply(`Il tuo nome utente salvato è: ${user.username}`);
     } else {
       ctx.reply('Nome utente non trovato nel database.');
     }
@@ -272,6 +277,7 @@ console.log('Response:', response);
     client.close();
   }
 });
+
 
 
 
