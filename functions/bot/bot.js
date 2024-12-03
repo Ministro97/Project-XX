@@ -144,7 +144,7 @@ const { WizardScene, Stage } = Scenes;
 ///
 
 bot.start((ctx) => {
-  const client = new faunadb.Client({
+  const client = new Client({
     secret: process.env.FAUNA_SECRET,
     timeout: 10000, // Timeout di 10 secondi
   });
