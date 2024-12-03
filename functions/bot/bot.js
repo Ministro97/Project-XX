@@ -172,11 +172,14 @@ bot.start((ctx) => {
   client.query(saveUserQuery)
     .then((response) => {
       ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
+      
     })
     .catch((error) => {
       console.error('Errore nel salvataggio:', error);
       ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
+      
     });
+  client = null;
 });
 
 
