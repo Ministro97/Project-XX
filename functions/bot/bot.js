@@ -161,7 +161,7 @@ bot.start((ctx) => {
 
 
 bot.command('getusername', (ctx) => {
-  const username = ctx.message.from.username;
+  const username = ctx.from.id;
 
   if (!username) {
     ctx.reply('Nome utente non trovato. Assicurati di avere un nome utente impostato su Telegram.');
