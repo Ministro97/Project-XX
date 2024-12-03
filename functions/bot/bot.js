@@ -107,7 +107,7 @@ bot.command('send', async (ctx) => {
   */
 
 
-const { Client, query: q } = require('fauna');
+const { Client, fql, query: q } = require('fauna');
 
 
 // Configura il client Fauna con il tuo segreto
