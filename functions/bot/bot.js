@@ -109,13 +109,13 @@ bot.command('send', async (ctx) => {
 const { Client, fql } = require('fauna');
 
 // Configura il client Fauna con il tuo segreto
-const client = new Client({ secret: process.env.FAUNA_SECRET });
+const client = new Client({ secret: process.env.FAUNA_SECRET' });
 
 // Funzione per verificare la connessione
 async function verifyConnection() {
   try {
     // Esegui una semplice query per verificare la connessione
-    const result = await client.query(fql`Ping()`);
+    const result = await client.query(fql`Let({ x: 1 }, x)`);
     console.log('Connessione a FaunaDB riuscita:', result);
   } catch (error) {
     console.error('Errore nella connessione a FaunaDB:', error);
@@ -124,6 +124,7 @@ async function verifyConnection() {
 
 // Chiama la funzione per verificare la connessione
 verifyConnection();
+
 
 
 
