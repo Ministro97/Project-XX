@@ -238,6 +238,38 @@ bot.start(async (ctx) => {
 
 
 
+bot.command('getusername', async (ctx) => {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  const username = ctx.from.id;
+
+  const getUserQuery = fql`
+    Users.byUsername(${username}) {
+      username
+    }
+  `;
+
+  try {
+    const response = await client.query(getUserQuery);
+    if (response.data) {
+      ctx.reply(`Il tuo nome utente salvato è: ${response.data.username}`);
+    } else {
+      ctx.reply('Nome utente non trovato nel database.');
+    }
+  } catch (error) {
+    console.error('Errore nel recupero del nome utente:', error);
+    ctx.reply('Si è verificato un errore nel recupero del tuo nome utente.');
+  } finally {
+    client.close();
+  }
+});
+
+
+
+
 
 
 
