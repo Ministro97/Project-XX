@@ -106,7 +106,9 @@ bot.command('send', async (ctx) => {
 });
   */
 
-const { Client, fql } = require('fauna');
+
+const { Client, query: q } = require('fauna');
+
 
 // Configura il client Fauna con il tuo segreto
 const client = new Client({ secret: process.env.FAUNA_SECRET , timeout: 10000 });
@@ -136,16 +138,21 @@ const { WizardScene, Stage } = Scenes;
 ///
 
 
+
+// Comando per salvare il nome utente
 bot.start((ctx) => {
   const username = ctx.from.id;
 
+  if (!username) {
+    ctx.reply('Nome utente non trovato. Assicurati di avere un nome utente impostato su Telegram.');
+    return;
+  }
+
   // Query per salvare il nome utente in FaunaDB
-  const saveUserQuery = fql`
-    Users.create({ username: ${username} }) {
-      id,
-      username
-    }
-  `;
+  const saveUserQuery = q.Create(
+    q.Collection('Users'),
+    { data: { username: username } }
+  );
 
   client.query(saveUserQuery)
     .then((response) => {
@@ -157,9 +164,7 @@ bot.start((ctx) => {
     });
 });
 
-
-
-
+// Comando per recuperare il nome utente
 bot.command('getusername', (ctx) => {
   const username = ctx.from.id;
 
@@ -169,18 +174,16 @@ bot.command('getusername', (ctx) => {
   }
 
   // Query per recuperare il nome utente da FaunaDB utilizzando l'indice
-  const getUserQuery = fql`
-    Let(
-      {
-        userRef: Match(Index("users_by_username"), ${username})
-      },
-      If(
-        Exists(Var("userRef")),
-        Get(Var("userRef")),
-        null
-      )
+  const getUserQuery = q.Let(
+    {
+      userRef: q.Match(q.Index('users_by_username'), username)
+    },
+    q.If(
+      q.Exists(q.Var('userRef')),
+      q.Get(q.Var('userRef')),
+      null
     )
-  `;
+  );
 
   client.query(getUserQuery)
     .then((response) => {
