@@ -113,7 +113,7 @@ const q = faunadb.query;
 
 // Configura il client FaunaDB
 const client = new faunadb.Client({
-  secret: process.env.FAUNA_SECRET_KEY,
+  secret: "fnacapi_omd2ZXJzaW9uAWdwYXlsb2FkWFiiYmlkcjQxNjIwNTMwODg5OTA5OTIxMGZzZWNyZXR4OFVqWUNUZ1ZFVDVnUmtvL3RocTBBY3B4Z2x5dGJiaVk3MUgxanBkQXVsNkxyeDRsblNVYmExUT09"   ,
 });
 
 const { WizardScene, Stage } = Scenes;
