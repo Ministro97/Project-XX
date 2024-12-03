@@ -274,7 +274,12 @@ bot.command('getusername', async (ctx) => {
     const response = await client.query(getUserQuery);
     console.log('Response:', response);
 
-    if (response.data.length > 0) {
+// Estrai e visualizza i dati correttamente
+    const users = response.data.data; // Accedi alla lista di utenti
+    console.log('Users:', users);
+
+    
+    if (users.data.length > 0) {
       // Estrai e visualizza i dati correttamente
       const user = response.data[0];
       console.log('User:', user);
