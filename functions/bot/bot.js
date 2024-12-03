@@ -113,8 +113,7 @@ const q = faunadb.query;
 
 // Configura il client FaunaDB
 const client = new faunadb.Client({
-  secret: process.env.FAUNA_SECRET_KEY 
-});
+  secret: process.env.FAUNA_SECRET});
 
 
 
