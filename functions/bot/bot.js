@@ -281,7 +281,7 @@ bot.command('getusername', async (ctx) => {
     
     if (users) {
       // Estrai e visualizza i dati correttamente
-      const user = response.data[2];
+      const user = response.data.data[1];
       console.log('User:', user);
       ctx.reply(`Il tuo nome utente salvato è: ${user}`);
     } else {
