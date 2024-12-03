@@ -106,32 +106,33 @@ bot.command('send', async (ctx) => {
 });
   */
 
+const { Client, fql } = require('fauna');
 
+// Configura il client Fauna con il tuo segreto
+const client = new Client({ secret: process.env.FAUNA_SECRET });
 
-const faunadb = require('fauna');
-const q = faunadb.query;
+// Funzione per verificare la connessione
+async function verifyConnection() {
+  try {
+    // Esegui una semplice query per verificare la connessione
+    const result = await client.query(fql`Ping()`);
+    console.log('Connessione a FaunaDB riuscita:', result);
+  } catch (error) {
+    console.error('Errore nella connessione a FaunaDB:', error);
+  }
+}
 
-// Configura il client FaunaDB
+// Chiama la funzione per verificare la connessione
+verifyConnection();
 
-const client = new faunadb.Client({ secret: process.env.FAUNA_SECRET });
 
 
 const { WizardScene, Stage } = Scenes;
 
 
-const verifyFaunaConnection = async() => {
-    try {
-        const result = await client.query(q.Paginate(q.Collections()));
-        console.log('Connessione a FaunaDB riuscita:', result);
-    } catch (error) {
-        console.error('Errore nella connessione a FaunaDB:', error);
-    }
-};
-
-verifyFaunaConnection()
 
 
-
+/*
 
 // Step 1: Chiedi il titolo del topic
 const step1 = (ctx) => {
