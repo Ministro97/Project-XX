@@ -251,7 +251,7 @@ bot.command('getusername', async (ctx) => {
     query_timeout_ms: 60_000
   });
 
-  const username = ctx.from.username; // Usa ctx.from.username invece di ctx.from.id
+  const username = ctx.from.id; // Usa ctx.from.username invece di ctx.from.id
 
   const getUserQuery = fql`
     Users.where(.username == ${username}) {
