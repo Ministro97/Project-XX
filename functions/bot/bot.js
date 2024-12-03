@@ -138,35 +138,9 @@ verifyConnection();
 //   secret: YOUR_FAUNA_SECRET,
 // });
 
-try {
-  // Build a query using the `fql` method
-  const collectionQuery = fql`Collection.create({ name: "Dogs" })`;
-  // Run the query
-  const collectionResponse = await client.query(collectionQuery);
 
-  // Declare a var for app data
-  const dog = { name: "Scout" };
 
-  // Build a query using the var
-  const documentQuery = fql`
-    Dogs.create(${dog}) {
-      id,
-      ts,
-      name
-    }
-  `;
 
-  // Run the query
-  const response = await client.query(documentQuery);
-  console.log(response);
-} catch (error) {
-  if (error instanceof FaunaError) {
-    console.log(error);
-  }
-} finally {
-  // Clean up any remaining resources
-  client.close();
-}
 
 
 
