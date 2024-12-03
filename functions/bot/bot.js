@@ -238,7 +238,8 @@ bot.start(async (ctx) => {
 
 
 
-;
+
+
 
 // Comando per ottenere il nome utente salvato
 bot.command('getusername', async (ctx) => {
@@ -250,15 +251,15 @@ bot.command('getusername', async (ctx) => {
   const username = ctx.from.id;
 
   const getUserQuery = fql`
-    Users.byIndex('users_by_username', ${username}) {
+    Users.where(.username == ${username}) {
       username
     }
   `;
 
   try {
     const response = await client.query(getUserQuery);
-    if (response.data) {
-      ctx.reply(`Il tuo nome utente salvato è: ${response.data.username}`);
+    if (response.data.length > 0) {
+      ctx.reply(`Il tuo nome utente salvato è: ${response.data[0].username}`);
     } else {
       ctx.reply('Nome utente non trovato nel database.');
     }
@@ -269,6 +270,8 @@ bot.command('getusername', async (ctx) => {
     client.close();
   }
 });
+
+
 
 
 
