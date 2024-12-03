@@ -209,20 +209,6 @@ bot.start((ctx) => {
     query_timeout_ms: 60_000
   });
 
-  // Funzione per verificare la connessione
-  async function verifyConnection() {
-    try {
-      const result = await client.query(fql`1`);
-      console.log('Connessione a FaunaDB riuscita:', result);
-    } catch (error) {
-      console.error('Errore nella connessione a FaunaDB:', error);
-    } finally {
-      client.close();
-    }
-  }
-
-  verifyConnection();
-
   const username = ctx.from.id;
 
   if (!username) {
@@ -230,7 +216,6 @@ bot.start((ctx) => {
     return;
   }
 
-  // Query per salvare il nome utente in FaunaDB
   const saveUserQuery = fql`
     Users.create({ username: ${username} }) {
       id,
@@ -250,6 +235,8 @@ bot.start((ctx) => {
       client.close();
     });
 });
+
+
 
 // Comando per recuperare il nome utente
 
