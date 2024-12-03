@@ -127,7 +127,61 @@ verifyConnection();
 
 
 
+
+
+
+
 const { WizardScene, Stage } = Scenes;
+
+
+
+
+bot.start((ctx) => {
+  const username = ctx.message.from.username;
+
+  // Query per salvare il nome utente in FaunaDB
+  const saveUserQuery = fql`
+    Users.create({ username: ${username} }) {
+      id,
+      username
+    }
+  `;
+
+  client.query(saveUserQuery)
+    .then((response) => {
+      ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
+    })
+    .catch((error) => {
+      console.error('Errore nel salvataggio:', error);
+      ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
+    });
+});
+
+
+bot.command('getusername', (ctx) => {
+  const username = ctx.message.from.username;
+
+  // Query per recuperare il nome utente da FaunaDB
+  const getUserQuery = fql`
+    Users.byUsername(${username}) {
+      username
+    }
+  `;
+
+  client.query(getUserQuery)
+    .then((response) => {
+      if (response.data) {
+        ctx.reply(`Il tuo nome utente salvato è: ${response.data.username}`);
+      } else {
+        ctx.reply('Nome utente non trovato.');
+      }
+    })
+    .catch((error) => {
+      console.error('Errore nel recupero:', error);
+      ctx.reply('Si è verificato un errore nel recupero del tuo nome utente.');
+    });
+});
+
 
 
 
