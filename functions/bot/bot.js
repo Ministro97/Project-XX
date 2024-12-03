@@ -245,6 +245,9 @@ bot.start(async (ctx) => {
 
 
 // Comando per ottenere il nome utente salvato
+
+
+// Comando per ottenere il nome utente salvato
 bot.command('getusername', async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -252,6 +255,13 @@ bot.command('getusername', async (ctx) => {
   });
 
   const username = ctx.from.id; // Usa ctx.from.username invece di ctx.from.id
+
+  console.log('Username:', username); // Log per verificare il valore di username
+
+  if (!username) {
+    ctx.reply('Nome utente non trovato. Assicurati di avere un nome utente impostato su Telegram.');
+    return;
+  }
 
   const getUserQuery = fql`
     Users.where(.username == ${username}) {
@@ -265,7 +275,9 @@ bot.command('getusername', async (ctx) => {
     console.log('Response:', response);
 
     if (response.data.length > 0) {
+      // Estrai e visualizza i dati correttamente
       const user = response.data[0];
+      console.log('User:', user);
       ctx.reply(`Il tuo nome utente salvato è: ${user.username}`);
     } else {
       ctx.reply('Nome utente non trovato nel database.');
@@ -277,6 +289,7 @@ bot.command('getusername', async (ctx) => {
     client.close();
   }
 });
+
 
 
 
