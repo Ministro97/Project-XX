@@ -143,6 +143,8 @@ const { WizardScene, Stage } = Scenes;
 
 ///
 
+/*
+
 bot.start((ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -197,6 +199,57 @@ async function verifyConnection() {
   
 });
 
+*/
+
+
+
+bot.start((ctx) => {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  // Funzione per verificare la connessione
+  async function verifyConnection() {
+    try {
+      const result = await client.query(fql`1`);
+      console.log('Connessione a FaunaDB riuscita:', result);
+    } catch (error) {
+      console.error('Errore nella connessione a FaunaDB:', error);
+    } finally {
+      client.close();
+    }
+  }
+
+  verifyConnection();
+
+  const username = ctx.from.id;
+
+  if (!username) {
+    ctx.reply('Nome utente non trovato. Assicurati di avere un nome utente impostato su Telegram.');
+    return;
+  }
+
+  // Query per salvare il nome utente in FaunaDB
+  const saveUserQuery = fql`
+    Users.create({ username: ${username} }) {
+      id,
+      username
+    }
+  `;
+
+  client.query(saveUserQuery)
+    .then((response) => {
+      ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
+    })
+    .catch((error) => {
+      console.error('Errore nel salvataggio:', error);
+      ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
+    })
+    .finally(() => {
+      client.close();
+    });
+});
 
 // Comando per recuperare il nome utente
 
