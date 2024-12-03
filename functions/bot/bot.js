@@ -181,6 +181,11 @@ async function verifyConnection() {
 
   client.query(saveUserQuery)
     .then((response) => {
+
+      const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
       ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
       client.close()
     })
