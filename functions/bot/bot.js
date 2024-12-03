@@ -111,7 +111,7 @@ const { Client, fql} = require('fauna');
 
 
 // Configura il client Fauna con il tuo segreto
-const client = new Client({ secret: process.env.FAUNA_SECRET , timeout: 100000 });
+const client = new Client({ secret: process.env.FAUNA_SECRET });
 
 // Funzione per verificare la connessione
 async function verifyConnection() {
