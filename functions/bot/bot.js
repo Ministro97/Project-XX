@@ -170,12 +170,6 @@ bot.command('getusername', (ctx) => {
 
   // Query per recuperare il nome utente da FaunaDB utilizzando l'indice
   const getUserQuery = fql`
-    Users.byUsername(${username}) {
-      username
-    }
-  `;
-
-  const getUserQuery = fql`
     Let(
       {
         userRef: Match(Index("users_by_username"), ${username})
