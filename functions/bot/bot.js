@@ -282,8 +282,8 @@ bot.command('getusername', async (ctx) => {
     if (users) {
       // Estrai e visualizza i dati correttamente
       const user = response.data.data[1];
-      console.log('User:', user);
-      ctx.reply(`Il tuo nome utente salvato è: ${user}`);
+      console.log('User:', user.username);
+      ctx.reply(`Il tuo nome utente salvato è: ${user.username}`);
     } else {
       ctx.reply('Nome utente non trovato nel database.');
     }
