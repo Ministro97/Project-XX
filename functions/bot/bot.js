@@ -258,6 +258,8 @@ bot.command('getusername', async (ctx) => {
 
   try {
     const response = await client.query(getUserQuery);
+    console.log('Username:', username);
+console.log('Response:', response);
     if (response.data.length > 0) {
       ctx.reply(`Il tuo nome utente salvato è: ${response.data[0].username}`);
     } else {
