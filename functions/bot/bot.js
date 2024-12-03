@@ -165,41 +165,7 @@ bot.start((ctx) => {
 
 
 // Comando per recuperare il nome utente
-bot.command('getuserid', (ctx) => {
-  const username = ctx.from.id;
 
-  if (!username) {
-    ctx.reply('Nome utente non trovato. Assicurati di avere un nome utente impostato su Telegram.');
-    return;
-  }
-
-  // Query per recuperare l'ID dell'utente da FaunaDB utilizzando l'indice
-  const getUserQuery = fql`
-    Let(
-      {
-        userRef: Match(Index("users_by_username"), ${username})
-      },
-      If(
-        Exists(Var("userRef")),
-        Get(Var("userRef")),
-        null
-      )
-    )
-  `;
-
-  client.query(getUserQuery)
-    .then((response) => {
-      if (response) {
-        ctx.reply(`Il tuo ID utente salvato è: ${response.data.id}`);
-      } else {
-        ctx.reply('Nome utente non trovato.');
-      }
-    })
-    .catch((error) => {
-      console.error('Errore nel recupero:', error);
-      ctx.reply('Si è verificato un errore nel recupero del tuo ID utente.');
-    });
-});
 
 
 
