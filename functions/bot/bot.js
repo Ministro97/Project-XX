@@ -203,7 +203,8 @@ async function verifyConnection() {
 
 
 
-bot.start((ctx) => {
+
+bot.start(async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -223,18 +224,20 @@ bot.start((ctx) => {
     }
   `;
 
-  client.query(saveUserQuery)
-    .then((response) => {
-      ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
-    })
-    .catch((error) => {
-      console.error('Errore nel salvataggio:', error);
-      ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
-    })
-    .finally(() => {
-      client.close();
-    });
+  try {
+    const response = await client.query(saveUserQuery);
+    ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
+  } catch (error) {
+    console.error('Errore nel salvataggio:', error);
+    ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
+  } finally {
+    client.close();
+  }
 });
+
+
+
+
 
 
 
