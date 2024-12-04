@@ -855,6 +855,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 //
 
 
+
 bot.action(/vote_(\d+)/, async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -901,12 +902,13 @@ bot.action(/vote_(\d+)/, async (ctx) => {
         }
       }
 
+      // Cast to Any type
       const saveVotesQuery = fql`
         Messages.create({
           data: {
-            ideaId: ${ideaId},
-            userId: ${userId},
-            voti: ${idea.voti}
+            ideaId: ${ideaId} as Any,
+            userId: ${userId} as Any,
+            voti: ${idea.voti} as Any
           }
         })
       `;
@@ -931,10 +933,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
 });
 
 
-
-
-      
-
+  
 
 //
 
