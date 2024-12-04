@@ -733,9 +733,9 @@ bot.on('text', async(ctx) => {
 
 
 
-await saveMessageData(ctx.from.first_name, prefix, text, timestamp);
-  console.log(`${ctx.from.first_name} ${prefix} ${text} ${timestamp}`);
-          console.log (saveMessageData);
+await saveMessageData(ctx, prefix, text, timestamp);
+  console.log(`${ctx} ${prefix} ${text} ${timestamp}`);
+          
 
 
 
