@@ -848,13 +848,20 @@ bot.action(/vote_(\d+)/, async(ctx) => {
     }
 });
 
+
 */
+
 
 //
 
 
 
 bot.action(/vote_(\d+)/, async (ctx) => {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
   try {
     const ideaId = parseInt(ctx.match[1]);
     if (isNaN(ideaId)) {
@@ -895,17 +902,11 @@ bot.action(/vote_(\d+)/, async (ctx) => {
         }
       }
 
-      // Salva i voti nel database FaunaDB
-      const client = new Client({
-        secret: process.env.FAUNA_SECRET,
-        query_timeout_ms: 60_000
-      });
-
       const saveVotesQuery = fql`
         Messages.create({
           data: {
             ideaId: ${ideaId},
-            userId: ${ctx.from.id},
+            userId: ${userId},
             voti: ${idea.voti}
           }
         }) {
@@ -919,8 +920,6 @@ bot.action(/vote_(\d+)/, async (ctx) => {
         console.log('Voti salvati:', response);
       } catch (error) {
         console.error('Errore nel salvataggio dei voti:', error);
-      } finally {
-        client.close();
       }
 
       await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
@@ -930,8 +929,17 @@ bot.action(/vote_(\d+)/, async (ctx) => {
   } catch (err) {
     console.error('Errore durante l\'azione di voto:', err);
     await ctx.answerCbQuery('Si è verificato un errore durante il voto. Per favore, riprova più tardi.');
+  } finally {
+    client.close();
   }
 });
+
+
+
+//
+
+
+
 
 
 
