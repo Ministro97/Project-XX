@@ -787,7 +787,7 @@ const saveUsersIdeaQuery = fql`
         Users.create({
             username: ${username} ,
             hashtag : ${prefix},
-            idea: ${message}, 
+            idea: ${text}, 
             voti: 0
           
         }) {
