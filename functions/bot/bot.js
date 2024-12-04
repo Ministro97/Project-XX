@@ -302,7 +302,7 @@ bot.command('getusername', async (ctx) => {
 
 
 
-const saveVotes = async (ctx, ideaId, votes) => {
+const saveVotes = async ( ideaId, votes) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -312,7 +312,6 @@ const saveVotes = async (ctx, ideaId, votes) => {
     Messages.create({
       data: {
         ideaId: ${ideaId},
-        userId: ${ctx.from.id},
         voti: ${votes}
       }
     }) {
