@@ -1045,7 +1045,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                 idea.voters.add(userId);
 
                 // Aggiorna il file JSON dell'utente
-                const filePath = /tmp/${idea.autore}.json;
+                const filePath = `/tmp/${idea.autore}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
@@ -1056,7 +1056,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                     }
                 }
 
-                await ctx.answerCbQuery(Hai votato per l'idea di ${idea.autore}: ${idea.messaggio});
+                await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
             } else {
                 await ctx.answerCbQuery('Hai già votato per questa idea.');
             }
@@ -1069,6 +1069,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
     }
 });
 
+        
 
 
 //
