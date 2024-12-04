@@ -298,8 +298,7 @@ bot.command('getusername', async (ctx) => {
 
 
 //
-
-
+const { Client, fql } = require('fauna');
 
 const saveMessageData = async (ctx, prefix, text, timestamp) => {
   const client = new Client({
@@ -320,7 +319,14 @@ const saveMessageData = async (ctx, prefix, text, timestamp) => {
   const saveMessageQuery = fql`
     Messages.create({
       userId: ${ctx.from.id},
-      data: ${messageData}
+      data: {
+        hashtag: ${messageData.hashtag},
+        messaggio: ${messageData.messaggio},
+        voti: ${messageData.voti},
+        id: ${messageData.id},
+        autore: ${messageData.autore},
+        timestamp: ${messageData.timestamp}
+      }
     }) {
       id,
       data
@@ -336,6 +342,10 @@ const saveMessageData = async (ctx, prefix, text, timestamp) => {
     client.close();
   }
 };
+
+
+
+
 
 //
 
