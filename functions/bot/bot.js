@@ -297,6 +297,50 @@ bot.command('getusername', async (ctx) => {
 
 
 
+//
+
+
+
+const saveMessageData = async (ctx, prefix, text, timestamp) => {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  const username = ctx.from.first_name;
+  const messageData = {
+    hashtag: prefix,
+    messaggio: text,
+    voti: 0,
+    id: ctx.message.message_id,
+    autore: username,
+    timestamp: timestamp
+  };
+
+  const saveMessageQuery = fql`
+    Messages.create({
+      userId: ${ctx.from.id},
+      data: ${messageData}
+    }) {
+      id,
+      data
+    }
+  `;
+
+  try {
+    const response = await client.query(saveMessageQuery);
+    console.log('Dati salvati:', response);
+  } catch (error) {
+    console.error('Errore nel salvataggio dei dati:', error);
+  } finally {
+    client.close();
+  }
+};
+
+//
+
+  
+
 
 
 
@@ -689,7 +733,9 @@ bot.on('text', async(ctx) => {
 
 
 
-
+await saveMessageData(ctx, prefix, text, timestamp);
+  console.log(`${ctx} ${prefix} ${text} ${timestamp}`);
+          console.log (saveMessageData);
 
 
 
