@@ -785,12 +785,14 @@ bot.on('text', async(ctx) => {
 
 const saveUsersIdeaQuery = fql`
         Users.create({
+            userId: ${ctx.from.id},
             username: ${username} ,
             hashtag : ${prefix},
             idea: ${text}, 
             voti: 0
           
         }) {
+        userId, 
        username,
        hashtag,
        idea,
