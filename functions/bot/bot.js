@@ -862,7 +862,7 @@ finally {
 
 
 
-
+/*
 
 bot.action(/vote_(\d+)/, async(ctx) => {
     try {
@@ -925,7 +925,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 });
 
 
-
+\*
 
 
 //
@@ -1021,7 +1021,53 @@ bot.action(/vote_(\d+)/, async (ctx) => {
 //
 
 
+bot.action(/vote_(\d+)/, async(ctx) => {
+    try {
+        const ideaId = parseInt(ctx.match[1]);
+        const idea = ideas.find(i => i.id === ideaId);
+        const userId = ctx.from.id;
 
+        console.log("I " + idea.autore + "U " + ctx.from.first_name);
+        console.log(idea.autore === ctx.from.first_name);
+
+        if (idea) {
+            if (idea.autore === ctx.from.first_name) {
+                await ctx.answerCbQuery('Non puoi votare per la tua idea.');
+                return;
+            }
+
+            if (!idea.voters) {
+                idea.voters = new Set();
+            }
+
+            if (!idea.voters.has(userId)) {
+                idea.voti++;
+                idea.voters.add(userId);
+
+                // Aggiorna il file JSON dell'utente
+                const filePath = /tmp/${idea.autore}.json;
+                if (fs.existsSync(filePath)) {
+                    const data = fs.readFileSync(filePath);
+                    const userMessages = JSON.parse(data);
+                    const messageIndex = userMessages.findIndex(msg => msg.id === ideaId);
+                    if (messageIndex !== -1) {
+                        userMessages[messageIndex].voti = idea.voti;
+                        fs.writeFileSync(filePath, JSON.stringify(userMessages, null, 2));
+                    }
+                }
+
+                await ctx.answerCbQuery(Hai votato per l'idea di ${idea.autore}: ${idea.messaggio});
+            } else {
+                await ctx.answerCbQuery('Hai già votato per questa idea.');
+            }
+        } else {
+            await ctx.answerCbQuery('Idea non trovata.');
+        }
+    } catch (err) {
+        console.error('Errore durante l\'azione di voto:', err);
+        await ctx.answerCbQuery('Si è verificato un errore durante il voto. Per favore, riprova più tardi.');
+    }
+});
 
 
 
