@@ -799,31 +799,40 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         console.log("I " + idea.autore + "U " + ctx.from.first_name);
         console.log(idea.autore === ctx.from.first_name);
 
+
+await saveVotes(ideaId, idea.voti);
+
+      
         if (idea) {
             if (idea.autore === ctx.from.first_name) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
+              await saveVotes(ideaId, idea.voti);
                 return;
             }
 
             if (!idea.voters) {
                 idea.voters = new Set();
+              await saveVotes(ideaId, idea.voti);
             }
 
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
 
-
-              await saveVotes(ideaId, idea.voti);
+await saveVotes(ideaId, idea.voti);
+              
 
                 // Aggiorna il file JSON dell'utente
                 const filePath = `/tmp/${idea.autore}.json`;
+
+              
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
                     const messageIndex = userMessages.findIndex(msg => msg.id === ideaId);
                     if (messageIndex !== -1) {
                         userMessages[messageIndex].voti = idea.voti;
+                      await saveVotes(ideaId, idea.voti);
                         fs.writeFileSync(filePath, JSON.stringify(userMessages, null, 2));
                     }
                 }
