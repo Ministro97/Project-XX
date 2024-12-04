@@ -720,7 +720,7 @@ bot.on('text', async(ctx) => {
         if (validPrefixes.some(prefix => ctx.message.text.startsWith(prefix))) {
 
             let username = ctx.from.username || ctx.from.first_name;
-            username = username.replace(/\s+/g, ' '); // Sostituisce gli spazi con _
+            username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
             const prefix = validPrefixes.find(prefix => ctx.message.text.startsWith(prefix));
             const text = ctx.message.text.replace(prefix, '').trim();
 
