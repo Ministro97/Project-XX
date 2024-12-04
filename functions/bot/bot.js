@@ -301,7 +301,6 @@ bot.command('getusername', async (ctx) => {
 
 
 
-const { Client, fql } = require('fauna');
 
 const saveMessageData = async (ctx, prefix, text, timestamp) => {
   const client = new Client({
