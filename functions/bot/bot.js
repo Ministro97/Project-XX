@@ -312,7 +312,7 @@ const saveVotes = async ( ctx, ideaId, votes) => {
     Messages.create({
       data: {
         ideaId: ${ideaId},
-        userId: ${ctx.from.id}
+        userId: ${ctx.from.id},
         voti: ${votes}
       }
     }) {
