@@ -302,7 +302,7 @@ bot.command('getusername', async (ctx) => {
 
 
 
-const saveVotes = async ( ideaId, votes) => {
+const saveVotes = async ( ctx, ideaId, votes) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -312,6 +312,7 @@ const saveVotes = async ( ideaId, votes) => {
     Messages.create({
       data: {
         ideaId: ${ideaId},
+        userId: ${ctx.from.id}
         voti: ${votes}
       }
     }) {
@@ -803,7 +804,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         if (idea) {
             if (idea.autore === ctx.from.first_name) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
-              await saveVotes(ideaId, idea.voti);
+              await saveVotes(ctx, ideaId, idea.voti);
                 return;
             }
 
@@ -829,7 +830,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                     const messageIndex = userMessages.findIndex(msg => msg.id === ideaId);
                     if (messageIndex !== -1) {
                         userMessages[messageIndex].voti = idea.voti;
-                      await saveVotes(ideaId, idea.voti);
+                      await saveVotes(ctx, ideaId, idea.voti);
                         fs.writeFileSync(filePath, JSON.stringify(userMessages, null, 2));
                     }
                 }
