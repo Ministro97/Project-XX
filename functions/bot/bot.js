@@ -993,7 +993,10 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       } catch (error) {
         console.error('Errore nel salvataggio dei voti:', error);
       }
+      
 */
+
+      try {
       await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
     } else {
       await ctx.answerCbQuery('Hai già votato per questa idea.');
