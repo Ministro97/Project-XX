@@ -575,7 +575,7 @@ bot.command('set_tags_bs_xx', async(ctx) => {
 
 
 
-
+/*
 
 // Funzione per generare la classifica degli utenti
 async function generateLeaderboard(ctx) {
@@ -603,6 +603,75 @@ async function generateLeaderboard(ctx) {
         await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
     }
 }
+*/
+
+
+
+async function generateLeaderboard(ctx) {
+    const client = new Client({
+        secret: process.env.FAUNA_SECRET,
+        query_timeout_ms: 60_000
+    });
+
+    try {
+        // Query per ottenere tutti i voti degli utenti
+        const result = await client.query(
+            fql`
+                Messages.all()
+                .map(msg => ({
+                    userId: msg.userId,
+                    voti: msg.voti
+                }))
+            `
+        );
+
+        const userVotes = {};
+
+        // Calcola i voti totali per ogni utente
+        result.data.forEach(doc => {
+            const { userId, voti } = doc;
+            if (!userVotes[userId]) {
+                userVotes[userId] = 0;
+            }
+            userVotes[userId] += voti;
+        });
+
+        // Ordina gli utenti in base ai voti
+        const sortedUsers = Object.entries(userVotes).sort((a, b) => b[1] - a[1]);
+        let leaderboard = 'Classifica generale Bs XX 🏆\n\n';
+
+        // Genera la stringa della classifica
+        sortedUsers.forEach(([userId, votes], index) => {
+            let rank;
+            if (votes >= 1000) {
+                rank = '<i>Mentore XX</i>';
+            } else if (votes >= 500) {
+                rank = '<i>Veterano XX</i>';
+            } else if (votes >= 300) {
+                rank = '<i>Esperto XX</i>';
+            } else if (votes >= 200) {
+                rank = '<i>Assistente</i>';
+            } else if (votes >= 100) {
+                rank = '<i>Apprendista Grado 1</i>';
+            } else if (votes >= 50) {
+                rank = '<i>Apprendista Grado 2</i>';
+            } else {
+                rank = '<i>Apprendista Grado 3</i>';
+            }
+            leaderboard += `${index + 1}. ${userId}: ${votes} voti \n- ${rank}\n\n\n <code> © 2024-2025 Project XX </code>`;
+        });
+
+        // Invia la classifica all'utente
+        await ctx.replyWithHTML(leaderboard);
+    } catch (err) {
+        console.error('Errore durante la generazione della classifica:', err);
+        await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
+    } finally {
+        client.close();
+    }
+}
+
+
 
 
 
