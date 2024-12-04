@@ -300,7 +300,7 @@ bot.command('getusername', async (ctx) => {
 //
 
 
-const { Client, fql } = require('fauna');
+
 
 const saveVotes = async (ctx, votes) => {
   const client = new Client({
