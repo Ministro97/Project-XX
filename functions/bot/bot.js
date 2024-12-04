@@ -302,18 +302,17 @@ bot.command('getusername', async (ctx) => {
 
 
 
-
-
-
-const saveVotes = async (ideaId, votes) => {
+const saveVotes = async (ctx, ideaId, votes) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
   const saveVotesQuery = fql`
-    Messages.byId(${ideaId}).update({
+    Messages.create({
       data: {
+        ideaId: ${ideaId},
+        userId: ${ctx.from.id},
         voti: ${votes}
       }
     }) {
@@ -331,7 +330,6 @@ const saveVotes = async (ideaId, votes) => {
     client.close();
   }
 };
-
   
 
 
