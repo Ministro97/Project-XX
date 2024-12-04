@@ -1,6 +1,10 @@
 const { Telegraf, Markup, Scenes, session } = require('telegraf');
+const { WizardScene, Stage } = Scenes;
+const { Client, fql} = require('fauna');
 const fs = require('fs');
 const path = require('path');
+
+
 const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
 
 let timerActive = false;
@@ -16,8 +20,6 @@ let pinnedMessageId = null;
 let copyright = "\n\n\n<code> © 2024-2025 Project XX </code>"
 
 let sessionOwner = null;
-
-
 
 
 
@@ -107,7 +109,6 @@ bot.command('send', async (ctx) => {
   */
 
 
-const { Client, fql} = require('fauna');
 
 
 // Configura il client Fauna con il tuo segreto
@@ -139,7 +140,6 @@ const { Client, fql} = require('fauna');
 ///
 
 
-const { WizardScene, Stage } = Scenes;
 
 ///
 
