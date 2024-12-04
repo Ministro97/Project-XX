@@ -836,7 +836,7 @@ finally {
             const args = ctx.message.text.split(' ');
             if (args.length === 2) {
                 let username = args[1];
-                username = username.replace(/\s+/g, ' '); // Sostituisce gli spazi con _
+                username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
@@ -1027,11 +1027,15 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         const idea = ideas.find(i => i.id === ideaId);
         const userId = ctx.from.id;
 
-        console.log("I " + idea.autore + "U " + ctx.from.first_name);
-        console.log(idea.autore === ctx.from.first_name);
+        // Sostituisci il simbolo _ con uno spazio
+        const ideaAutore = idea.autore.replace(/_/g, ' ');
+        const userFirstName = ctx.from.first_name.replace(/_/g, ' ');
+
+        console.log("I " + ideaAutore + " U " + userFirstName);
+        console.log(ideaAutore === userFirstName);
 
         if (idea) {
-            if (idea.autore === ctx.from.first_name) {
+            if (ideaAutore === userFirstName) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
                 return;
             }
