@@ -312,7 +312,7 @@ const saveVotes = async (ctx, votes) => {
     Messages.create({
       userId: ${ctx.from.id},
       data: {
-        voti: ${votes}
+        voti: ${msg.voti}
       }
     }) {
       id,
@@ -737,7 +737,7 @@ bot.on('text', async(ctx) => {
 
 
 //await saveMessageData(ctx, prefix, text, timestamp);
-  await saveVotes(ctx, votes);
+  
           
 
 
@@ -774,6 +774,7 @@ bot.on('text', async(ctx) => {
                     let response = `Idee totali inviate da ${username}: ${userMessages.length}\n\n`;
                     userMessages.forEach(msg => {
                         response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
+                      await saveVotes(ctx, votes)
                     });
                     ctx.replyWithHTML(response + copyright);
                 } else {
