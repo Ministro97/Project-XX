@@ -787,7 +787,7 @@ bot.on('text', async(ctx) => {
 });
 
 
-
+/*
 bot.action(/vote_(\d+)/, async(ctx) => {
     try {
         const ideaId = parseInt(ctx.match[1]);
@@ -848,11 +848,94 @@ bot.action(/vote_(\d+)/, async(ctx) => {
     }
 });
 
+*/
+
+//
 
 
 
+bot.action(/vote_(\d+)/, async (ctx) => {
+  try {
+    const ideaId = parseInt(ctx.match[1]);
+    if (isNaN(ideaId)) {
+      await ctx.answerCbQuery('ID idea non valido.');
+      return;
+    }
+
+    const idea = ideas.find(i => i.id === ideaId);
+    if (!idea) {
+      await ctx.answerCbQuery('Idea non trovata.');
+      return;
+    }
+
+    const userId = ctx.from.id;
+    console.log(`Idea: ${idea.autore}, Utente: ${ctx.from.first_name}`);
+
+    if (idea.autore === ctx.from.first_name) {
+      await ctx.answerCbQuery('Non puoi votare per la tua idea.');
+      return;
+    }
+
+    if (!idea.voters) {
+      idea.voters = new Set();
+    }
+
+    if (!idea.voters.has(userId)) {
+      idea.voti++;
+      idea.voters.add(userId);
+
+      const filePath = `/tmp/${idea.autore}.json`;
+      if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath);
+        const userMessages = JSON.parse(data);
+        const messageIndex = userMessages.findIndex(msg => msg.id === ideaId);
+        if (messageIndex !== -1) {
+          userMessages[messageIndex].voti = idea.voti;
+          fs.writeFileSync(filePath, JSON.stringify(userMessages, null, 2));
+        }
+      }
+
+      // Salva i voti nel database FaunaDB
+      const client = new Client({
+        secret: process.env.FAUNA_SECRET,
+        query_timeout_ms: 60_000
+      });
+
+      const saveVotesQuery = fql`
+        Messages.create({
+          data: {
+            ideaId: ${ideaId},
+            userId: ${ctx.from.id},
+            voti: ${idea.voti}
+          }
+        }) {
+          id,
+          data
+        }
+      `;
+
+      try {
+        const response = await client.query(saveVotesQuery);
+        console.log('Voti salvati:', response);
+      } catch (error) {
+        console.error('Errore nel salvataggio dei voti:', error);
+      } finally {
+        client.close();
+      }
+
+      await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
+    } else {
+      await ctx.answerCbQuery('Hai già votato per questa idea.');
+    }
+  } catch (err) {
+    console.error('Errore durante l\'azione di voto:', err);
+    await ctx.answerCbQuery('Si è verificato un errore durante il voto. Per favore, riprova più tardi.');
+  }
+});
 
 
+
+//
 
 
 async function startBrainstorming(ctx) {
