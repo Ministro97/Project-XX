@@ -302,35 +302,7 @@ bot.command('getusername', async (ctx) => {
 
 
 
-const saveVotes = async ( ctx, ideaId, votes) => {
-  const client = new Client({
-    secret: process.env.FAUNA_SECRET,
-    query_timeout_ms: 60_000
-  });
 
-  const saveVotesQuery = fql`
-    Messages.create({
-      data: {
-        ideaId: ${ideaId},
-        userId: ${ctx.from.id},
-        voti: ${votes}
-      }
-    }) {
-      id,
-      data
-    }
-  `;
-
-  try {
-    const response = await client.query(saveVotesQuery);
-    console.log('Voti salvati:', response);
-  } catch (error) {
-    console.error('Errore nel salvataggio dei voti:', error);
-  } finally {
-    client.close();
-  }
-};
-  
 
 
 
@@ -905,11 +877,12 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       // Cast to Any type
       const saveVotesQuery = fql`
         Messages.create({
-            ideaId: ${ideaId} ,
-            userId: ${userId} ,
-            voti: ${idea.voti} 
+            ideaId: ${ideaId} 
           
-        })
+        }) {
+       id,
+       ideaId
+        }
       `;
 
       try {
