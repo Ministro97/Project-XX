@@ -302,17 +302,19 @@ bot.command('getusername', async (ctx) => {
 
 
 
-const saveVotes = async (ctx, votes) => {
+
+
+
+const saveVotes = async (ideaId, votes) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
   const saveVotesQuery = fql`
-    Messages.create({
-      userId: ${ctx.from.id},
+    Messages.byId(${ideaId}).update({
       data: {
-        voti: ${msg.voti}
+        voti: ${votes}
       }
     }) {
       id,
@@ -329,7 +331,6 @@ const saveVotes = async (ctx, votes) => {
     client.close();
   }
 };
-
 
   
 
@@ -774,7 +775,7 @@ bot.on('text', async(ctx) => {
                     let response = `Idee totali inviate da ${username}: ${userMessages.length}\n\n`;
                     userMessages.forEach(msg => {
                         response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
-                      await saveVotes(ctx, votes)
+                    
                     });
                     ctx.replyWithHTML(response + copyright);
                 } else {
@@ -811,6 +812,9 @@ bot.action(/vote_(\d+)/, async(ctx) => {
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
+
+
+              await saveVotes(ideaId, idea.voti);
 
                 // Aggiorna il file JSON dell'utente
                 const filePath = `/tmp/${idea.autore}.json`;
