@@ -300,34 +300,19 @@ bot.command('getusername', async (ctx) => {
 //
 
 
+const { Client, fql } = require('fauna');
 
-
-const saveMessageData = async (ctx, prefix, text, timestamp) => {
+const saveVotes = async (ctx, votes) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
-  const username = ctx.from.first_name;
-  const messageData = {
-    hashtag: prefix || '',
-    messaggio: text || '',
-    voti: 0,
-    id: ctx.message.message_id || '',
-    autore: username || '',
-    timestamp: timestamp || ''
-  };
-
-  const saveMessageQuery = fql`
+  const saveVotesQuery = fql`
     Messages.create({
       userId: ${ctx.from.id},
       data: {
-        hashtag: ${messageData.hashtag},
-        messaggio: ${messageData.messaggio},
-        voti: ${messageData.voti},
-        id: ${messageData.id},
-        autore: ${messageData.autore},
-        timestamp: ${messageData.timestamp}
+        voti: ${votes}
       }
     }) {
       id,
@@ -336,14 +321,20 @@ const saveMessageData = async (ctx, prefix, text, timestamp) => {
   `;
 
   try {
-    const response = await client.query(saveMessageQuery);
-    console.log('Dati salvati:', response);
+    const response = await client.query(saveVotesQuery);
+    console.log('Voti salvati:', response);
   } catch (error) {
-    console.error('Errore nel salvataggio dei dati:', error);
+    console.error('Errore nel salvataggio dei voti:', error);
   } finally {
     client.close();
   }
 };
+
+
+  
+
+
+
 
 
 
@@ -745,8 +736,8 @@ bot.on('text', async(ctx) => {
 
 
 
-await saveMessageData(ctx, prefix, text, timestamp);
-  console.log(`${ctx} ${prefix} ${text} ${timestamp}`);
+//await saveMessageData(ctx, prefix, text, timestamp);
+  await saveVotes(ctx, votes);
           
 
 
