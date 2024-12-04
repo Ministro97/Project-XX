@@ -778,8 +778,38 @@ bot.on('text', async(ctx) => {
 
 //await saveMessageData(ctx, prefix, text, timestamp);
   
-          
+          const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  }); 
 
+const saveUsersIdeaQuery = fql`
+        Users.create({
+            username: ${username} ,
+            hashtag : ${prefix},
+            idea: ${message}, 
+            voti: 0
+          
+        }) {
+       username,
+       hashtag,
+       idea,
+       voti
+        }
+      `;
+
+      try {
+        const response = await client.query(saveUsersIdeaQuery);
+        console.log('Dati autore salvati:', response);
+      } catch (error) {
+        console.error('Errore nel salvataggio dei dati autore:', error);
+      }
+
+finally {
+    client.close();
+}
+
+          
 
 
 
