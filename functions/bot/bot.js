@@ -901,7 +901,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
-  });
+  }); 
 
   try {
     const ideaId = parseInt(ctx.match[1]);
@@ -944,7 +944,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       }
 
       // Cast to Any type
-      const saveVotesQuery = fql`
+  /*    const saveVotesQuery = fql`
         Messages.create({
             ideaId: ${ideaId} ,
             userId : ${userId},
@@ -963,7 +963,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       } catch (error) {
         console.error('Errore nel salvataggio dei voti:', error);
       }
-
+*/
       await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
     } else {
       await ctx.answerCbQuery('Hai già votato per questa idea.');
