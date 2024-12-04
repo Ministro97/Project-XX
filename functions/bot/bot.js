@@ -877,11 +877,14 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       // Cast to Any type
       const saveVotesQuery = fql`
         Messages.create({
-            ideaId: ${ideaId} 
-          
+            ideaId: ${ideaId} ,
+            userId : ${userId},
+          voti: ${idea.voti}
         }) {
        id,
-       ideaId
+       ideaId,
+       userId,
+       voti
         }
       `;
 
