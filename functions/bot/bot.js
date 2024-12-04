@@ -300,6 +300,8 @@ bot.command('getusername', async (ctx) => {
 //
 
 
+
+
 const saveMessageData = async (ctx, prefix, text, timestamp) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -320,12 +322,12 @@ const saveMessageData = async (ctx, prefix, text, timestamp) => {
     Messages.create({
       userId: ${ctx.from.id},
       data: {
-        hashtag: ${messageData.hashtag},
-        messaggio: ${messageData.messaggio},
-        voti: ${messageData.voti},
-        id: ${messageData.id},
-        autore: ${messageData.autore},
-        timestamp: ${messageData.timestamp}
+        hashtag: ${fql`${messageData.hashtag}`},
+        messaggio: ${fql`${messageData.messaggio}`},
+        voti: ${fql`${messageData.voti}`},
+        id: ${fql`${messageData.id}`},
+        autore: ${fql`${messageData.autore}`},
+        timestamp: ${fql`${messageData.timestamp}`}
       }
     }) {
       id,
@@ -342,7 +344,6 @@ const saveMessageData = async (ctx, prefix, text, timestamp) => {
     client.close();
   }
 };
-
 
 
 
