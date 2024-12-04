@@ -855,7 +855,6 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 //
 
 
-
 bot.action(/vote_(\d+)/, async (ctx) => {
   const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -875,7 +874,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
       return;
     }
 
-    const userId = ctx.from.id;
+    const userId = ctx.from.id.toString(); // Convert userId to string
     console.log(`Idea: ${idea.autore}, Utente: ${ctx.from.first_name}`);
 
     if (idea.autore === ctx.from.first_name) {
@@ -909,10 +908,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
             userId: ${userId},
             voti: ${idea.voti}
           }
-        }) {
-          id,
-          data
-        }
+        })
       `;
 
       try {
@@ -934,6 +930,10 @@ bot.action(/vote_(\d+)/, async (ctx) => {
   }
 });
 
+
+
+
+      
 
 
 //
