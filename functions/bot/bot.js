@@ -858,7 +858,12 @@ finally {
 });
 
 
-/*
+
+
+
+
+
+
 bot.action(/vote_(\d+)/, async(ctx) => {
     try {
         const ideaId = parseInt(ctx.match[1]);
@@ -920,12 +925,12 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 });
 
 
-*/
+
 
 
 //
 
-
+/*
 
 bot.action(/vote_(\d+)/, async (ctx) => {
   const client = new Client({
@@ -994,7 +999,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
         console.error('Errore nel salvataggio dei voti:', error);
       }
       
-*/
+
 
       try {
       await ctx.answerCbQuery(`Hai votato per l'idea di ${idea.autore}: ${idea.messaggio}`);
@@ -1009,6 +1014,7 @@ bot.action(/vote_(\d+)/, async (ctx) => {
   }
 });
 
+*/
 
   
 
