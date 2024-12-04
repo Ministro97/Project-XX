@@ -800,7 +800,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         console.log(idea.autore === ctx.from.first_name);
 
 
-await saveVotes(ideaId, idea.voti);
+
 
       
         if (idea) {
@@ -812,14 +812,14 @@ await saveVotes(ideaId, idea.voti);
 
             if (!idea.voters) {
                 idea.voters = new Set();
-              await saveVotes(ideaId, idea.voti);
+            
             }
 
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
 
-await saveVotes(ideaId, idea.voti);
+
               
 
                 // Aggiorna il file JSON dell'utente
