@@ -823,7 +823,7 @@ try {
     } else {
         // Query per aggiornare l'utente esistente
         const updateUsersIdeaQuery = fql`
-            Users.byId(${user.data.id}).update({
+            Users.where(.userId == ${ctx.from.id}).update({
                 hashtag: Append(${prefix}, user.data.hashtag),
                 idea: Append(${text}, user.data.idea)
             }) {
