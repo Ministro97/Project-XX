@@ -781,7 +781,7 @@ bot.on('text', async(ctx) => {
           
 
 
-/*
+
 const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -823,7 +823,7 @@ try {
     } else {
         // Query per aggiornare l'utente esistente
         const updateUsersIdeaQuery = fql`
-            Users.byId(${user.data.data[1].id}).update({
+            Users.byId(${user.data.id}).update({
                 hashtag: Append(${prefix}, user.data.hashtag),
                 idea: Append(${text}, user.data.idea)
             }) {
@@ -847,9 +847,9 @@ try {
 } finally {
     client.close();
 }
-*/
 
 
+/*
 
 const client = new Client({
     secret: process.env.FAUNA_SECRET,
@@ -903,7 +903,7 @@ try {
 
 
           
-
+*/
 
 
 
