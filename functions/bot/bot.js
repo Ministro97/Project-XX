@@ -1139,7 +1139,7 @@ const client = new Client({
     query_timeout_ms: 60_000
 });
 
-// try {
+              try {
     // Query per trovare l'utente e poi aggiorna l'idea +1
 
               console.log (ideaId)
