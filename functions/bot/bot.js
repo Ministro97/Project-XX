@@ -865,8 +865,8 @@ try {
 
 
   console.log(user)
-    console.log(user.data[0]);
-  console.log(user.data[0].id)
+    console.log(user.data);
+  console.log(user.data.id)
   
 
     if (user == null) {
