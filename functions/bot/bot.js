@@ -780,7 +780,7 @@ bot.on('text', async(ctx) => {
   
           
 
-const { Client, fql } = require('faunadb');
+
 
 const client = new Client({
     secret: process.env.FAUNA_SECRET,
