@@ -1142,10 +1142,11 @@ const client = new Client({
 // try {
     // Query per trovare l'utente e poi aggiorna l'idea +1
 
+              console.log ("pre-idea-elab "  + ideaId)
 
-              let lastIdea = 1609
+              //let lastIdea = 1609
     const userQuery = fql`
-        Users.where(.ideaId == ${lastIdea}) //ideaId
+        Users.where(.ideaId == ${ideaId}) //ideaId
     `;
     const user = await client.query(userQuery);
 
