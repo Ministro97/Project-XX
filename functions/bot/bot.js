@@ -794,7 +794,7 @@ try {
     `;
     const user = await client.query(userQuery);
 
-    console.log("ID " + user.data.data[1].id);
+    
 
     if (user == null) {
         // Query per creare un nuovo utente
