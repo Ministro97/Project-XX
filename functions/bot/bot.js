@@ -1150,8 +1150,8 @@ const client = new Client({
     `;
     const user = await client.query(userQuery);
 
-    console.log(user.data);
-  console.log( "idea catturata " + user.data[0]);
+    console.log(user.data.data);
+  console.log( "idea catturata " + user.data.data.ideaId);
 
  /*   if (user == null) {
         // Query per creare un nuovo utente
