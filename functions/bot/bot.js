@@ -1156,7 +1156,14 @@ const client = new Client({
    if (user.data.data[0].ideaId == ideaId) {
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
-          User.where(.ideaId == ${user.data.data[0].ideaId})!.update({voti: ${idea.voti}})
+          User.where(.ideaId == ${user.data.data[0].ideaId})!.update({voti: ${idea.voti}}){    
+          id, 
+          ideaId, 
+          voti,
+          userId,
+          hashtag
+          
+          }
             `
 
         try {
