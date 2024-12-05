@@ -796,7 +796,7 @@ const client = new Client({
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
             Users.create({
-                userId: ${userId},
+                userId: ${ctx.from.id},
                 username: ${username},
                 ideaId: ${ctx.message.message_id},
                 idea: ${text},
