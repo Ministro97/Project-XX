@@ -865,7 +865,9 @@ try {
 
 
   console.log(user)
-    console.log(user.data);
+    console.log(user.data[0]);
+  console.log(user.data[0].id)
+  
 
     if (user == null) {
         // Query per creare un nuovo utente
