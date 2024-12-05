@@ -781,7 +781,7 @@ bot.on('text', async(ctx) => {
           
 
 
-
+/*
 const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -847,7 +847,62 @@ try {
 } finally {
     client.close();
 }
+*/
 
+
+
+const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
+
+try {
+    // Query per trovare l'utente
+    const userQuery = fql`
+        Users.where(.userId == ${ctx.from.id}).first()
+    `;
+    const user = await client.query(userQuery);
+
+
+  console.log(user)
+    console.log(user.data.data[1]);
+  console.log(user.data.data[1].id);
+  console.log(user.data.data[0]);
+
+    if (user == null) {
+        // Query per creare un nuovo utente
+        const saveUsersIdeaQuery = fql`
+            Users.create({
+                userId: ${ctx.from.id},
+                username: ${username},
+                hashtag: ${prefix},
+                idea: ${text},
+                voti: 0
+            }) {
+                userId,
+                username,
+                hashtag,
+                idea,
+                voti
+            }
+        `;
+
+        try {
+            const response = await client.query(saveUsersIdeaQuery);
+            console.log('Dati autore salvati:', response);
+        } catch (error) {
+            console.error('Errore nel salvataggio dei dati autore:', error);
+        }
+    }
+} catch (error) {
+    console.error('Errore durante la ricerca dell\'utente:', error);
+} finally {
+    client.close();
+}
+          
+
+
+          
 
 
 
