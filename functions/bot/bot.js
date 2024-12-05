@@ -1142,7 +1142,7 @@ const client = new Client({
 // try {
     // Query per trovare l'utente e poi aggiorna l'idea +1
 
-              console.log ("pre-idea-elab "  + ideaId)
+              console.log (ideaId)
 
               //let lastIdea = 1609
     const userQuery = fql`
@@ -1153,23 +1153,11 @@ const client = new Client({
     console.log(user.data.data);
   console.log( "idea catturata " + user.data.data[0].ideaId);
 
- /*   if (user == null) {
+   if (user.data.data[0].ideaId == ideaId) {
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
-            Users.create({
-                userId: ${ctx.from.id},
-                username: ${username},
-                hashtag: ${prefix},
-                idea: ${text},
-                voti: 0
-            }) {
-                userId,
-                username,
-                hashtag,
-                idea,
-                voti
-            }
-        `;
+          User.where(.ideaId == ${user.data.data[0].ideaId})!.update({voti: ${idea.voti}})
+            `
 
         try {
             const response = await client.query(saveUsersIdeaQuery);
@@ -1180,11 +1168,9 @@ const client = new Client({
     }
 } catch (error) {
     console.error('Errore durante la ricerca dell\'utente:', error);
-} */
-
-// finally {
+}  finally {
     client.close();
-// }
+}
 
 
 
