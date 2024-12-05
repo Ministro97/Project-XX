@@ -815,7 +815,7 @@ const client = new Client({
       
             try {
     const response = await client.query(saveUsersIdeaQuery);
-    console.log(response);
+    console.log("salvataggio: " + response);
 } catch (error) {
     console.error("Errore durante l'aggiunta dell'idea:", error);
 } finally {
@@ -1141,13 +1141,16 @@ const client = new Client({
 
 // try {
     // Query per trovare l'utente e poi aggiorna l'idea +1
+
+
+             // let lastIdea = 1609
     const userQuery = fql`
-        Users.where(.ideaId == ${ideaId})
+        Users.where(.ideaId == ${ideaId}) //ideaId
     `;
     const user = await client.query(userQuery);
 
     console.log(user);
-  console.log(user.data.ideaId);
+  console.log( "idea catturata " + user.data.ideaId);
 
  /*   if (user == null) {
         // Query per creare un nuovo utente
