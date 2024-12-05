@@ -761,7 +761,7 @@ bot.on('text', async(ctx) => {
 
 
 
-            const messageData = { hashtag: prefix, messaggio: text, voti: 0, id: ctx.message.message_id, autore: username, timestamp: timestamp };
+            const messageData = { hashtag: prefix, userId: ctx.from.id,  messaggio: text, voti: 0, id: ctx.message.message_id, autore: username, timestamp: timestamp };
             ideas.push(messageData);
 
 
@@ -796,7 +796,7 @@ const client = new Client({
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
             Users.create({
-                userId: ${ctx.from.id},
+                userId: ${userId},
                 username: ${username},
                 ideaId: ${ctx.message.message_id},
                 idea: ${text},
@@ -813,10 +813,14 @@ const client = new Client({
         `;
 
       
-            const response = await client.query(saveUsersIdeaQuery);
-            
-
+            try {
+    const response = await client.query(saveUsersIdeaQuery);
+    console.log(response);
+} catch (error) {
+    console.error("Errore durante l'aggiunta dell'idea:", error);
+} finally {
     client.close();
+            }
 
           
 
@@ -1120,6 +1124,69 @@ bot.action(/vote_(\d+)/, async(ctx) => {
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
+
+
+
+
+
+
+//update idea
+
+
+
+const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
+
+// try {
+    // Query per trovare l'utente e poi aggiorna l'idea +1
+    const userQuery = fql`
+        Users.where(.ideaId == ${ideaId})
+    `;
+    const user = await client.query(userQuery);
+
+    console.log(user);
+  console.log(user.data.ideaId);
+
+ /*   if (user == null) {
+        // Query per creare un nuovo utente
+        const saveUsersIdeaQuery = fql`
+            Users.create({
+                userId: ${ctx.from.id},
+                username: ${username},
+                hashtag: ${prefix},
+                idea: ${text},
+                voti: 0
+            }) {
+                userId,
+                username,
+                hashtag,
+                idea,
+                voti
+            }
+        `;
+
+        try {
+            const response = await client.query(saveUsersIdeaQuery);
+            console.log('Dati autore salvati:', response);
+        } catch (error) {
+            console.error('Errore nel salvataggio dei dati autore:', error);
+        }
+    }
+} catch (error) {
+    console.error('Errore durante la ricerca dell\'utente:', error);
+} */
+
+// finally {
+    client.close();
+// }
+
+
+
+
+
+              
 
                 // Aggiorna il file JSON dell'utente
                 const filePath = `/tmp/${idea.autore}.json`;
