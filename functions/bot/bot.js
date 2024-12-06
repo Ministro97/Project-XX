@@ -954,7 +954,7 @@ const client = new Client({
         
 
               
-              ctx.reply(JSON.parse(jsonStringify))
+              ctx.reply(jsonStringify.toString())
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
