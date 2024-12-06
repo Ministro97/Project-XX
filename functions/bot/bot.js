@@ -954,6 +954,15 @@ const client = new Client({
         const data = response.data.data
 
 data.forEach(item => {
+
+  ctx.replyWithHTML(`Idee totali inviate da ${item.userId[0]} 
+  
+ • Tag: ${item.hashtag}
+  • ID idea: ${item.IdeaId}
+• Idea: ${item.idea}
+ • Voti: ${item.voti}
+  `)
+
   
   console.log(`User ID: ${item.userId}`);
   console.log(`Username: ${item.username}`);
@@ -969,7 +978,7 @@ data.forEach(item => {
               
 
               
-              ctx.reply(jsonStringify.toString())
+          //    ctx.reply(jsonStringify.toString())
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
