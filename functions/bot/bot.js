@@ -944,7 +944,8 @@ console.log (args[1]);
       
             try {
     const response = await client.query(getUsersQuery);
-    console.log("Accesso dati utente: " + response.data);
+              console.log(response)
+    console.log(response.data.data);
               ctx.reply(response.data)
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
