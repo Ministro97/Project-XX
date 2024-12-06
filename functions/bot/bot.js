@@ -912,7 +912,49 @@ try {
         if (botWasMentioned && await isAdmin(ctx)) {
             const args = ctx.message.text.split(' ');
             if (args.length === 2) {
-                let username = args[1];
+         let username = args[1];
+
+let userId = args[1];
+
+
+              
+///
+
+const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
+
+
+        // Query per creare un nuovo utente
+        const getUsersQuery = fql`
+            Users.where(userId == ${args[1]}) {
+                userId,
+                username,
+                ideaId,
+                idea,
+                hashtag,
+                voti
+            }
+        `;
+
+      
+            try {
+    const response = await client.query(getUsersQuery);
+    console.log("Accesso dati utente: " + response);
+} catch (error) {
+    console.error("non ci sono dati per l'utente:", error);
+} finally {
+    client.close();
+            }
+
+          
+
+              
+
+              ///
+
+              
                 username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
