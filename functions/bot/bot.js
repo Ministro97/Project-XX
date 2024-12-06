@@ -950,8 +950,8 @@ const client = new Client({
 
               
     const jsonStringify = JSON.stringify(response, null, 2)
-              const jsonParse = JSON.parse(response)
-        console.log (jsonParse)
+              
+        
 
               
               ctx.reply(JSON.parse(jsonStringify))
