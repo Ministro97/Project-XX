@@ -953,18 +953,20 @@ const client = new Client({
               
         const data = response.data.data
 
+
+              let message = '';
+
 data.forEach(item => {
-
-  ctx.replyWithHTML(`Idee totali inviate da ${item.userId} `);
+  message += `
+    Idee totali inviate da ${item.userId} 
   
- ctx.reply(`• Tag: ${item.hashtag}`);
- ctx.reply(`• ID idea: ${item.ideaId}`);
- ctx.reply(`• Idea: ${item.idea}`);
- ctx.reply(`• Voti: ${item.voti}`);
+    • Tag: ${item.hashtag}
+    • ID idea: ${item.ideaId}
+    • Idea: ${item.idea}
+    • Voti: ${item.voti}
+    \n
+  `;
 
-  
-
-  
   console.log(`User ID: ${item.userId}`);
   console.log(`Username: ${item.username}`);
   console.log(`Idea ID: ${item.ideaId}`);
@@ -973,6 +975,9 @@ data.forEach(item => {
   console.log(`Voti: ${item.voti}`);
   console.log('\n');
 });
+
+// Invia il messaggio completo
+ctx.replyWithHTML(message);
 
 
 
