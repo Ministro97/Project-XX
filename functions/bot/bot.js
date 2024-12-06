@@ -955,13 +955,14 @@ const client = new Client({
 
 data.forEach(item => {
 
-  ctx.replyWithHTML(`Idee totali inviate da ${item.userId[0]} 
+  ctx.replyWithHTML(`Idee totali inviate da ${item.userId} `);
   
- • Tag: ${item.hashtag}
-  • ID idea: ${item.IdeaId}
-• Idea: ${item.idea}
- • Voti: ${item.voti}
-  `)
+ ctx.reply(`• Tag: ${item.hashtag}`);
+ ctx.reply(`• ID idea: ${item.ideaId}`);
+ ctx.reply(`• Idea: ${item.idea}`);
+ ctx.reply(`• Voti: ${item.voti}`);
+
+  
 
   
   console.log(`User ID: ${item.userId}`);
