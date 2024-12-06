@@ -930,7 +930,7 @@ console.log (args[1]);
 
         // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
-            Users.where(.userId == ${args[1]}) {
+            Users.where(.userId == 641846047) {
             id,
                 userId,
                 username,
@@ -946,7 +946,7 @@ console.log (args[1]);
     const response = await client.query(getUsersQuery);
               console.log("PRE " + response.data)
     console.log(response);
-              ctx.reply(response.data)
+              ctx.reply(response)
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
