@@ -943,7 +943,7 @@ const client = new Client({
             try {
     const response = await client.query(getUsersQuery);
     console.log("Accesso dati utente: " + response);
-              ctx.reply(response.data.data[0])
+              ctx.reply(response.data)
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
@@ -951,7 +951,6 @@ const client = new Client({
             }
 
           
-
               
 
               ///
