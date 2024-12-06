@@ -958,7 +958,7 @@ data.forEach(item => {
   console.log(`User ID: ${item.userId}`);
   console.log(`Username: ${item.username}`);
   console.log(`Idea ID: ${item.ideaId}`);
-  console.log(`Idea: ${item..idea}`);
+  console.log(`Idea: ${item.idea}`);
   console.log(`Hashtag: ${item.hashtag}`);
   console.log(`Voti: ${item.voti}`);
   console.log('\n');
