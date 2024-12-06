@@ -926,7 +926,9 @@ const client = new Client({
 });
 
               
-console.log (args[1]);
+console.log (typeof (args[1]));
+
+              
 
         // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
@@ -945,8 +947,8 @@ console.log (args[1]);
             try {
     const response = await client.query(getUsersQuery);
               console.log("PRE " + response.data)
-    console.log(response.data.data);
-              ctx.reply(response.data.data[0])
+    
+              ctx.reply(response.data)
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
