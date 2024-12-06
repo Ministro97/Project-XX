@@ -954,13 +954,13 @@ const client = new Client({
         const data = response.data.data
 
 data.forEach(item => {
-  console.log(`ID: ${item.ref.id}`);
-  console.log(`User ID: ${item.data.userId}`);
-  console.log(`Username: ${item.data.username}`);
-  console.log(`Idea ID: ${item.data.ideaId}`);
-  console.log(`Idea: ${item.data.idea}`);
-  console.log(`Hashtag: ${item.data.hashtag}`);
-  console.log(`Voti: ${item.data.voti}`);
+  
+  console.log(`User ID: ${item.userId}`);
+  console.log(`Username: ${item.username}`);
+  console.log(`Idea ID: ${item.ideaId}`);
+  console.log(`Idea: ${item..idea}`);
+  console.log(`Hashtag: ${item.hashtag}`);
+  console.log(`Voti: ${item.voti}`);
   console.log('\n');
 });
 
