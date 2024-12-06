@@ -926,9 +926,9 @@ const client = new Client({
 });
 
 
-        // Query per creare un nuovo utente
+        // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
-            Users.where(userId == ${args[1]}) {
+            Users.where(.userId == ${args[1]}) {
             id,
                 userId,
                 username,
