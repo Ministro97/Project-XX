@@ -1158,10 +1158,7 @@ const client = new Client({
         const saveUsersIdeaQuery = fql`
           Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}}){    
           id, 
-          ideaId, 
-          voti,
-          userId,
-          hashtag
+          voti
           
           }
             `
