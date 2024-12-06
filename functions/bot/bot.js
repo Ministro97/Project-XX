@@ -949,7 +949,7 @@ const client = new Client({
      //         console.log("PRE " + JSON.stringify(response.data.data, null, 2))
 
               
-    const jsonStringify = JSON.stringify(response.data.data, null, 2)
+    const jsonStringify = JSON.stringify(response.data.data[0], null, 2)
               
         
 
