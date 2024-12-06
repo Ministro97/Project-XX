@@ -925,6 +925,8 @@ const client = new Client({
     query_timeout_ms: 60_000
 });
 
+              
+console.log (args[1]);
 
         // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
@@ -942,8 +944,8 @@ const client = new Client({
       
             try {
     const response = await client.query(getUsersQuery);
-    console.log("Accesso dati utente: " + response[0]);
-              ctx.reply(response[0])
+    console.log("Accesso dati utente: " + response.data);
+              ctx.reply(response.data)
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
