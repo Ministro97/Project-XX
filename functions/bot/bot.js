@@ -1151,12 +1151,12 @@ const client = new Client({
     const user = await client.query(userQuery);
 
     console.log(user.data.data);
-  console.log( "idea catturata " + user.data.data[0].ideaId);
+  console.log( "idea catturata " + user.data.data[0].id);
 
    if (user.data.data[0].ideaId == ideaId) {
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
-          Users.where(${user.data.data[0].id})!.update({voti: ${idea.voti}}){    
+          Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}}){    
           id, 
           ideaId, 
           voti,
@@ -1168,9 +1168,9 @@ const client = new Client({
 
         try {
             const response = await client.query(saveUsersIdeaQuery);
-            console.log('Dati autore salvati:', response);
+            console.log('Update dati autore effettuato con successo:', response);
         } catch (error) {
-            console.error('Errore nel salvataggio dei dati autore:', error);
+            console.error("Errore nell'update dei dati dell'autore:", error);
         }
     }
 } catch (error) {
