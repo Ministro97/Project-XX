@@ -946,10 +946,12 @@ const client = new Client({
       
             try {
     const response = await client.query(getUsersQuery);
-              console.log("PRE " + response.data.data)
+              console.log("PRE " + JSON.stringify(response.data.data, null, 2))
     
-            console.log (response.data)
-              ctx.reply(response.data[0])
+            console.log (JSON.stringify(response.data, null, 2))
+
+              
+              ctx.reply(JSON.stringify(response.data, null, 2))
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
