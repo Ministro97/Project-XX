@@ -946,9 +946,20 @@ const client = new Client({
       
             try {
     const response = await client.query(getUsersQuery);
-              console.log("PRE " + JSON.stringify(response.data.data, null, 2))
-    
-            console.log (JSON.stringify(response.data, null, 2))
+     //         console.log("PRE " + JSON.stringify(response.data.data, null, 2))
+
+              
+    response.data.forEach(doc => {
+    console.log(`ID: ${doc.id}`);
+    console.log(`User ID: ${doc.userId}`);
+    console.log(`Username: ${doc.username}`);
+    console.log(`Idea ID: ${doc.ideaId}`);
+    console.log(`Idea: ${doc.idea}`);
+    console.log(`Hashtag: ${doc.hashtag}`);
+    console.log(`Voti: ${doc.voti}`);
+    console.log('-------------------------');
+});
+      //      console.log (JSON.stringify(response.data, null, 2))
 
               
               ctx.reply(JSON.stringify(response.data, null, 2))
