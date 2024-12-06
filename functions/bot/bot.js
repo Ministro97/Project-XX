@@ -948,8 +948,8 @@ const client = new Client({
     const response = await client.query(getUsersQuery);
               console.log("PRE " + response.data.data)
     
-            console.log (response.data)
-              ctx.reply(response.data)
+            console.log (response.data[0])
+              ctx.reply(response.data[0])
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
