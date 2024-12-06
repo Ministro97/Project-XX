@@ -949,9 +949,24 @@ const client = new Client({
      //         console.log("PRE " + JSON.stringify(response.data.data, null, 2))
 
               
-    const jsonStringify = JSON.stringify(response.data.data[0], null, 2)
+    const jsonStringify = JSON.stringify(response.data.data, null, 2)
               
-        
+        const data = response.data.data
+
+data.forEach(item => {
+  console.log(`ID: ${item.ref.id}`);
+  console.log(`User ID: ${item.data.userId}`);
+  console.log(`Username: ${item.data.username}`);
+  console.log(`Idea ID: ${item.data.ideaId}`);
+  console.log(`Idea: ${item.data.idea}`);
+  console.log(`Hashtag: ${item.data.hashtag}`);
+  console.log(`Voti: ${item.data.voti}`);
+  console.log('\n');
+});
+
+
+
+              
 
               
               ctx.reply(jsonStringify.toString())
