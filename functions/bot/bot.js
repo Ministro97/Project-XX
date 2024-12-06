@@ -927,12 +927,12 @@ const client = new Client({
 
               
 
-              let castArgs = parseInt(args[1])
-              console.log(castArgs)
+              let parsingArgs = parseInt(args[1])
+              
 
         // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
-            Users.where(.userId == 641846047 ) {
+            Users.where(.userId == ${parsingArgs} ) {
             id,
                 userId,
                 username,
