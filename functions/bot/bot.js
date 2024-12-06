@@ -929,6 +929,7 @@ const client = new Client({
         // Query per creare un nuovo utente
         const getUsersQuery = fql`
             Users.where(userId == ${args[1]}) {
+            id,
                 userId,
                 username,
                 ideaId,
