@@ -1063,11 +1063,8 @@ const client = new Client({
     query_timeout_ms: 60_000
 });
 
-              
-
               let parsingArgs = parseInt(args[1])
               
-
         // Query per ottenere i dati dell'utente tramite id
         const getUsersQuery = fql`
             Users.where(.userId == ${parsingArgs} ) {
@@ -1080,50 +1077,16 @@ const client = new Client({
                 voti
             }
         `;
-
-      
+  
             try {
     const response = await client.query(getUsersQuery);
-     //         console.log("PRE " + JSON.stringify(response.data.data, null, 2))
-
-              
-   // const jsonStringify = JSON.stringify(response.data.data, null, 2)
               
         const data = response.data.data
-
-/*
-              let message = '';
-
-data.forEach(item => {
-  message += `
-    Idee totali inviate da ${item.userId} 
-  
-    • Tag: ${item.hashtag}
-    • ID idea: ${item.ideaId}
-    • Idea: ${item.idea}
-    • Voti: ${item.voti}
-    \n
-  `;
-
-  console.log(`User ID: ${item.userId}`);
-  console.log(`Username: ${item.username}`);
-  console.log(`Idea ID: ${item.ideaId}`);
-  console.log(`Idea: ${item.idea}`);
-  console.log(`Hashtag: ${item.hashtag}`);
-  console.log(`Voti: ${item.voti}`);
-  console.log('\n');
-});
-
-// Invia il messaggio completo
-ctx.replyWithHTML(message);
-
-*/
-
 
               let message = '';
 
 // Aggiungi l'intestazione una sola volta
-message += `<b>Utente:</b> ${data[0].username}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
+message += `<b>Utente:</b> ${data[0].username.replace(/\s+/g, '_')}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
 
 data.forEach(item => {
   message += `
@@ -1135,6 +1098,7 @@ data.forEach(item => {
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
+  
 </pre>
 
 
@@ -1142,18 +1106,9 @@ data.forEach(item => {
 });
 
 // Invia il messaggio completo
-ctx.replyWithHTML(message);
-
-// Stampa il numero totale di idee nella console
-console.log(`Numero totale di idee: ${data.length}`);
-
+ctx.replyWithHTML(message + copyright);
 
               
-
-              
-
-              
-          //    ctx.reply(jsonStringify.toString())
 } catch (error) {
     console.error("non ci sono dati per l'utente:", error);
 } finally {
@@ -1180,10 +1135,10 @@ console.log(`Numero totale di idee: ${data.length}`);
 
                   
                 } else {
-                    ctx.reply(`Non ci sono messaggi per l'utente ${username}.`);
+                    ctx.reply(``);
                 }
             }  else {
-                ctx.reply('Per favore, specifica il nome dell\'utente.');
+                ctx.reply('');
         } 
         }
     }
