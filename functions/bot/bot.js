@@ -683,10 +683,7 @@ async function generateLeaderboard(ctx) {
 
 
 
-const client = new Client({
-    secret: process.env.FAUNA_SECRET,
-    query_timeout_ms: 60_000
-});
+
 
 // Funzione per ottenere gli utenti con paginazione
 async function getUsers(afterCursor) {
