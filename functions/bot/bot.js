@@ -1058,6 +1058,9 @@ let userId = args[1];
               
 ///
 
+
+              /*
+
 const client = new Client({
     secret: process.env.FAUNA_SECRET,
     query_timeout_ms: 60_000
@@ -1085,8 +1088,7 @@ const client = new Client({
 
               let message = '';
 
-// Aggiungi l'intestazione una sola volta
-message += `<b>Utente:</b> ${data[0].username.replace(/\s+/g, '_')}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
+message += `<b>Utente:</b> ${data[0].username.replace(/\s+/g, ' ')}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
 
 data.forEach(item => {
   message += `
@@ -1099,10 +1101,7 @@ data.forEach(item => {
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
   
-</pre>
-
-
-  `;
+</pre>`;
 });
 
 // Invia il messaggio completo
@@ -1114,8 +1113,100 @@ ctx.replyWithHTML(message + copyright);
 } finally {
     client.close();
             }
+*/
 
-          
+
+
+
+
+
+async function getUsers(parsingArgs, afterCursor) {
+  
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
+  
+  const query = fql`
+    Users.where(.userId == ${parsingArgs}) {
+      id,
+      userId,
+      username,
+      ideaId,
+      idea,
+      hashtag,
+      voti
+    }
+  `;
+
+  const response = await client.query(
+    afterCursor ? fql`Set.paginate(${afterCursor})` : query
+  );
+
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  console.log("Data:", data);
+  console.log("Next cursor:", nextCursor);
+
+  return { data, nextCursor };
+}
+
+async function getAllUserIdeas(parsingArgs) {
+  let allIdeas = [];
+  let afterCursor;
+
+  do {
+    const { data, nextCursor } = await getUsers(parsingArgs, afterCursor);
+    allIdeas = allIdeas.concat(data);
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  return allIdeas;
+}
+
+
+       async function generateUserIdeas(ctx, args) {
+    
+
+    let parsingArgs = parseInt(args[1]);
+
+    try {
+        const allIdeas = await getAllUserIdeas(parsingArgs);
+
+        let message = '';
+
+        // Aggiungi l'intestazione una sola volta
+        message += `<b>Utente:</b> ${allIdeas[0].username.replace(/\s+/g, ' ')}\n\n<b>Idee totali:</b> ${allIdeas.length}\n\n`;
+
+        allIdeas.forEach(item => {
+            message += `
+<i>${item.idea}</i>
+
+<pre>
+  • ID: ${item.ideaId}
+  • Tag: ${item.hashtag}
+  • Voti: ${item.voti}
+</pre>`;
+        });
+
+        // Invia il messaggio completo
+        await ctx.replyWithHTML(message + copyright);
+
+    } catch (error) {
+        console.error("Non ci sono dati per l'utente:", error);
+        await ctx.replyWithHTML('Si è verificato un errore durante il recupero dei dati. Per favore, riprova più tardi.');
+    } finally {
+        client.close();
+    }
+       }       
+              
+
+
+
+
+
+              
               
 
               
