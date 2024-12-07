@@ -1024,7 +1024,7 @@ console.log(`Numero totale di idee: ${data.length}`);
 
           
               
-/*
+
               
 
               
@@ -1044,7 +1044,7 @@ console.log(`Numero totale di idee: ${data.length}`);
                 } else {
                     ctx.reply(`Non ci sono messaggi per l'utente ${username}.`);
                 }
-            } */ else {
+            }  else {
                 ctx.reply('Per favore, specifica il nome dell\'utente.');
         } 
         }
