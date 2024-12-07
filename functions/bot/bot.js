@@ -989,11 +989,16 @@ message += `<b>Utente:</b> ${data[0].username}\n\n<b>Idee totali:</b> ${data.len
 
 data.forEach(item => {
   message += `
+
+<pre>
     
     • <b>Tag:</b> ${item.hashtag}
     • <b>ID idea:</b> <code>${item.ideaId}</code>
-    • <b>Idea:</b> <pre>${item.idea}</pre>
+    • <b>Idea:</b> ${item.idea}
     • <b>Voti:</b> ${item.voti}
+
+</pre>
+
     
   `;
 });
@@ -1020,7 +1025,7 @@ console.log(`Numero totale di idee: ${data.length}`);
           
               
 
-              
+              /*
 
               
              username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
@@ -1041,7 +1046,7 @@ console.log(`Numero totale di idee: ${data.length}`);
                 }
             } else {
                 ctx.reply('Per favore, specifica il nome dell\'utente.');
-        } 
+        } */
         }
     }
 });
