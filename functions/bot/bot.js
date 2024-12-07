@@ -1005,7 +1005,7 @@ data.forEach(item => {
 });
 
 // Invia il messaggio completo
-ctx.replyWithHTML(message);
+ctx.replyWithHTML(message + "\n\n");
 
 // Stampa il numero totale di idee nella console
 console.log(`Numero totale di idee: ${data.length}`);
