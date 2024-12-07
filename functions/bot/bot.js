@@ -953,7 +953,7 @@ const client = new Client({
               
         const data = response.data.data
 
-
+/*
               let message = '';
 
 data.forEach(item => {
@@ -979,7 +979,33 @@ data.forEach(item => {
 // Invia il messaggio completo
 ctx.replyWithHTML(message);
 
+*/
 
+
+              let message = '';
+
+// Aggiungi l'intestazione una sola volta
+message += `<b>Utente: ${item.username}</b> \n\n<b>Idee totali: ${data.length}\n\n`;
+
+data.forEach(item => {
+  message += `
+    
+    • <b>Tag:</b> ${item.hashtag}
+    • <b>ID idea:</b> <code>${item.ideaId}</code>
+    • <b>Idea:</b> ${item.idea}
+    • <b>Voti:</b> ${item.voti}
+    
+  `;
+});
+
+// Invia il messaggio completo
+ctx.replyWithHTML(message);
+
+// Stampa il numero totale di idee nella console
+console.log(`Numero totale di idee: ${data.length}`);
+
+
+              
 
               
 
