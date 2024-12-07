@@ -1226,10 +1226,10 @@ async function getAllUserIdeas(parsingArgs) {
 
                   
                 } else {
-                    ctx.reply(``);
+                    ctx.reply(`c`);
                 }
             }  else {
-                ctx.reply('');
+                ctx.reply('c');
         } 
         }
     }
