@@ -996,8 +996,7 @@ data.forEach(item => {
 <pre>
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
-  • Voti: ${item.voti}
-  
+  • Voti: ${item.voti}\n\n
 </pre>
 
 
@@ -1005,7 +1004,7 @@ data.forEach(item => {
 });
 
 // Invia il messaggio completo
-ctx.replyWithHTML(message + "\n\n");
+ctx.replyWithHTML(message);
 
 // Stampa il numero totale di idee nella console
 console.log(`Numero totale di idee: ${data.length}`);
