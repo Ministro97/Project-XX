@@ -1224,7 +1224,7 @@ try {
     let message = '';
 
     // Aggiungi l'intestazione una sola volta
-    message += `<b>Utente:</b> ${allIdeas[0].username.replace(/_/g, ' ')}\n\n<b>Idee totali:</b> ${allIdeas.length}\n\n`;
+    message += `<b>Idea~Chain</b> 💡\n\n<b>Utente:</b> ${allIdeas[0].username.replace(/_/g, ' ')}\n\n<b>Idee totali:</b> ${allIdeas.length}\n\n`;
 
     allIdeas.forEach(item => {
         message += `
