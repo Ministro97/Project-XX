@@ -605,6 +605,7 @@ async function generateLeaderboard(ctx) {
 }
 */
 
+/*
 
 
 async function generateLeaderboard(ctx) {
@@ -674,6 +675,109 @@ async function generateLeaderboard(ctx) {
         client.close();
     }
 }
+
+*/
+
+
+// 
+
+async function getAllUsers(client) {
+    let allUsers = [];
+    let afterCursor = null;
+
+    do {
+        const result = await client.query(
+            fql`
+                Users.all()
+                .map(msg => ({
+                    userId: msg.userId,
+                    voti: msg.voti,
+                    username: msg.username
+                }))
+                .paginate(${afterCursor ? `after: ${afterCursor}` : ''})
+            `
+        );
+
+        allUsers = allUsers.concat(result.data);
+        afterCursor = result.after;
+    } while (afterCursor);
+
+    return allUsers;
+}
+
+async function generateLeaderboard(ctx) {
+    const client = new Client({
+        secret: process.env.FAUNA_SECRET,
+        query_timeout_ms: 60_000
+    });
+
+    try {
+        const allUsers = await getAllUsers(client);
+
+        const userVotes = {};
+        const userNames = {};
+
+        console.log(allUsers); // Verifica i dati ricevuti
+
+        // Calcola i voti totali per ogni utente
+        allUsers.forEach(doc => {
+            const { userId, voti, username } = doc;
+            console.log(`User ID: ${userId}, Voti: ${voti}, Username: ${username}`); // Verifica i singoli documenti
+
+            if (!userVotes[userId]) {
+                userVotes[userId] = 0;
+                userNames[userId] = username;
+            }
+
+            // Assicurati che i voti siano numeri
+            userVotes[userId] += Number(voti);
+        });
+
+        // Ordina gli utenti in base ai voti
+        const sortedUsers = Object.entries(userVotes).sort((a, b) => b[1] - a[1]);
+        let leaderboard = 'Classifica generale Bs XX 🏆\n\n';
+
+        // Genera la stringa della classifica
+        sortedUsers.forEach(([userId, votes], index) => {
+            let rank;
+            if (votes >= 1000) {
+                rank = '<i>Mentore XX</i>';
+            } else if (votes >= 500) {
+                rank = '<i>Veterano XX</i>';
+            } else if (votes >= 300) {
+                rank = '<i>Esperto XX</i>';
+            } else if (votes >= 200) {
+                rank = '<i>Assistente</i>';
+            } else if (votes >= 100) {
+                rank = '<i>Apprendista Grado 1</i>';
+            } else if (votes >= 50) {
+                rank = '<i>Apprendista Grado 2</i>';
+            } else {
+                rank = '<i>Apprendista Grado 3</i>';
+            }
+            leaderboard += `${index + 1}. ${userNames[userId]}: ${votes} voti \n- ${rank}\n\n\n`;
+        });
+
+        // Invia la classifica all'utente
+        await ctx.replyWithHTML(leaderboard + '<code> © 2024-2025 Project XX </code>');
+    } catch (err) {
+        console.error('Errore durante la generazione della classifica:', err);
+        await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
+    } finally {
+        client.close();
+    }
+}
+
+
+//
+
+
+
+
+
+
+
+
 
 
 
