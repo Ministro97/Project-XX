@@ -997,9 +997,10 @@ data.forEach(item => {
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
+  
 </pre>
 
-    
+
   `;
 });
 
