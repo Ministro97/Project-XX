@@ -681,28 +681,52 @@ async function generateLeaderboard(ctx) {
 
 // 
 
-async function getAllUsers(client) {
-    let allUsers = [];
-    let afterCursor = null;
 
-    do {
-        const result = await client.query(
-            fql`
-                Users.all()
-                .map(msg => ({
-                    userId: msg.userId,
-                    voti: msg.voti,
-                    username: msg.username
-                }))
-                .paginate(${afterCursor ? `after: ${afterCursor}` : ''})
-            `
-        );
 
-        allUsers = allUsers.concat(result.data);
-        afterCursor = result.after;
-    } while (afterCursor);
+const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
 
-    return allUsers;
+// Funzione per ottenere gli utenti con paginazione
+async function getUsers(afterCursor) {
+  const query = fql`
+    Users.all()
+    .map(msg => ({
+      userId: msg.userId,
+      voti: msg.voti,
+      username: msg.username,
+      ideaId: msg.ideaId,
+      idea: msg.idea
+    }))
+    .pageSize(10)  // Specifica la dimensione della pagina se necessario
+  `;
+
+  const response = await client.query(
+    afterCursor ? fql`Set.paginate(${afterCursor})` : query
+  );
+
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  console.log("Data:", data);
+  console.log("Next cursor:", nextCursor);
+
+  return { data, nextCursor };
+}
+
+// Funzione per ottenere tutti gli utenti
+async function getAllUsers() {
+  let allUsers = [];
+  let afterCursor;
+
+  do {
+    const { data, nextCursor } = await getUsers(afterCursor);
+    allUsers = allUsers.concat(data);
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  return allUsers;
 }
 
 async function generateLeaderboard(ctx) {
@@ -712,7 +736,7 @@ async function generateLeaderboard(ctx) {
     });
 
     try {
-        const allUsers = await getAllUsers(client);
+        const allUsers = await getAllUsers();
 
         const userVotes = {};
         const userNames = {};
@@ -767,6 +791,10 @@ async function generateLeaderboard(ctx) {
         client.close();
     }
 }
+
+
+
+
 
 
 //
