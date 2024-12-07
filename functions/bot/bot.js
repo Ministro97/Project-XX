@@ -990,12 +990,15 @@ message += `<b>Utente:</b> ${data[0].username}\n\n<b>Idee totali:</b> ${data.len
 data.forEach(item => {
   message += `
 
+
+<i>${item.idea}</i>
+
+
 <pre>
-    
-• <b>Tag:</b> ${item.hashtag}
-• <b>ID idea:</b> ${item.ideaId}
-• <b>Idea:</b> ${item.idea}
-• <b>Voti:</b> ${item.voti}
+
+  • ID: ${item.ideaId}
+  • Tag: ${item.hashtag}
+  • Voti: ${item.voti}
 
 </pre>
 
