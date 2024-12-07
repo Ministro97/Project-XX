@@ -985,7 +985,7 @@ ctx.replyWithHTML(message);
               let message = '';
 
 // Aggiungi l'intestazione una sola volta
-message += `<b>Utente: ${item.username}</b> \n\n<b>Idee totali: ${data.length}\n\n`;
+message += `<b>Utente: ${JSON.stringify(response.data.data[0].username)}</b> \n\n<b>Idee totali: ${data.length}\n\n`;
 
 data.forEach(item => {
   message += `
