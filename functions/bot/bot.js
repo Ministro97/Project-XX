@@ -617,7 +617,7 @@ async function generateLeaderboard(ctx) {
         // Query per ottenere tutti i voti degli utenti
         const result = await client.query(
             fql`
-                Messages.all()
+                Users.all()
                 .map(msg => ({
                     userId: msg.userId,
                     voti: msg.voti
@@ -996,9 +996,8 @@ data.forEach(item => {
 <pre>
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
-  • Voti: ${item.voti}\n\n
+  • Voti: ${item.voti}
 </pre>
-
 
   `;
 });
