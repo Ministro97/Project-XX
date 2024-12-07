@@ -1023,7 +1023,7 @@ console.log(`Numero totale di idee: ${data.length}`);
               ///
 
               
-           /*     username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
+      /*         username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
@@ -1032,16 +1032,18 @@ console.log(`Numero totale di idee: ${data.length}`);
                     userMessages.forEach(msg => {
                       response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
                     
-                    });
-                    ctx.replyWithHTML(response + copyright);
+                    }); 
+                  ctx.replyWithHTML(response + copyright); 
+
+                  
                 } else {
                     ctx.reply(`Non ci sono messaggi per l'utente ${username}.`);
                 }
             } else {
                 ctx.reply('Per favore, specifica il nome dell\'utente.');
-        } 
+        } */
         }
-    } */
+    }
 });
 
 
