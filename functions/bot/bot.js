@@ -1166,6 +1166,8 @@ async function getAllUserIdeas(parsingArgs) {
 }
 
 
+
+          /*
        async function generateUserIdeas(ctx, args) {
          
     const client = new Client({
@@ -1207,7 +1209,43 @@ async function getAllUserIdeas(parsingArgs) {
               
 generateUserIdeas(ctx, args)
 
+*/
 
+              const client = new Client({
+    secret: process.env.Fauna_SECRET,
+    query_timeout_ms: 60_000
+});
+
+let parsingArgs = parseInt(args[1]);
+
+try {
+    const allIdeas = await getAllUserIdeas(parsingArgs);
+
+    let message = '';
+
+    // Aggiungi l'intestazione una sola volta
+    message += `<b>Utente:</b> ${allIdeas[0].username.replace(/\s+/g, ' ')}\n\n<b>Idee totali:</b> ${allIdeas.length}\n\n`;
+
+    allIdeas.forEach(item => {
+        message += `
+<i>${item.idea}</i>
+
+<pre>
+  • ID: ${item.ideaId}
+  • Tag: ${item.hashtag}
+  • Voti: ${item.voti}
+</pre>`;
+    });
+
+    // Invia il messaggio completo
+    await ctx.replyWithHTML(message + copyright);
+
+} catch (error) {
+    console.error("Non ci sono dati per l'utente:", error);
+    await ctx.replyWithHTML('Si è verificato un errore durante il recupero dei dati. Per favore, riprova più tardi.');
+} finally {
+    client.close();
+}
 
 
               
