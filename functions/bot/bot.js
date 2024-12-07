@@ -1167,7 +1167,11 @@ async function getAllUserIdeas(parsingArgs) {
 
 
        async function generateUserIdeas(ctx, args) {
-    
+         
+    const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+});
 
     let parsingArgs = parseInt(args[1]);
 
@@ -1201,7 +1205,7 @@ async function getAllUserIdeas(parsingArgs) {
     }
        }       
               
-
+generateUserIdeas(ctx, args)
 
 
 
