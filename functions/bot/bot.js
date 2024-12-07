@@ -620,7 +620,8 @@ async function generateLeaderboard(ctx) {
                 Users.all()
                 .map(msg => ({
                     userId: msg.userId,
-                    voti: msg.voti
+                    voti: msg.voti,
+                    username: msg.username
                 }))
             `
         );
@@ -632,7 +633,7 @@ async function generateLeaderboard(ctx) {
 
         // Calcola i voti totali per ogni utente
         result.data.data.forEach(doc => {
-            const { userId, voti } = doc;
+            const { userId, voti} = doc;
             if (!userVotes[userId]) {
                 userVotes[userId] = 0;
             }
@@ -644,7 +645,7 @@ async function generateLeaderboard(ctx) {
         let leaderboard = 'Classifica generale Bs XX 🏆\n\n';
 
         // Genera la stringa della classifica
-        sortedUsers.forEach(([userId, votes], index) => {
+        sortedUsers.forEach(([userId, votes, username], index) => {
             let rank;
             if (votes >= 1000) {
                 rank = '<i>Mentore XX</i>';
@@ -661,11 +662,11 @@ async function generateLeaderboard(ctx) {
             } else {
                 rank = '<i>Apprendista Grado 3</i>';
             }
-            leaderboard += `${index + 1}. ${userId}: ${votes} voti \n- ${rank}\n\n\n <code> © 2024-2025 Project XX </code>`;
+            leaderboard += `${index + 1}. ${username}: ${votes} voti \n- ${rank}\n\n\n`;
         });
 
         // Invia la classifica all'utente
-        await ctx.replyWithHTML(leaderboard);
+        await ctx.replyWithHTML(leaderboard + copyright);
     } catch (err) {
         console.error('Errore durante la generazione della classifica:', err);
         await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
@@ -995,7 +996,6 @@ data.forEach(item => {
 
 
 <i>${item.idea}</i>
-
 
 <pre>
   • ID: ${item.ideaId}
