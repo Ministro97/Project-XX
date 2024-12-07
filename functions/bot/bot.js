@@ -992,7 +992,7 @@ data.forEach(item => {
     
     • <b>Tag:</b> ${item.hashtag}
     • <b>ID idea:</b> <code>${item.ideaId}</code>
-    • <b>Idea:</b> ${item.idea}
+    • <b>Idea:</b> <pre>${item.idea}</pre>
     • <b>Voti:</b> ${item.voti}
     
   `;
@@ -1020,7 +1020,7 @@ console.log(`Numero totale di idee: ${data.length}`);
           
               
 
-              ///
+              
 
               
              username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
