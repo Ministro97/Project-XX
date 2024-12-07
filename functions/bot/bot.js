@@ -1023,7 +1023,7 @@ console.log(`Numero totale di idee: ${data.length}`);
               ///
 
               
-      /*         username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
+             username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
@@ -1041,7 +1041,7 @@ console.log(`Numero totale di idee: ${data.length}`);
                 }
             } else {
                 ctx.reply('Per favore, specifica il nome dell\'utente.');
-        } */
+        } 
         }
     }
 });
