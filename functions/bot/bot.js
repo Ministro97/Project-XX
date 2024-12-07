@@ -949,7 +949,7 @@ const client = new Client({
      //         console.log("PRE " + JSON.stringify(response.data.data, null, 2))
 
               
-    const jsonStringify = JSON.stringify(response.data.data, null, 2)
+   // const jsonStringify = JSON.stringify(response.data.data, null, 2)
               
         const data = response.data.data
 
@@ -985,7 +985,7 @@ ctx.replyWithHTML(message);
               let message = '';
 
 // Aggiungi l'intestazione una sola volta
-message += `<b>Utente:</b> ${response.data.data.username}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
+message += `<b>Utente:</b> ${data[0].username}\n\n<b>Idee totali:</b> ${data.length}\n\n`;
 
 data.forEach(item => {
   message += `
@@ -1023,14 +1023,14 @@ console.log(`Numero totale di idee: ${data.length}`);
               ///
 
               
-                username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
+           /*     username = username.replace(/\s+/g, '_'); // Sostituisce gli spazi con _
                 const filePath = `/tmp/${username}.json`;
                 if (fs.existsSync(filePath)) {
                     const data = fs.readFileSync(filePath);
                     const userMessages = JSON.parse(data);
                     let response = `Idee totali inviate da ${username}: ${userMessages.length}\n\n`;
                     userMessages.forEach(msg => {
-                        response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
+                      response += `Tag: ${msg.hashtag}\nIdea: ${msg.messaggio}\nVoti: ${msg.voti}\nTimestamp: ${msg.timestamp}\n\n`;
                     
                     });
                     ctx.replyWithHTML(response + copyright);
@@ -1039,9 +1039,9 @@ console.log(`Numero totale di idee: ${data.length}`);
                 }
             } else {
                 ctx.reply('Per favore, specifica il nome dell\'utente.');
-          }
+        } 
         }
-    }
+    } */
 });
 
 
