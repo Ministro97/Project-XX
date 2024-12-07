@@ -627,8 +627,11 @@ async function generateLeaderboard(ctx) {
 
         const userVotes = {};
 
+
+      console.log(result)
+
         // Calcola i voti totali per ogni utente
-        result.data.forEach(doc => {
+        result.data.data.forEach(doc => {
             const { userId, voti } = doc;
             if (!userVotes[userId]) {
                 userVotes[userId] = 0;
@@ -993,11 +996,13 @@ data.forEach(item => {
 
 <i>${item.idea}</i>
 
+
 <pre>
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
 </pre>
+
 
   `;
 });
