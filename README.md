@@ -1,1 +1,1 @@
-Bot Telegram per la gestione di gruppi e topics
+Bot Telegram per la gestione di canali, gruppi e topics
