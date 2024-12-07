@@ -992,10 +992,10 @@ data.forEach(item => {
 
 <pre>
     
-    • <b>Tag:</b> ${item.hashtag}
-    • <b>ID idea:</b> <code>${item.ideaId}</code>
-    • <b>Idea:</b> ${item.idea}
-    • <b>Voti:</b> ${item.voti}
+• <b>Tag:</b> ${item.hashtag}
+• <b>ID idea:</b> ${item.ideaId}
+• <b>Idea:</b> ${item.idea}
+• <b>Voti:</b> ${item.voti}
 
 </pre>
 
