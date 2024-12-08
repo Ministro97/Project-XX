@@ -683,7 +683,7 @@ async function generateLeaderboard(ctx) {
 
 
 
-
+/*
 
 // Funzione per ottenere gli utenti con paginazione
 async function getUsers(afterCursor) {
@@ -794,58 +794,148 @@ async function generateLeaderboard(ctx) {
     }
 }
 
+*/
 
 
 
+
+
+// Funzione per ottenere gli utenti con paginazione
+async function getUsers(afterCursor) {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  const query = fql`
+    Users.all()
+    .map(msg => ({
+      userId: msg.userId,
+      voti: msg.voti,
+      username: msg.username,
+      ideaId: msg.ideaId,
+      idea: msg.idea
+    }))
+    .pageSize(10)
+  `;
+
+  const response = await client.query(
+    afterCursor ? fql`Set.paginate(${afterCursor})` : query
+  );
+
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  return { data, nextCursor };
+}
+
+// Funzione per ottenere tutti gli utenti
+async function getAllUsers() {
+  let allUsers = [];
+  let afterCursor;
+
+  do {
+    const { data, nextCursor } = await getUsers(afterCursor);
+    allUsers = allUsers.concat(data);
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  return allUsers;
+}
+
+// Funzione per generare la classifica
+async function generateLeaderboard() {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  try {
+    const allUsers = await getAllUsers();
+
+    const userVotes = {};
+    const userNames = {};
+
+    allUsers.forEach(doc => {
+      const { userId, voti, username } = doc;
+
+      if (!userVotes[userId]) {
+        userVotes[userId] = 0;
+        userNames[userId] = username;
+      }
+
+      userVotes[userId] += Number(voti);
+    });
+
+    const sortedUsers = Object.entries(userVotes).sort((a, b) => b[1] - a[1]);
+    return sortedUsers.map(([userId, votes], index) => {
+      let rank;
+      if (votes >= 1000) {
+        rank = 'Mentore XX';
+      } else if (votes >= 500) {
+        rank = 'Veterano XX';
+      } else if (votes >= 300) {
+        rank = 'Esperto XX';
+      } else if (votes >= 200) {
+        rank = 'Assistente';
+      } else if (votes >= 100) {
+        rank = 'Apprendista Grado 1';
+      } else if (votes >= 50) {
+        rank = 'Apprendista Grado 2';
+      } else {
+        rank = 'Apprendista Grado 3';
+      }
+      return { userId, username: userNames[userId], votes, rank, position: index + 1 };
+    });
+  } catch (err) {
+    console.error('Errore durante la generazione della classifica:', err);
+    throw err;
+  } finally {
+    client.close();
+  }
+}
 
 // Funzione per aggiornare i ruoli degli utenti
 async function updateRoles(ctx, leaderboard) {
-    for (const user of leaderboard) {
-        const { userId, votes, username } = user;
-        let role;
+  for (const user of leaderboard) {
+    const { userId, votes, username, rank } = user;
 
-        if (votes >= 1000) {
-            role = 'Mentore XX';
-        } else if (votes >= 500) {
-            role = 'Veterano XX';
-        } else if (votes >= 300) {
-            role = 'Esperto XX';
-        } else if (votes >= 200) {
-            role = 'Assistente';
-        } else if (votes >= 100) {
-            role = 'Apprendista Grado 1';
-        } else if (votes >= 50) {
-            role = 'Apprendista Grado 2';
-        } else {
-            role = 'Apprendista Grado 3';
-        }
-
-        // Aggiorna il ruolo dell'utente nel gruppo
-        try {
-            await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
-                can_change_info: false,
-                can_post_messages: false,
-                can_edit_messages: false,
-                can_delete_messages: false,
-                can_invite_users: false,
-                can_restrict_members: false,
-                can_pin_messages: false,
-                can_promote_members: false,
-                custom_title: role // Imposta il ruolo personalizzato
-            });
-            console.log(`Ruolo di ${username} aggiornato a ${role}`);
-        } catch (err) {
-            console.error(`Errore nell'aggiornare il ruolo di ${username}:`, err);
-        }
+    try {
+      await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
+        can_change_info: false,
+        can_post_messages: false,
+        can_edit_messages: false,
+        can_delete_messages: false,
+        can_invite_users: false,
+        can_restrict_members: false,
+        can_pin_messages: false,
+        can_promote_members: false,
+        custom_title: rank // Imposta il ruolo personalizzato
+      });
+      console.log(`Ruolo di ${username} aggiornato a ${rank}`);
+    } catch (err) {
+      console.error(`Errore nell'aggiornare il ruolo di ${username}:`, err);
     }
+  }
 }
 
-// Esempio di utilizzo
-bot.command('update_roles', async (ctx) => {
-    const leaderboard = await generateLeaderboard(ctx); // Ottieni la classifica
-    await updateRoles(ctx, leaderboard); // Aggiorna i ruoli
-    ctx.reply('Ruoli aggiornati in base alla classifica!');
+// Comando per mostrare la classifica e aggiornare i ruoli
+bot.command('leaderboard', async (ctx) => {
+  try {
+    const leaderboard = await generateLeaderboard();
+    await updateRoles(ctx, leaderboard);
+
+    let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
+    leaderboard.forEach(user => {
+      leaderboardMessage += `${user.position}. ${user.username}: ${user.votes} voti \n- ${user.rank}\n\n\n`;
+    });
+
+    await ctx.replyWithHTML(leaderboardMessage + '<code> © 2024-2025 Project XX </code>');
+  } catch (err) {
+    await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
+  }
 });
+
 
 
 
