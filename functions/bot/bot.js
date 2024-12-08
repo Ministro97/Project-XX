@@ -1697,6 +1697,52 @@ const client = new Client({
 }
 
 
+// TEST
+
+
+
+  try {
+    // Ottieni gli amministratori del gruppo
+    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+
+    // Trova il creatore del gruppo
+    const creator = administrators.find(admin => admin.status === 'owner');
+    const creatorId = creator.user.id;
+
+    // Ottieni tutti gli utenti
+    const allUsers = await getAllUsers();
+
+    for (const user of allUsers) {
+      const userId = user.userId;
+      const totalVotes = user.voti;
+
+      // Aggiorna i ruoli in base ai voti totali
+      await updateRoles(ctx, userId, totalVotes);
+    }
+
+    await ctx.reply('Ruoli aggiornati in base ai voti!');
+  } catch (err) {
+    await ctx.reply('Si è verificato un errore durante l\'aggiornamento dei ruoli. Per favore, riprova più tardi.');
+    console.error('Errore durante l\'aggiornamento dei ruoli:', err);
+  }
+
+
+
+
+
+
+
+
+//
+
+
+
+
+
+
+
+
+              
 
 
 
