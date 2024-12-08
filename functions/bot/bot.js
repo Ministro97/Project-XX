@@ -881,19 +881,7 @@ async function generateLeaderboard() {
     return sortedUsers.map(([userId, votes], index) => {
       let rank;
 
-// Ottieni gli amministratori del gruppo
-    const administrators = ctx.telegram.getChatAdministrators(ctx.chat.id);
-
-    // Trova il creatore del gruppo
-    const creator = administrators.find(admin => admin.status === 'creator');
-    const creatorId = creator.user.id;
-    
-        
-
-if (Number(userId) === Number(creatorId)) {
-    rank = 'Manager';
-}
-      
+           
       if (votes >= 1000) {
         rank = 'Mentore XX';
       } else if (votes >= 500) {
@@ -959,7 +947,7 @@ async function updateRoles(ctx, leaderboard, creatorId) {
 }
 
 // Comando per mostrare la classifica e aggiornare i ruoli
-bot.command('leaderboard', async (ctx) => {
+/* bot.command('leaderboard', async (ctx) => {
   try {
 
 
@@ -989,7 +977,38 @@ bot.command('leaderboard', async (ctx) => {
 });
 
 
+*/
 
+
+bot.command('leaderboard', async (ctx) => {
+  try {
+    // Ottieni gli amministratori del gruppo
+    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+
+    // Trova il creatore del gruppo
+    const creator = administrators.find(admin => admin.status === 'creator');
+    const creatorId = creator.user.id;
+
+    // Genera la classifica
+    const leaderboard = await generateLeaderboard();
+
+    // Aggiorna i ruoli
+    await updateRoles(ctx, leaderboard, creatorId);
+
+    let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
+    leaderboard.forEach(user => {
+      // Se l'utente è il creatore, assegna sempre il rango "manager"
+      if (user.id === creatorId) {
+        user.rank = 'manager';
+      }
+      leaderboardMessage += `${user.position}. ${user.username}: ${user.votes} voti \n- ${user.rank}\n\n\n`;
+    });
+
+    await ctx.replyWithHTML(leaderboardMessage + '<code> © 2024-2025 Project XX </code>');
+  } catch (err) {
+    await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
+  }
+});
 
 
 
