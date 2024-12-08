@@ -1710,25 +1710,13 @@ const client = new Client({
     const creator = administrators.find(admin => admin.status === 'creator');
     const creatorId = creator.user.id;
 
-    // Ottieni tutti gli utenti
-    const allUsers = await getAllUsers();
+    const leaderboard = await generateLeaderboard();
+    await updateRoles(ctx, leaderboard, creatorId);
 
-    if (!Array.isArray(allUsers)) {
-      throw new Error('allUsers is not an array');
-    }
-
-    for (const user of allUsers) {
-      const userId = user.userId;
-      const totalVotes = user.voti;
-
-      // Aggiorna i ruoli in base ai voti totali
-      await updateRoles(ctx, userId, totalVotes);
-    }
-
-    await ctx.reply('Ruoli aggiornati in base ai voti!');
+    
+    
   } catch (err) {
-    await ctx.reply('Si è verificato un errore durante l\'aggiornamento dei ruoli. Per favore, riprova più tardi.');
-    console.error('Errore durante l\'aggiornamento dei ruoli:', err);
+    await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
   }
 
 
