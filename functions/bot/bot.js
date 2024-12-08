@@ -908,7 +908,7 @@ function makeRequest(path, method, data) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'api.telegram.org',
-      path: `/bot${BOT_TOKEN}${path}`,
+      path: `/bot6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A${path}`,
       method: method,
       headers: {
         'Content-Type': 'application/json'
