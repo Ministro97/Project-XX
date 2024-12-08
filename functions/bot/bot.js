@@ -802,10 +802,16 @@ async function generateLeaderboard(ctx) {
 
 
 
+// 
+
+const https = require('https');
+
+const TELEGRAM_API_URL = `https://api.telegram.org/bot6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A`;
+
 // Funzione per ottenere gli utenti con paginazione
 async function getUsers(afterCursor) {
   const client = new Client({
-    secret: process.env.FAUNA_SECRET,
+    secret: FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
@@ -848,7 +854,7 @@ async function getAllUsers() {
 // Funzione per generare la classifica
 async function generateLeaderboard() {
   const client = new Client({
-    secret: process.env.FAUNA_SECRET,
+    secret: FAUNA_SECRET,
     query_timeout_ms: 60_000
   });
 
@@ -897,26 +903,75 @@ async function generateLeaderboard() {
   }
 }
 
+// Funzione per fare richieste HTTP
+function makeRequest(path, method, data) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.telegram.org',
+      path: `/bot${BOT_TOKEN}${path}`,
+      method: method,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let responseData = '';
+
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+
+      res.on('end', () => {
+        resolve(JSON.parse(responseData));
+      });
+    });
+
+    req.on('error', (e) => {
+      reject(e);
+    });
+
+    if (data) {
+      req.write(JSON.stringify(data));
+    }
+
+    req.end();
+  });
+}
+
+// Funzione per ottenere gli amministratori del gruppo
+async function getChatAdministrators(chatId) {
+  const response = await makeRequest(`/getChatAdministrators?chat_id=${chatId}`, 'GET');
+  return response.result;
+}
+
+// Funzione per promuovere un membro del gruppo
+async function promoteChatMember(chatId, userId, rank) {
+  await makeRequest('/promoteChatMember', 'POST', {
+    chat_id: chatId,
+    user_id: userId,
+    can_change_info: false,
+    can_post_messages: false,
+    can_edit_messages: false,
+    can_delete_messages: false,
+    can_invite_users: false,
+    can_restrict_members: false,
+    can_pin_messages: false,
+    can_promote_members: false,
+    custom_title: rank
+  });
+}
+
 // Funzione per aggiornare i ruoli degli utenti
-async function updateRoles(ctx, leaderboard, creatorId) {
+async function updateRoles(chatId, leaderboard, creatorId) {
   for (const user of leaderboard) {
-    const { userId, votes, username, rank } = user;
+    const { userId, username, rank } = user;
 
     // Escludi il creatore del gruppo
     if (userId === creatorId) continue;
 
     try {
-      await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
-        can_change_info: false,
-        can_post_messages: false,
-        can_edit_messages: false,
-        can_delete_messages: false,
-        can_invite_users: false,
-        can_restrict_members: false,
-        can_pin_messages: false,
-        can_promote_members: false,
-        custom_title: rank // Imposta il ruolo personalizzato
-      });
+      await promoteChatMember(chatId, userId, rank);
       console.log(`Ruolo di ${username} aggiornato a ${rank}`);
     } catch (err) {
       console.error(`Errore nell'aggiornare il ruolo di ${username}:`, err);
@@ -924,12 +979,13 @@ async function updateRoles(ctx, leaderboard, creatorId) {
   }
 }
 
-
-
-bot.command('leaderboard', async (ctx) => {
+// Funzione principale per il comando /leaderboard
+async function handleLeaderboardCommand(ctx) {
   try {
+    const chatId = ctx.chat.id;
+
     // Ottieni gli amministratori del gruppo
-    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+    const administrators = await getChatAdministrators(chatId);
 
     // Trova il creatore del gruppo
     const creator = administrators.find(admin => admin.status === 'creator');
@@ -937,9 +993,9 @@ bot.command('leaderboard', async (ctx) => {
 
     // Genera la classifica
     const leaderboard = await generateLeaderboard();
-    
+
     // Aggiorna i ruoli degli utenti, escludendo il creatore
-    await updateRoles(ctx, leaderboard, creatorId);
+    await updateRoles(chatId, leaderboard, creatorId);
 
     // Crea il messaggio della classifica
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
@@ -952,7 +1008,11 @@ bot.command('leaderboard', async (ctx) => {
   } catch (err) {
     await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
   }
-});
+}
+
+// Configura il bot per gestire il comando /leaderboard
+
+bot.command('leaderboard', handleLeaderboardCommand);
 
 
 
