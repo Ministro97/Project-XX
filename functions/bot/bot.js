@@ -924,26 +924,36 @@ async function updateRoles(ctx, leaderboard, creatorId) {
   }
 }
 
-// Comando per mostrare la classifica e aggiornare i ruoli
+
+
 bot.command('leaderboard', async (ctx) => {
   try {
-    // Ottieni le informazioni sul gruppo per identificare il creatore
-    const chat = await ctx.telegram.getChat(ctx.chat.id);
-    const creatorId = chat.creator.id;
+    // Ottieni gli amministratori del gruppo
+    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
 
+    // Trova il creatore del gruppo
+    const creator = administrators.find(admin => admin.status === 'creator');
+    const creatorId = creator.user.id;
+
+    // Genera la classifica
     const leaderboard = await generateLeaderboard();
+    
+    // Aggiorna i ruoli degli utenti, escludendo il creatore
     await updateRoles(ctx, leaderboard, creatorId);
 
+    // Crea il messaggio della classifica
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
     leaderboard.forEach(user => {
       leaderboardMessage += `${user.position}. ${user.username}: ${user.votes} voti \n- ${user.rank}\n\n\n`;
     });
 
+    // Invia la classifica all'utente
     await ctx.replyWithHTML(leaderboardMessage + '<code> © 2024-2025 Project XX </code>');
   } catch (err) {
     await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
   }
 });
+
 
 
 
