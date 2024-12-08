@@ -1701,6 +1701,7 @@ const client = new Client({
 
 
 
+  
   try {
     // Ottieni gli amministratori del gruppo
     const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
@@ -1711,6 +1712,10 @@ const client = new Client({
 
     // Ottieni tutti gli utenti
     const allUsers = await getAllUsers();
+
+    if (!Array.isArray(allUsers)) {
+      throw new Error('allUsers is not an array');
+    }
 
     for (const user of allUsers) {
       const userId = user.userId;
@@ -1725,9 +1730,6 @@ const client = new Client({
     await ctx.reply('Si è verificato un errore durante l\'aggiornamento dei ruoli. Per favore, riprova più tardi.');
     console.error('Errore durante l\'aggiornamento dei ruoli:', err);
   }
-
-
-
 
 
 
