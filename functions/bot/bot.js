@@ -798,6 +798,60 @@ async function generateLeaderboard(ctx) {
 
 
 
+// Funzione per aggiornare i ruoli degli utenti
+async function updateRoles(ctx, leaderboard) {
+    for (const user of leaderboard) {
+        const { userId, votes, username } = user;
+        let role;
+
+        if (votes >= 1000) {
+            role = 'Mentore XX';
+        } else if (votes >= 500) {
+            role = 'Veterano XX';
+        } else if (votes >= 300) {
+            role = 'Esperto XX';
+        } else if (votes >= 200) {
+            role = 'Assistente';
+        } else if (votes >= 100) {
+            role = 'Apprendista Grado 1';
+        } else if (votes >= 50) {
+            role = 'Apprendista Grado 2';
+        } else {
+            role = 'Apprendista Grado 3';
+        }
+
+        // Aggiorna il ruolo dell'utente nel gruppo
+        try {
+            await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
+                can_change_info: false,
+                can_post_messages: false,
+                can_edit_messages: false,
+                can_delete_messages: false,
+                can_invite_users: false,
+                can_restrict_members: false,
+                can_pin_messages: false,
+                can_promote_members: false,
+                custom_title: role // Imposta il ruolo personalizzato
+            });
+            console.log(`Ruolo di ${username} aggiornato a ${role}`);
+        } catch (err) {
+            console.error(`Errore nell'aggiornare il ruolo di ${username}:`, err);
+        }
+    }
+}
+
+// Esempio di utilizzo
+bot.command('update_roles', async (ctx) => {
+    const leaderboard = await generateLeaderboard(ctx); // Ottieni la classifica
+    await updateRoles(ctx, leaderboard); // Aggiorna i ruoli
+    ctx.reply('Ruoli aggiornati in base alla classifica!');
+});
+
+
+
+
+
+
 
 //
 
