@@ -800,6 +800,8 @@ async function generateLeaderboard(ctx) {
 
 
 
+
+
 // Funzione per ottenere gli utenti con paginazione
 async function getUsers(afterCursor) {
   const client = new Client({
@@ -896,9 +898,12 @@ async function generateLeaderboard() {
 }
 
 // Funzione per aggiornare i ruoli degli utenti
-async function updateRoles(ctx, leaderboard) {
+async function updateRoles(ctx, leaderboard, creatorId) {
   for (const user of leaderboard) {
     const { userId, votes, username, rank } = user;
+
+    // Escludi il creatore del gruppo
+    if (userId === creatorId) continue;
 
     try {
       await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
@@ -922,8 +927,12 @@ async function updateRoles(ctx, leaderboard) {
 // Comando per mostrare la classifica e aggiornare i ruoli
 bot.command('leaderboard', async (ctx) => {
   try {
+    // Ottieni le informazioni sul gruppo per identificare il creatore
+    const chat = await ctx.telegram.getChat(ctx.chat.id);
+    const creatorId = chat.creator.id;
+
     const leaderboard = await generateLeaderboard();
-    await updateRoles(ctx, leaderboard);
+    await updateRoles(ctx, leaderboard, creatorId);
 
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
     leaderboard.forEach(user => {
@@ -935,6 +944,7 @@ bot.command('leaderboard', async (ctx) => {
     await ctx.replyWithHTML('Si è verificato un errore durante la generazione della classifica. Per favore, riprova più tardi. \n\n\n<code> © 2024-2025 Project XX </code>');
   }
 });
+
 
 
 
