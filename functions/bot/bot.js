@@ -980,7 +980,7 @@ async function updateRoles(ctx, leaderboard, creatorId) {
 */
 
 
-bot.command('leaderboard', async (ctx) => {
+bot.command('leaderboard', async (ctx, userId) => {
   try {
     // Ottieni gli amministratori del gruppo
     const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
@@ -998,11 +998,11 @@ bot.command('leaderboard', async (ctx) => {
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
     leaderboard.forEach(user => {
 
-console.log(Number(user.id) === Number(creator.id))
+console.log(userId)
 
         
       // Se l'utente è il creatore, assegna sempre il rango "manager"
-      if (Number(user.id) === Number(creatorId)) {
+      if (Number(userId) === Number(creatorId)) {
         user.rank = 'Manager';
       }
       leaderboardMessage += `${user.position}. ${user.username}: ${user.votes} voti \n- ${user.rank}\n\n\n`;
