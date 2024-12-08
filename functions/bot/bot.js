@@ -5,12 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 
-    // Ottieni gli amministratori del gruppo
-    const administrators = ctx.telegram.getChatAdministrators(ctx.chat.id);
-
-    // Trova il creatore del gruppo
-    const creator = administrators.find(admin => admin.status === 'creator');
-    const creatorId = creator.user.id;
     
 
 const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
@@ -887,6 +881,15 @@ async function generateLeaderboard() {
     return sortedUsers.map(([userId, votes], index) => {
       let rank;
 
+// Ottieni gli amministratori del gruppo
+    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+
+    // Trova il creatore del gruppo
+    const creator = administrators.find(admin => admin.status === 'creator');
+    const creatorId = creator.user.id;
+    
+        
+
 if (Number(userId) === Number(creatorId)) {
     rank = 'Manager';
 }
@@ -959,6 +962,18 @@ async function updateRoles(ctx, leaderboard, creatorId) {
 bot.command('leaderboard', async (ctx) => {
   try {
 
+
+// Ottieni gli amministratori del gruppo
+    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+
+    // Trova il creatore del gruppo
+    const creator = administrators.find(admin => admin.status === 'creator');
+    const creatorId = creator.user.id;
+    
+
+
+
+      
     const leaderboard = await generateLeaderboard();
     await updateRoles(ctx, leaderboard, creatorId);
 
