@@ -953,7 +953,7 @@ bot.command('leaderboard', async (ctx) => {
     const creatorId = creator.user.id;
     
 console.log("ID CREATORE 1 "  + creatorId);
-    console.log "ID CREATORE FROM " + creator.from.id)
+//    console.log "ID CREATORE FROM " + creator.from.id)
     const leaderboard = await generateLeaderboard();
     await updateRoles(ctx, leaderboard, creatorId);
 
