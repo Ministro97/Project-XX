@@ -928,7 +928,7 @@ async function updateRoles(ctx, leaderboard, creatorId) {
     const { userId, username, rank } = user;
 
     // Escludi il creatore del gruppo
-    if (userId === creatorId) continue;
+    if (Number(userId) === Number(creatorId)) continue;
 
     try {
       // Promuovi l'utente a amministratore
@@ -952,8 +952,7 @@ bot.command('leaderboard', async (ctx) => {
     const creator = administrators.find(admin => admin.status === 'creator');
     const creatorId = creator.user.id;
     
-console.log("ID CREATORE 1 "  + creatorId);
-//    console.log "ID CREATORE FROM " + creator.from.id)
+
     const leaderboard = await generateLeaderboard();
     await updateRoles(ctx, leaderboard, creatorId);
 
