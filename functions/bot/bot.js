@@ -998,7 +998,7 @@ bot.command('leaderboard', async (ctx) => {
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
     leaderboard.forEach(user => {
 
-console.log(Number(user.id === Number(creator.id))
+console.log(Number(user.id) === Number(creator.id))
 
         
       // Se l'utente è il creatore, assegna sempre il rango "manager"
