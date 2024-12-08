@@ -1706,7 +1706,7 @@ const client = new Client({
     const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
 
     // Trova il creatore del gruppo
-    const creator = administrators.find(admin => admin.status === 'owner');
+    const creator = administrators.find(admin => admin.status === 'creator');
     const creatorId = creator.user.id;
 
     // Ottieni tutti gli utenti
