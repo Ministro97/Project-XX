@@ -805,7 +805,8 @@ async function generateLeaderboard(ctx) {
 // 
 
 
-  
+
+
 
 // Funzione per ottenere gli utenti con paginazione
 async function getUsers(afterCursor) {
@@ -902,26 +903,38 @@ async function generateLeaderboard() {
   }
 }
 
+// Funzione per promuovere un membro del gruppo a amministratore
+async function promoteToAdmin(ctx, userId) {
+  await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
+    can_change_info: true,
+    can_post_messages: true,
+    can_edit_messages: true,
+    can_delete_messages: true,
+    can_invite_users: true,
+    can_restrict_members: true,
+    can_pin_messages: true,
+    can_promote_members: true
+  });
+}
+
+// Funzione per impostare il titolo personalizzato di un amministratore
+async function setCustomTitle(ctx, userId, rank) {
+  await ctx.telegram.setChatAdministratorCustomTitle(ctx.chat.id, userId, rank);
+}
+
 // Funzione per aggiornare i ruoli degli utenti
 async function updateRoles(ctx, leaderboard, creatorId) {
   for (const user of leaderboard) {
-    const { userId, votes, username, rank } = user;
+    const { userId, username, rank } = user;
 
     // Escludi il creatore del gruppo
     if (userId === creatorId) continue;
 
     try {
-      await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
-        can_change_info: false,
-        can_post_messages: false,
-        can_edit_messages: false,
-        can_delete_messages: false,
-        can_invite_users: false,
-        can_restrict_members: false,
-        can_pin_messages: false,
-        can_promote_members: false,
-        custom_title: rank // Imposta il ruolo personalizzato
-      });
+      // Promuovi l'utente a amministratore
+      await promoteToAdmin(ctx, userId);
+      // Imposta il titolo personalizzato
+      await setCustomTitle(ctx, userId, rank);
       console.log(`Ruolo di ${username} aggiornato a ${rank}`);
     } catch (err) {
       console.error(`Errore nell'aggiornare il ruolo di ${username}:`, err);
