@@ -878,6 +878,11 @@ async function generateLeaderboard() {
     const sortedUsers = Object.entries(userVotes).sort((a, b) => b[1] - a[1]);
     return sortedUsers.map(([userId, votes], index) => {
       let rank;
+
+if (Number(userId) === Number(creatorId)) {
+    rank = 'Manager';
+}
+      
       if (votes >= 1000) {
         rank = 'Mentore XX';
       } else if (votes >= 500) {
