@@ -882,7 +882,7 @@ async function generateLeaderboard() {
       let rank;
 
 // Ottieni gli amministratori del gruppo
-    const administrators = await ctx.telegram.getChatAdministrators(ctx.chat.id);
+    const administrators = ctx.telegram.getChatAdministrators(ctx.chat.id);
 
     // Trova il creatore del gruppo
     const creator = administrators.find(admin => admin.status === 'creator');
