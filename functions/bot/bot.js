@@ -1163,7 +1163,8 @@ const client = new Client({
                 idea: ${text},
                 hashtag: ${prefix},
                 voti: 0,
-                xxCoin: 0
+                xxCoin: 0,
+                timestamp: ${timestamp}
             }) {
                 userId,
                 username,
@@ -1171,7 +1172,8 @@ const client = new Client({
                 idea,
                 hashtag,
                 voti,
-                xxCoin
+                xxCoin,
+                timestamp
             }
         `;
 
@@ -1360,7 +1362,8 @@ async function getUsers(parsingArgs, afterCursor) {
       ideaId,
       idea,
       hashtag,
-      voti
+      voti,
+      timestamp
     }
   `;
 
@@ -1459,6 +1462,7 @@ try {
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
+  • Timestamp: ${item.timestamp}
   
 </pre>`;
     });
@@ -1693,7 +1697,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
-                let xxCoin 
+                let xxCoin = 0;
                 xxCoin += 5;
 
 
