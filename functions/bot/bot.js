@@ -1776,11 +1776,11 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         console.log("I " + ideaAutore + " U " + userFirstName);
         console.log(ideaAutore === userFirstName);
 
-// userFirstName
+// userFirstName cambiare con id
 
         
         if (idea) {
-            if (ideaAutore === idea) {
+            if (ideaAutore === userFirstName) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
                 return;
             }
@@ -1791,7 +1791,12 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 
             if (!idea.voters.has(userId)) {
                 idea.voti++;
-                let xxCoin = 5 * Math.pow(1.2, idea.voti - 1);
+
+let baseCoin = 5 * Math.pow(1.2, idea.voti - 1);
+let bonusCoin = Math.floor(idea.voti / 5) * 10; // Bonus di 10 Coin ogni 5 voti
+let xxCoin = Math.round(baseCoin + bonusCoin);
+
+                
                 idea.voters.add(userId);
                 
 
