@@ -1,5 +1,4 @@
 [build]
-  publish = "webapp"
   functions = "functions"
   command = "netlify-lambda install && mkdir ./public"
 [[redirects]]
