@@ -1344,7 +1344,7 @@ ctx.replyWithHTML(message + copyright);
 
 
 
-
+/// COPIARE PER I COIN, PARSING ARGS È L ID DELL UTENTE 
 
 
 async function getUsers(parsingArgs, afterCursor) {
@@ -1456,7 +1456,7 @@ try {
 
     allIdeas.forEach(item => {
         message += `
-\n\n ${item.timestamp}
+\n\n${item.timestamp}
 
 <i>${item.idea}</i>
 
