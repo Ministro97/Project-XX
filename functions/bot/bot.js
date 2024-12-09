@@ -27,6 +27,96 @@ let sessionOwner = null;
 
 
 
+// Test Coin 
+
+
+async function getCoinData(parsingArgs, afterCursor) {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  const query = fql`
+    Users.where(.userId == ${parsingArgs}) {
+      id,
+      userId,
+      xxCoin
+    }
+  `;
+
+  const response = await client.query(
+    afterCursor ? fql`Set.paginate(${afterCursor})` : query
+  );
+
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  // Calcola il totale dei xxCoin
+  const totalCoins = data.reduce((sum, user) => sum + user.xxCoin, 0);
+
+  console.log("Data:", data);
+  console.log("Next cursor:", nextCursor);
+  console.log("Total Coins:", totalCoins);
+
+  return { data, nextCursor, totalCoins };
+}
+
+
+
+async function getAllUserCoins(parsingArgs) {
+  let allCoins = [];
+  let afterCursor;
+  let totalCoins = 0;
+
+  do {
+    const { data, nextCursor, totalCoins: pageCoins } = await getCoinData(parsingArgs, afterCursor);
+    allCoins = allCoins.concat(data);
+    totalCoins += pageCoins;
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  console.log("Total Coins from all pages:", totalCoins);
+  return { allCoins, totalCoins };
+}
+
+
+
+
+// Chiama la funzione e gestisci il risultato
+async function main() {
+  try {
+    const { allCoins, totalCoins } = await getAllUserCoins(parsingArgs);
+    console.log("Tutti i dati degli utenti:", allCoins);
+    console.log("Totale xxCoin:", totalCoins);
+
+    // Passa il totale dei Coin ad un'altra funzione
+    useTotalCoins(totalCoins);
+  } catch (error) {
+    console.error("Errore nel recupero dei dati degli utenti:", error);
+  }
+}
+
+
+
+
+bot.command('saldo', async (ctx) => {
+  const userId = ctx.from.id; // Ottieni l'ID dell'utente dal contesto
+  try {
+    const { totalCoins } = await getAllUserCoins(userId);
+    ctx.reply(`Il tuo saldo totale di xxCoin è: ${totalCoins}`);
+  } catch (error) {
+    console.error("Errore nel recupero del saldo:", error);
+    ctx.reply("Si è verificato un errore nel recupero del saldo. Riprova più tardi.");
+  }
+});
+
+
+
+
+
+
+
+
 
 
 /*
