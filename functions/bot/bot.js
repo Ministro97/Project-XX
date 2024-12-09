@@ -98,12 +98,13 @@ async function main() {
 
 
 
-
+// invio carta 
 bot.command('saldo', async (ctx) => {
   const userId = ctx.from.id; // Ottieni l'ID dell'utente dal contesto
   try {
     const { totalCoins } = await getAllUserCoins(userId);
-    ctx.reply(`Il tuo saldo totale di xxCoin è: ${totalCoins}`);
+    const displayCoins = isNaN(totalCoins) ? 0 : totalCoins; // Controlla se totalCoins è NaN
+    ctx.reply(`Il tuo saldo totale di xxCoin è: ${displayCoins}`);
   } catch (error) {
     console.error("Errore nel recupero del saldo:", error);
     ctx.reply("Si è verificato un errore nel recupero del saldo. Riprova più tardi.");
@@ -1144,7 +1145,7 @@ bot.command('start_bs_xx', async(ctx) => {
 });
 
 
-const badWords = ['parola1']; // Aggiungere file json BadWords.json
+const badWords = ['parola1']; // Aggiungere a fauna BadWords
 
 function containsBadWords(text) {
     return badWords.some(word => text.toLowerCase().includes(word));
@@ -1792,7 +1793,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                 idea.voti++;
                 idea.voters.add(userId);
                 let xxCoin = 0;
-                xxCoin += 5;
+                let xxCoin = 5 * Math.pow(1.2, idea.voti - 1);
 
 
 
