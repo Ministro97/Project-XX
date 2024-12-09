@@ -1775,8 +1775,11 @@ bot.action(/vote_(\d+)/, async(ctx) => {
         console.log("I " + ideaAutore + " U " + userFirstName);
         console.log(ideaAutore === userFirstName);
 
+// userFirstName
+
+        
         if (idea) {
-            if (ideaAutore === userFirstName) {
+            if (ideaAutore === idea) {
                 await ctx.answerCbQuery('Non puoi votare per la tua idea.');
                 return;
             }
