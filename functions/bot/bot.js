@@ -1456,13 +1456,14 @@ try {
 
     allIdeas.forEach(item => {
         message += `
-${item.timestamp}: <i>${item.idea}</i>
+\n\n ${item.timestamp}
+
+<i>${item.idea}</i>
 
 <pre>
   • ID: ${item.ideaId}
   • Tag: ${item.hashtag}
   • Voti: ${item.voti}
-  
   
 </pre>`;
     });
