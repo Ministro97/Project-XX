@@ -1213,7 +1213,7 @@ bot.on('text', async(ctx) => {
 
 
 
-            const messageData = { hashtag: prefix, userId: ctx.from.id,  messaggio: text, voti: 0, id: ctx.message.message_id, autore: username, timestamp: timestamp };
+            const messageData = { hashtag: prefix, userId: ctx.from.id,  messaggio: text, voti: 0, id: ctx.message.message_id, autore: username, timestamp: timestamp, xxCoin: 0};
             ideas.push(messageData);
 
 
@@ -1793,7 +1793,7 @@ bot.action(/vote_(\d+)/, async(ctx) => {
                 idea.voti++;
                 idea.voters.add(userId);
                 
-                let xxCoin = 5 * Math.pow(1.2, idea.voti - 1);
+                idea.xxCoin = 5 * Math.pow(1.2, idea.voti - 1);
 
 
 
@@ -1824,7 +1824,7 @@ const client = new Client({
    if (user.data.data[0].ideaId == ideaId) {
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
-          Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}, xxCoin: ${xxCoin}}){    
+          Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}, xxCoin: ${idea.xxCoin}}){    
           id, 
           voti,
           xxCoin
