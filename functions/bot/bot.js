@@ -31,7 +31,7 @@ let sessionOwner = null;
 bot.command('test', (ctx) => {
   ctx.reply('Benvenuto! Clicca sul pulsante qui sotto per aprire la web app.', 
     Markup.inlineKeyboard([
-      Markup.button.webApp('Apri Web App', 'http://t.me/Dottor_Lussu_bot/drcosmoswebapp')
+      Markup.button.webApp('Apri Web App', 'https://projectxx20242025.netlify.app/')
     ])
   );
 });
