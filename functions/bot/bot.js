@@ -998,6 +998,8 @@ bot.command('leaderboard', async (ctx, userId) => {
     let leaderboardMessage = 'Classifica generale Bs XX 🏆\n\n';
     leaderboard.forEach(user => {
 
+        
+const { userId } = user
 console.log(userId)
 
         
