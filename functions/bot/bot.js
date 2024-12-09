@@ -1791,9 +1791,9 @@ bot.action(/vote_(\d+)/, async(ctx) => {
 
             if (!idea.voters.has(userId)) {
                 idea.voti++;
+                idea.xxCoin += 5;
                 idea.voters.add(userId);
                 
-                idea.xxCoin = 5 * Math.pow(1.2, idea.voti - 1);
 
 
 
