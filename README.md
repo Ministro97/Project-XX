@@ -1,1 +1,1 @@
-Bot Telegram per la gestione di canali, gruppi e topics
+Bot Telegram e web app integrata per la gestione di canali, gruppi e topics
