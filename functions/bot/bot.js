@@ -1162,7 +1162,7 @@ const client = new Client({
                 ideaId: ${ctx.message.message_id},
                 idea: ${text},
                 hashtag: ${prefix},
-                voti: 0
+                voti: 0,
                 xxCoin: 0
             }) {
                 userId,
