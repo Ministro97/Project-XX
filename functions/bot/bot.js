@@ -7,7 +7,7 @@ const path = require('path');
 
     
 
-const bot = new Telegraf('6823072792:AAGd_72YdUJtDvU3PlHPdc-UhaCgBZVs02A');
+const bot = new Telegraf('7573266694:AAF5xn5gmlJXo6f5_rSUyBsjymlgUZfrDwg');
 
 let timerActive = false;
 let set_tags_active = true;
