@@ -8,14 +8,28 @@
 </head>
 <body>
   <h1>Benvenuto nella mia Web App Telegram!</h1>
-  <button id="sendButton">Invia Dati</button>
+  <button id="getBalanceButton">Ottieni Saldo</button>
+  <p id="balanceDisplay"></p>
   <script>
     const app = window.Telegram.WebApp;
     app.ready();
     app.expand();
 
-    document.getElementById('sendButton').addEventListener('click', () => {
-      app.sendData(JSON.stringify({ message: 'Ciao dal Web!' }));
+    document.getElementById('getBalanceButton').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/.netlify/functions/bot', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ command: 'saldo', userId: app.initDataUnsafe.user.id })
+        });
+        const result = await response.json();
+        document.getElementById('balanceDisplay').innerText = `Il tuo saldo totale di xxCoin è: ${result.totalCoins}`;
+      } catch (error) {
+        console.error('Errore nel recupero del saldo:', error);
+        document.getElementById('balanceDisplay').innerText = 'Si è verificato un errore nel recupero del saldo. Riprova più tardi.';
+      }
     });
   </script>
 </body>
