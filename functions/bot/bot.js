@@ -1163,13 +1163,15 @@ const client = new Client({
                 idea: ${text},
                 hashtag: ${prefix},
                 voti: 0
+                xxCoin: 0
             }) {
                 userId,
                 username,
                 ideaId,
                 idea,
                 hashtag,
-                voti
+                voti,
+                xxCoin
             }
         `;
 
@@ -1691,8 +1693,8 @@ bot.action(/vote_(\d+)/, async(ctx) => {
             if (!idea.voters.has(userId)) {
                 idea.voti++;
                 idea.voters.add(userId);
-
-
+                let xxCoin 
+                xxCoin += 5;
 
 
 
@@ -1723,9 +1725,10 @@ const client = new Client({
    if (user.data.data[0].ideaId == ideaId) {
         // Query per creare un nuovo utente
         const saveUsersIdeaQuery = fql`
-          Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}}){    
+          Users.byId(${user.data.data[0].id})!.update({voti: ${idea.voti}, xxCoin: ${xxCoin}}){    
           id, 
           voti
+          xxCoin
           
           }
             `
