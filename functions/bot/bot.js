@@ -26,6 +26,33 @@ let sessionOwner = null;
 
 
 
+// Test web app
+
+bot.command('test', (ctx) => {
+  ctx.reply('Benvenuto! Clicca sul pulsante qui sotto per aprire la web app.', 
+    Markup.inlineKeyboard([
+      Markup.button.webApp('Apri Web App', 'https://nome-del-tuo-sito.netlify.app')
+    ])
+  );
+});
+
+bot.command('data', (ctx) => {
+  ctx.reply('Inviami i dati dalla web app per visualizzarli qui.');
+});
+
+bot.on('message', (ctx) => {
+  if (ctx.message.web_app_data) {
+    const data = ctx.message.web_app_data.data;
+    ctx.reply(`Dati ricevuti: ${data}`);
+  }
+});
+
+
+
+
+
+
+
 
 // Test Coin 
 
