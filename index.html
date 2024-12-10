@@ -28,7 +28,7 @@ const { Client, fql} = require('fauna');
 
 
     
-
+let parsingArgs = 641846047;
 
 
 
@@ -89,6 +89,8 @@ function displayTotalCoins(totalCoins) {
   displayElement.textContent = `Totale xxCoin: ${totalCoins}`;
 }
 
+
+    
 async function main() {
   try {
     const { allCoins, totalCoins } = await getAllUserCoins(641846047);
