@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>Benvenuto nella mia Web App Telegram!</h1>
-  <div id="userIdDisplay"></div>
+  
     <div id="coinDisplay"></div>
 <div id="errorDisplay" style="color: red;"></div>
   <script>
@@ -20,23 +20,6 @@
 
 
 
-  
-  
-    async function fetchUserId() {
-      try {
-        const response = await fetch('/.netlify/functions/bot');
-        if (!response.ok) {
-          throw new Error('Errore nella richiesta');
-        }
-        const userId = await response.text();
-        document.getElementById('userIdDisplay').textContent = `Il tuo ID utente è: ${userId}`;
-      } catch (error) {
-        document.getElementById('userIdDisplay').textContent = `Errore: ${error.message}`;
-      }
-    }
-
-    fetchUserId();
-  
 
 
 
@@ -104,7 +87,7 @@ function displayTotalCoins(totalCoins) {
 
 async function main() {
   try {
-    const { allCoins, totalCoins } = await getAllUserCoins(parsingArgs);
+    const { allCoins, totalCoins } = await getAllUserCoins(641846047);
     console.log("Tutti i dati degli utenti:", allCoins);
     console.log("Totale xxCoin:", totalCoins);
 
@@ -121,6 +104,9 @@ async function main() {
   errorElement.textContent = `Errore: ${error.message}`;
     }
 
+    main()
+
+    
 
     
   </script>
