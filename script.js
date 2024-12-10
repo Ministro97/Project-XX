@@ -1,3 +1,32 @@
+
+window.Telegram.WebApp.ready();
+
+
+function getTelegramUserId() {
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+        return window.Telegram.WebApp.initDataUnsafe.user.id;
+    }
+    return null;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userId = getTelegramUserId();
+    if (userId) {
+        document.body.innerHTML += `<p>ID Utente: ${userId}</p>`;
+    } else {
+        document.body.innerHTML += `<p>Impossibile ottenere l'ID utente.</p>`;
+    }
+});
+
+
+
+
+
+
+
+
+
+
 const buttons = document.querySelectorAll(".card-buttons button");
 
 const sections = document.querySelectorAll(".card-section");
