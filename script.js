@@ -8,6 +8,13 @@ function getTelegramUserId() {
 }
 
 
+const userId = getTelegramUserId();
+    if (userId) {
+        document.body.innerHTML += `<p>ID Utente: ${userId}</p>`;
+    } else {
+        document.body.innerHTML += `<p>Impossibile ottenere l'ID utente.</p>`;
+    }
+
 
 const buttons = document.querySelectorAll(".card-buttons button");
 const sections = document.querySelectorAll(".card-section");
