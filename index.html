@@ -8,29 +8,89 @@
 </head>
 <body>
   <h1>Benvenuto nella mia Web App Telegram!</h1>
-  <button id="getBalanceButton">Ottieni Saldo</button>
-  <p id="balanceDisplay"></p>
+  
+    <div id="coinDisplay"></div>
+    
+  
   <script>
     const app = window.Telegram.WebApp;
     app.ready();
     app.expand();
 
-    document.getElementById('getBalanceButton').addEventListener('click', async () => {
-      try {
-        const response = await fetch('/functions/bot', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ command: 'saldoapp', userId: app.initDataUnsafe.user.id })
-        });
-        const result = await response.json();
-        document.getElementById('balanceDisplay').innerText = `Il tuo saldo totale di xxCoin è: ${result.totalCoins}`;
-      } catch (error) {
-        console.error('Errore nel recupero del saldo:', error);
-        document.getElementById('balanceDisplay').innerText = 'Si è verificato un errore nel recupero del saldo. Riprova più tardi.';
-      }
-    });
+
+
+
+async function getCoinData(parsingArgs, afterCursor) {
+  const client = new Client({
+    secret: process.env.FAUNA_SECRET,
+    query_timeout_ms: 60_000
+  });
+
+  const query = fql`
+    Users.where(.userId == ${parsingArgs}) {
+      id,
+      userId,
+      xxCoin
+    }
+  `;
+
+  const response = await client.query(
+    afterCursor ? fql`Set.paginate(${afterCursor})` : query
+  );
+
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  // Calcola il totale dei xxCoin
+  const totalCoins = data.reduce((sum, user) => sum + user.xxCoin, 0);
+
+  console.log("Data:", data);
+  console.log("Next cursor:", nextCursor);
+  console.log("Total Coins:", totalCoins);
+
+  return { data, nextCursor, totalCoins };
+}
+
+
+
+async function getAllUserCoins(parsingArgs) {
+  let allCoins = [];
+  let afterCursor;
+  let totalCoins = 0;
+
+  do {
+    const { data, nextCursor, totalCoins: pageCoins } = await getCoinData(parsingArgs, afterCursor);
+    allCoins = allCoins.concat(data);
+    totalCoins += pageCoins;
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  console.log("Total Coins from all pages:", totalCoins);
+  return { allCoins, totalCoins };
+}
+
+
+function displayTotalCoins(totalCoins) {
+  const displayElement = document.getElementById('coinDisplay');
+  displayElement.textContent = `Totale xxCoin: ${totalCoins}`;
+}
+
+async function main() {
+  try {
+    const { allCoins, totalCoins } = await getAllUserCoins(parsingArgs);
+    console.log("Tutti i dati degli utenti:", allCoins);
+    console.log("Totale xxCoin:", totalCoins);
+
+    // Passa il totale dei Coin alla funzione di visualizzazione
+    displayTotalCoins(totalCoins);
+  } catch (error) {
+    console.error("Errore nel recupero dei dati degli utenti:", error);
+  }
+}
+
+
+
+    
   </script>
 </body>
 </html>
