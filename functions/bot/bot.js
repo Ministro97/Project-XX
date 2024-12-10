@@ -2084,7 +2084,7 @@ async function sendSummary(ctx) {
 
 
 
-
+/*
 
 
 //AWS handler 
@@ -2096,4 +2096,32 @@ exports.handler = async event => {
         console.error("error in handler:", e);
         return { statusCode: 400, body: "This endpoint is meant for bot and telegram communication" };
     }
+};
+
+
+*/
+
+
+exports.handler = async (event) => {
+  const body = JSON.parse(event.body);
+  if (body.command === 'saldo') {
+    const userId = body.userId;
+    try {
+      const { totalCoins } = await getAllUserCoins(userId);
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ totalCoins })
+      };
+    } catch (error) {
+      console.error("Errore nel recupero del saldo:", error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Errore nel recupero del saldo. Riprova più tardi." })
+      };
+    }
+  }
+  return {
+    statusCode: 400,
+    body: JSON.stringify({ error: "Comando non riconosciuto." })
+  };
 };
