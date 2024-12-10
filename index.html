@@ -21,7 +21,41 @@
     <title></title>
     <style>
     
-    
+
+
+
+.neon-button {
+    padding: 15px 30px;
+    margin: 10px 0;
+    color: #fff;
+    text-transform: uppercase;
+    background: #111;
+    border: 2px solid #0f0;
+    border-radius: 5px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.neon-button:hover {
+    background: #0f0;
+    color: #111;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0;
+}
+
+.status-message {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+        
+
+
+
+
+        
   
       .noneSection{ 
       display: none  
@@ -386,6 +420,15 @@
             <li>token_saved: <span class="txt" id="bm_token_saved">false</span> (<a href="javascript:;" onclick="return DemoApp.biometricSetToken(this);">Set token</a>, <a href="javascript:;" onclick="return DemoApp.biometricRemoveToken(this);">Remove token</a>) <span></span></li>
             <li>device_id: <span class="txt" id="bm_device_id"></span></li>
             <li><a href="javascript:;" onclick="return DemoApp.biometricRequestAuth(this);">Request auth</a> <span></span></li>
+
+
+
+<button onclick="return DemoApp.biometricRequestAuth(this);" class="neon-button">Request auth</button>
+<span class="status-message"></span>
+
+
+
+            
         </ul>
     </div>
 
@@ -1393,7 +1436,8 @@
                     el.nextElementSibling.innerHTML = '(Success, token: ' + token + ')';
                     el.nextElementSibling.className = 'ok';
 
-    window.location.href = "test.html";
+    // Passa il token tramite l'URL
+        window.location.href = 'test.html?token=' + encodeURIComponent(token);
                 } else {
                     el.nextElementSibling.innerHTML = '(Failed)';
                     el.nextElementSibling.className = 'err';
