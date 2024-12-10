@@ -17,7 +17,7 @@
 
     document.getElementById('getBalanceButton').addEventListener('click', async () => {
       try {
-        const response = await fetch('/.netlify/functions/bot', {
+        const response = await fetch('/functions/bot', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
