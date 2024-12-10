@@ -215,7 +215,44 @@
 </div>
 
 
+  <script>
+window.Telegram.WebApp.ready();
 
+
+    
+  // Inizializza il BiometricManager quando la pagina è caricata
+  document.addEventListener('DOMContentLoaded', function() {
+    biometricInit();
+  });
+
+  // Funzione per gestire il login
+  function handleLogin() {
+    biometricRequestAccess(function(access_granted) {
+      if (access_granted) {
+        biometricRequestAuth(function(success, token) {
+          if (success) {
+            // Nascondi la sezione di autenticazione
+            document.getElementById('authSection').style.display = 'none';
+            // Mostra il contenuto principale
+            document.getElementById('mainContent').style.display = 'block';
+            console.log('Accesso consentito, token:', token);
+          } else {
+            document.getElementById('authStatus').innerHTML = '(Autenticazione fallita)';
+            document.getElementById('authStatus').className = 'err';
+          }
+        });
+      } else {
+        document.getElementById('authStatus').innerHTML = '(Accesso biometrico rifiutato)';
+        document.getElementById('authStatus').className = 'err';
+      }
+    });
+  }
+
+  // Aggiungi un listener al pulsante di login
+  document.getElementById('loginButton').addEventListener('click', handleLogin);
+  </script>
+
+  
 
 
 <!-- partial -->
