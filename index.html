@@ -12,6 +12,10 @@
     <div id="coinDisplay"></div>
 <div id="errorDisplay" style="color: red;"></div>
   <script>
+
+const { Client, fql} = require('fauna');
+
+    
     const app = window.Telegram.WebApp;
     app.ready();
     app.expand();
