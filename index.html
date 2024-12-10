@@ -22,7 +22,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ command: 'saldo', userId: app.initDataUnsafe.user.id })
+          body: JSON.stringify({ command: 'saldoapp', userId: app.initDataUnsafe.user.id })
         });
         const result = await response.json();
         document.getElementById('balanceDisplay').innerText = `Il tuo saldo totale di xxCoin è: ${result.totalCoins}`;
