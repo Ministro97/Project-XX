@@ -37,17 +37,7 @@ bot.command('test', (ctx) => {
 });
 
 
-bot.command('saldoapp', async (ctx) => {
-  const userId = ctx.from.id;
-  try {
-    const { totalCoins } = await getAllUserCoins(userId);
-    const displayCoins = isNaN(totalCoins) ? 0 : totalCoins;
-    ctx.reply(`Il tuo saldo totale di xxCoin è: ${displayCoins}`);
-  } catch (error) {
-    console.error("Errore nel recupero del saldo:", error);
-    ctx.reply("Si è verificato un errore nel recupero del saldo. Riprova più tardi.");
-  }
-});
+
 
 
 
@@ -144,7 +134,18 @@ bot.command('saldo', async (ctx) => {
 
 
 
-
+// test app 
+bot.command('saldoapp', async (ctx) => {
+  const userId = ctx.from.id;
+  try {
+    const { totalCoins } = await getAllUserCoins(userId);
+    const displayCoins = isNaN(totalCoins) ? 0 : totalCoins;
+    ctx.reply(`Il tuo saldo totale di xxCoin è: ${displayCoins}`);
+  } catch (error) {
+    console.error("Errore nel recupero del saldo:", error);
+    ctx.reply("Si è verificato un errore nel recupero del saldo. Riprova più tardi.");
+  }
+});
 
 
 
