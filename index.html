@@ -10,8 +10,7 @@
   <h1>Benvenuto nella mia Web App Telegram!</h1>
   
     <div id="coinDisplay"></div>
-    
-  
+<div id="errorDisplay" style="color: red;"></div>
   <script>
     const app = window.Telegram.WebApp;
     app.ready();
@@ -85,9 +84,14 @@ async function main() {
     displayTotalCoins(totalCoins);
   } catch (error) {
     console.error("Errore nel recupero dei dati degli utenti:", error);
+    displayErrorMessage(error);
   }
 }
 
+    function displayErrorMessage(error) {
+  const errorElement = document.getElementById('errorDisplay');
+  errorElement.textContent = `Errore: ${error.message}`;
+    }
 
 
     
