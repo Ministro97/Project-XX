@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,8 +33,8 @@
         const token = sessionStorage.getItem('authToken');
 
         if (token) {
-            // Verifica il token (qui puoi aggiungere la tua logica di verifica)
-            if (token === 'expectedTokenValue') { // Sostituisci 'expectedTokenValue' con il valore atteso del token
+            // Verifica il token
+            if (token) { // Se il token esiste, l'autenticazione è riuscita
                 messageElement.textContent = 'Autenticazione riuscita!';
             } else {
                 messageElement.textContent = 'Token non valido. Autenticazione fallita.';
