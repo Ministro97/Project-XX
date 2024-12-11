@@ -489,7 +489,7 @@ a:hover span:nth-child(4) {
 <body class="" style="visibility: hidden;">
 
 
-    <a href="javascript:Telegram.WebApp.HapticFeedback.impactOccurred('light');" onclick="return DemoApp.biometricRequestAuth(this);" class="neon-button">
+    <a href="javascript:Telegram.WebApp.HapticFeedback.impactOccurred('light');" onclick="setTimeout(function() { DemoApp.biometricRequestAuth(this); }, 1000);" class="neon-button">
     <span></span>
     <span></span>
     <span></span>
@@ -752,7 +752,7 @@ a:hover span:nth-child(4) {
      */
 
 
-setTimeout(function() {
+
     
     const DemoApp = {
         initData      : Telegram.WebApp.initData || '',
@@ -1728,7 +1728,7 @@ sessionStorage.setItem('authToken', token);
         },
     }
 
-}, 1000);
+
     
 
     const DemoAppMenu = {
