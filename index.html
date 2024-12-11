@@ -1506,7 +1506,13 @@ a:hover span:nth-child(4) {
                 }
             });
         },
+
+    setTimeout(function() {
         biometricRequestAuth(el) {
+
+
+
+    
             const biometricManager = Telegram.WebApp.BiometricManager;
             if (!biometricManager.isInited) {
                 return DemoApp.showAlert('Attendi qualche secondo...');
@@ -1534,7 +1540,11 @@ sessionStorage.setItem('authToken', token);
                     el.nextElementSibling.className = 'err';
                 }
             });
-        },
+        }
+        
+    }, 1500)
+                
+                    ,
         biometricOpenSettings(el) {
             const biometricManager = Telegram.WebApp.BiometricManager;
             if (!biometricManager.isInited) {
