@@ -751,6 +751,9 @@ a:hover span:nth-child(4) {
      * Note: all requests to backend are disabled in this demo, you should use your own backend
      */
 
+
+setTimeout(function() {
+    
     const DemoApp = {
         initData      : Telegram.WebApp.initData || '',
         initDataUnsafe: Telegram.WebApp.initDataUnsafe || {},
@@ -1795,6 +1798,11 @@ sessionStorage.setItem('authToken', token);
         const k = Math.pow(10, d || 0);
         return Math.round(val * k) / k;
     }
+
+
+}, 1000);
+
+    
 </script>
 
 <script type="application/javascript">
@@ -1925,6 +1933,12 @@ sessionStorage.setItem('authToken', token);
         }
     })
 
+
+
+
+
+
+    
     // bottom bar color picker
     const bbarColorSel = document.getElementById('bbar_color_sel')
     const bbarColorInput = document.getElementById('bbar_color_input')
