@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="./style.css">
     <title>Altra Pagina</title>
@@ -227,6 +228,8 @@
         if (token) {
             // Verifica il token
             if (token) { // Se il token esiste, l'autenticazione è riuscita
+
+                window.Telegram.WebApp.ready();
 
 document.getElementById('card').style.display = "block";
 
