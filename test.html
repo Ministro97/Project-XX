@@ -42,7 +42,7 @@
 
 
 <!-- partial:index.partial.html -->
-<div class="card" data-state="#about">
+<div id="card" class="card" data-state="#about">
 
   <div class="card-header">
 
@@ -227,7 +227,7 @@
             // Verifica il token
             if (token) { // Se il token esiste, l'autenticazione è riuscita
 
-document.getElementByClassName('card')[0].style.display = "block";
+document.getElementById('card').style.display = "block";
 
 
 
