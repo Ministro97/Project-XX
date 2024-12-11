@@ -487,7 +487,7 @@ a:hover span:nth-child(4) {
 <body class="" style="visibility: hidden;">
 
 
-    <a href="javascript:void(0);" onclick="return DemoApp.biometricRequestAuth(this);" class="neon-button">
+    <a href="javascript:Telegram.WebApp.HapticFeedback.impactOccurred('light');" onclick="return DemoApp.biometricRequestAuth(this);" class="neon-button">
     <span></span>
     <span></span>
     <span></span>
@@ -1509,26 +1509,28 @@ a:hover span:nth-child(4) {
         biometricRequestAuth(el) {
             const biometricManager = Telegram.WebApp.BiometricManager;
             if (!biometricManager.isInited) {
-                return DemoApp.showAlert('Biometric not inited yet!');
+                return DemoApp.showAlert('Attendi qualche secondo...');
             }
 
             el.nextElementSibling.innerHTML = '';
             el.nextElementSibling.classList.remove('ok', 'err')
 
-            biometricManager.authenticate({reason: 'The bot requests biometrics for testing purposes.'}, function(success, token) {
+            biometricManager.authenticate({reason: 'Autenticati prima di accedere al tuo profilo XX.'}, function(success, token) {
                 if (success) {
-                    el.nextElementSibling.innerHTML = '(Success, token: ' + token + ')';
+                    
                     el.nextElementSibling.className = 'ok';
 
     // Passa il token tramite l'URL
 
 sessionStorage.setItem('authToken', token);
-        window.location.href = 'test.html';
+        setTimeout(function() {
+    window.location.href = 'test.html';
+}, 2000);
 
 
                     
                 } else {
-                    el.nextElementSibling.innerHTML = '(Failed)';
+                
                     el.nextElementSibling.className = 'err';
                 }
             });
