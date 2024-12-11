@@ -28,13 +28,8 @@
 <body>
     <div class="message" id="message"></div>
     <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        const token = getQueryParam('token');
         const messageElement = document.getElementById('message');
+        const token = sessionStorage.getItem('authToken');
 
         if (token) {
             // Verifica il token (qui puoi aggiungere la tua logica di verifica)
