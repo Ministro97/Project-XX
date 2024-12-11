@@ -129,46 +129,42 @@ a:hover span:nth-child(4) {
 
 
         
-$duration: 5s;
-$text-color: rgba(255, 255, 255, 0.3);
-$bgr-color: #333;
-
-
-.shine {
-	font-size: 3em;
-	margin: 0 auto;
-	margin-bottom: 1em;
-	font-weight: bold;
+a {
+    position: relative;
+    margin: auto;
+    font-size: 5rem;
+    word-spacing: 0.2em;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    color: transparent;
+    background-color: #E8A95B;
+    background-clip: text;
 }
 
-.shine {
-	background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;
-	-webkit-background-size: 150px;
-	color: $text-color;
-	-webkit-background-clip: text;
-	-webkit-animation-name: shine;
-	-webkit-animation-duration: $duration;
-	-webkit-animation-iteration-count: infinite;
-	text-shadow: 0 0px 0px rgba(255, 255, 255, 0.5);
+a::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-image: linear-gradient(120deg, transparent 0%, transparent 6rem, white 11rem, transparent 11.15rem, transparent 15rem, rgba(255, 255, 255, 0.3) 20rem, transparent 25rem, transparent 27rem, rgba(255, 255, 255, 0.6) 32rem, white 33rem, rgba(255, 255, 255, 0.3) 33.15rem, transparent 38rem, transparent 40rem, rgba(255, 255, 255, 0.3) 45rem, transparent 50rem, transparent 100%);
+    background-clip: text;
+    background-size: 150% 100%;
+    background-repeat: no-repeat;
+    animation: shine 5s infinite linear;
 }
 
-
-     @-webkit-keyframes shine {
-	0%, 10% {
-		background-position: -1000px;
-	}
-	20% {
-		background-position: top left;
-	}
-	90% {
-		background-position: top right;
+@keyframes shine {
+	0% {
+		background-position: 50% 0;
 	}
 	100% {
-		background-position: 1000px;
+		background-position: -190% 0;
 	}
-        }   
-
-
+}
         
         
 
