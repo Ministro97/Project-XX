@@ -128,48 +128,45 @@ a:hover span:nth-child(4) {
 }
 
 
-
-
-
-
-
-        @keyframes shine {
-    0% {
-        background-position: -200%;
-    }
-    100% {
-        background-position: 200%;
-    }
-}
-
-.neon-button {
-    padding: 15px 30px;
-    color: #fff;
-    text-transform: uppercase;
-    background: #111;
-    border: 2px solid #00f;
-    border-radius: 5px;
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    overflow: hidden;
-}
-
-.neon-button span {
-    display: inline-block;
-    position: relative;
-    color: #fff;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 2s linear infinite;
-}
-
-
         
+$duration: 5s;
+$text-color: rgba(255, 255, 255, 0.3);
+$bgr-color: #333;
+
+
+.shine {
+	font-size: 3em;
+	margin: 0 auto;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+.shine {
+	background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;
+	-webkit-background-size: 150px;
+	color: $text-color;
+	-webkit-background-clip: text;
+	-webkit-animation-name: shine;
+	-webkit-animation-duration: $duration;
+	-webkit-animation-iteration-count: infinite;
+	text-shadow: 0 0px 0px rgba(255, 255, 255, 0.5);
+}
+
+
+     @-webkit-keyframes shine {
+	0%, 10% {
+		background-position: -1000px;
+	}
+	20% {
+		background-position: top left;
+	}
+	90% {
+		background-position: top right;
+	}
+	100% {
+		background-position: 1000px;
+	}
+        }   
 
 
         
@@ -531,7 +528,7 @@ a:hover span:nth-child(4) {
 <body class="" style="visibility: hidden;">
 
 
-    <a href="javascript:Telegram.WebApp.HapticFeedback.impactOccurred('light');" onclick=" return DemoApp.biometricRequestAuth(this);" class="neon-button">
+    <a href="javascript:Telegram.WebApp.HapticFeedback.impactOccurred('light');" onclick=" return DemoApp.biometricRequestAuth(this);" class="shine">
     <span></span>
     <span></span>
     <span></span>
