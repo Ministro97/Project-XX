@@ -1437,7 +1437,12 @@
                     el.nextElementSibling.className = 'ok';
 
     // Passa il token tramite l'URL
-        window.location.href = 'test.html?token=' + encodeURIComponent(token);
+
+sessionStorage.setItem('authToken', token);
+        window.location.href = 'test.html';
+
+
+                    
                 } else {
                     el.nextElementSibling.innerHTML = '(Failed)';
                     el.nextElementSibling.className = 'err';
