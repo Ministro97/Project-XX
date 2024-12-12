@@ -62,7 +62,7 @@ body {
 }
 
 .card[data-state="#about"] {
-  height: 530px;
+  height: 540px;
   overflow-y: hidden;
 }
 
