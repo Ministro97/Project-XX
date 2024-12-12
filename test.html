@@ -25,7 +25,7 @@
 
 .card{
 
-    display: block; 
+    display: none; 
 }
 
         
@@ -58,7 +58,7 @@
 
             
           <!-- partial:index.partial.html -->
-<div class="card" data-state="#about">
+<div id="card" class="card" data-state="#about">
 
   <div class="card-header">
 
@@ -351,6 +351,73 @@ document.getElementById('card').style.display = "block";
 
 
 
+
+document.querySelectorAll('.card-contact').forEach(function(contact) {
+  contact.addEventListener('mouseover', function() {
+    const tooltip = this.querySelector('.tooltip');
+    tooltip.style.display = 'block';
+    tooltip.style.opacity = '1';
+
+    setTimeout(function() {
+      tooltip.style.opacity = '0';
+      setTimeout(function() {
+        tooltip.style.display = 'none';
+      }, 500); // Tempo per il fade out
+    }, 1000); // Tempo di visualizzazione del tooltip
+  });
+});
+
+  
+  
+  
+  
+  
+  function toggleVisibility() {
+            const masked = document.querySelector('.hidden-code .masked');
+            const unmasked = document.querySelector('.hidden-code .unmasked');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (masked.style.display === 'none') {
+                masked.style.display = 'inline';
+                unmasked.style.display = 'none';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                masked.style.display = 'none';
+                unmasked.style.display = 'inline';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+  
+  
+  document.addEventListener('DOMContentLoaded', (event) => {
+  const card = document.getElementById('card');
+
+  window.addEventListener('deviceorientation', (event) => {
+    const { beta, gamma } = event; // beta: tilt front-back, gamma: tilt left-right
+
+    // Limita i valori per evitare movimenti eccessivi
+    const maxTilt = 15;
+    const tiltX = Math.min(Math.max(gamma, -maxTilt), maxTilt);
+    const tiltY = Math.min(Math.max(beta, -maxTilt), maxTilt);
+
+    // Applica la trasformazione alla carta
+    card.style.transform = `rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+  });
+});
+
+/*
+  function playClickSound() {
+    var audio = document.getElementById('click-sound');
+    audio.volume = 0.1; // Imposta il volume al 50%
+    audio.play();
+}
+
+  */
+  
+
+
+        
 
 
 
