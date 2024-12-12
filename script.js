@@ -10,9 +10,9 @@ function getTelegramUserId() {
 
 const userId = getTelegramUserId();
     if (userId) {
-        document.body.innerHTML += `<p>ID Utente: ${userId}</p>`;
+        document.getElementById("userId").textContent = `${userId}`;
     } else {
-        document.body.innerHTML += `<p>Impossibile ottenere l'ID utente.</p>`;
+        document.body.getElementById("userId").textContent = `Impossibile ottenere l'ID utente.`;
     }
 
 
