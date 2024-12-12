@@ -1,3 +1,6 @@
+
+
+
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500|Jost:400,500,600&display=swap");
 
 * {
@@ -7,347 +10,211 @@
 }
 
 body {
-
-  color: #2b2c48;
-
+  
+  color: #e0e0e0;
   font-family: "Jost", sans-serif;
-
   background-image: url(https://cdn.staticaly.com/gh/Seo90/underman/df866c97/virm.webp);
-
   background-repeat: no-repeat;
-
   background-size: cover;
-
   background-position: center;
-
   background-attachment: fixed;
-
   min-height: 100vh;
-
   display: -webkit-box;
-
   display: flex;
-
   flex-wrap: wrap;
-
   padding: 20px;
-
+  backdrop-filter: blur(10px);
+  filter: brightness(1.2);
+  background: black;
 }
 
 .card {
-
-  max-width: 340px;
-
+  max-width: 370px;
   margin: auto;
-
+  min-width: 320px;
   overflow-y: auto;
-
   position: relative;
-
   z-index: 1;
-
   overflow-x: hidden;
-
-  background-color: white;
-
+  background-color: rgba(0, 0, 40, 0.9); /* Sfondo scuro per risaltare i colori neon */
   display: -webkit-box;
-
   display: flex;
-
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
-
   -webkit-box-orient: vertical;
-
   -webkit-box-direction: normal;
-
-          flex-direction: column;
-
-  border-radius: 10px;
-
-  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-
-}
-
-.card[data-state="#about"] {
-
-  height: 450px;
-
-}
-
-.card[data-state="#about"] .card-main {
-
-  padding-top: 0;
-
-}
-
-.card[data-state="#contact"] {
-
-  height: 430px;
-
-}
-
-.card[data-state="#experience"] {
-
-  height: 550px;
-
-}
-
-.card.is-active .card-header {
-
-  height: 80px;
-
-}
-
-.card.is-active .card-cover {
-
-  height: 100px;
-
-  top: -50px;
-
-}
-
-.card.is-active .card-avatar {
-
-  -webkit-transform: none;
-
-          transform: none;
-
-  left: 20px;
-
-  width: 50px;
-
-  height: 50px;
-
-  bottom: 10px;
-
-}
-
-.card.is-active .card-fullname,
-
-.card.is-active .card-jobtitle {
-
-  left: 86px;
-
-  -webkit-transform: none;
-
-          transform: none;
-
-}
-
-.card.is-active .card-fullname {
-
-  bottom: 18px;
-
-  font-size: 19px;
-
-}
-
-.card.is-active .card-jobtitle {
-
-  bottom: 16px;
-
-  letter-spacing: 1px;
-
-  font-size: 10px;
-
+  flex-direction: column;
+  border-radius: 15px; /* Bordo più arrotondato per un look moderno */
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); /* Ombra neon più intensa */
 }
 
 .card-header {
-
   position: relative;
-
   display: -webkit-box;
-
   display: flex;
-
   height: 200px;
-
   flex-shrink: 0;
-
   width: 100%;
-
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
+  background: linear-gradient(135deg, #00f260, #0575e6); /* Gradiente neon */
+  box-shadow: 0 0 25px rgba(0, 191, 255, 0.9); /* Effetto neon azzurro chiaro più intenso */
+}
 
+.card[data-state="#about"] {
+  height: 530px;
+  overflow-y: hidden;
+}
+
+.card[data-state="#about"] .card-main {
+  padding-top: 0;
+}
+
+.card[data-state="#contact"] {
+  height: 430px;
+}
+
+.card[data-state="#experience"] {
+  height: 550px;
+}
+
+.card.is-active .card-header {
+  height: 80px;
+}
+
+.card.is-active .card-cover {
+  height: 100px;
+  top: -50px;
+}
+
+.card.is-active .card-avatar {
+  -webkit-transform: none;
+  transform: none;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  bottom: 10px;
+}
+
+.card.is-active .card-fullname,
+.card.is-active .card-jobtitle {
+  left: 86px;
+  -webkit-transform: none;
+  transform: none;
+}
+
+.card.is-active .card-fullname {
+  bottom: 18px;
+  font-size: 19px;
+}
+
+.card.is-active .card-jobtitle {
+  bottom: 16px;
+  letter-spacing: 1px;
+  font-size: 10px;
 }
 
 .card-header * {
-
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
-
 }
 
 .card-cover {
-
   width: 100%;
-
   height: 100%;
-
   position: absolute;
-
   height: 160px;
-
   top: -20%;
-
   left: 0;
-
   will-change: top;
-
   background-size: cover;
-
   background-position: center;
-
-  -webkit-filter: blur(30px);
-
-          filter: blur(30px);
-
+  -webkit-filter: blur(100px);
+          filter: blur(100px);
   -webkit-transform: scale(1.2);
-
           transform: scale(1.2);
-
   -webkit-transition: 0.5s;
-
   transition: 0.5s;
-
+  
 }
 
 .card-avatar {
-
   width: 100px;
-
   height: 100px;
-
-  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
-
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3); /* Ombra più scura per un effetto più pronunciato */
   border-radius: 50%;
-
   -o-object-position: center;
-
      object-position: center;
-
   -o-object-fit: cover;
-
      object-fit: cover;
-
   position: absolute;
-
   bottom: 0;
-
   left: 50%;
-
   -webkit-transform: translateX(-50%) translateY(-64px);
-
           transform: translateX(-50%) translateY(-64px);
-
+  filter: brightness(1);
 }
 
 .card-fullname {
-
   position: absolute;
-
   bottom: 0;
-
   font-size: 22px;
-
   font-weight: 700;
-
   text-align: center;
-
   white-space: nowrap;
-
   -webkit-transform: translateY(-10px) translateX(-50%);
-
           transform: translateY(-10px) translateX(-50%);
-
   left: 50%;
-
+  filter: brightness(1);
 }
 
 .card-jobtitle {
-
   position: absolute;
-
   bottom: 0;
-
   font-size: 11px;
-
   white-space: nowrap;
-
   font-weight: 500;
-
   opacity: 0.7;
-
   text-transform: uppercase;
-
   letter-spacing: 1.5px;
-
   margin: 0;
-
   left: 50%;
-
   -webkit-transform: translateX(-50%) translateY(-7px);
-
           transform: translateX(-50%) translateY(-7px);
-
+          filter: brightness(1);
 }
 
 .card-main {
-
   position: relative;
-
   -webkit-box-flex: 1;
-
           flex: 1;
-
   display: -webkit-box;
-
   display: flex;
-
   padding-top: 10px;
-
   -webkit-box-orient: vertical;
-
   -webkit-box-direction: normal;
-
           flex-direction: column;
-
 }
 
 .card-subtitle {
-
   font-weight: 700;
-
   font-size: 13px;
-
   margin-bottom: 8px;
-
 }
 
 .card-content {
-
   padding: 20px;
-
+  backdrop-filter: blur(5px);
+  color: #e0e0e0; /* Colore chiaro per contrastare con lo sfondo scuro */
 }
 
 .card-desc {
-
   line-height: 1.6;
-
   color: #636b6f;
-
   font-size: 14px;
-
   margin: 0;
-
   font-weight: 400;
-
   font-family: "DM Sans", sans-serif;
-
 }
 
 .card-social {
@@ -427,323 +294,511 @@ body {
 }
 
 .card-buttons {
-
   display: -webkit-box;
-
   display: flex;
-
-  background-color: #fff;
-
+  background-color: rgba(0, 0, 0, 0.8); /* Sfondo scuro per risaltare i colori neon */
   margin-top: auto;
-
   position: -webkit-sticky;
-
   position: sticky;
-
   bottom: 0;
-
   left: 0;
-
+  
+  
 }
 
 .card-buttons button {
-
+  
   -webkit-box-flex: 1;
-
           flex: 1 1 auto;
-
   -webkit-user-select: none;
-
      -moz-user-select: none;
-
       -ms-user-select: none;
-
           user-select: none;
-
   background: 0;
-
   font-size: 13px;
-
   border: 0;
-
   padding: 15px 5px;
-
   cursor: pointer;
-
-  color: #5c5c6d;
-
+  color: #00bfff; /* Colore azzurro per le scritte */
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
-
   font-family: "Jost", sans-serif;
-
   font-weight: 500;
-
   outline: 0;
-
   border-bottom: 3px solid transparent;
-
+  
 }
 
 .card-buttons button.is-active, .card-buttons button:hover {
-
-  color: #2b2c48;
-
+  color: #00bfff; /* Colore azzurro per le scritte attive */
   border-bottom: 3px solid #09f;
-
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(127, 199, 231, 0)), color-stop(44%, rgba(207, 204, 255, 0.2)), to(rgba(211, 226, 255, 0.4)));
-
   background: linear-gradient(to bottom, rgba(127, 199, 231, 0) 0%, rgba(207, 204, 255, 0.2) 44%, rgba(211, 226, 255, 0.4) 100%);
-
 }
 
 .card-section {
-
   display: none;
-
 }
 
 .card-section.is-active {
-
   display: block;
-
   -webkit-animation: fadeIn 0.6s both;
-
           animation: fadeIn 0.6s both;
-
 }
 
 @-webkit-keyframes fadeIn {
-
   0% {
-
     opacity: 0;
-
     -webkit-transform: translatey(40px);
-
             transform: translatey(40px);
-
   }
-
   100% {
-
     opacity: 1;
-
   }
-
 }
 
 @keyframes fadeIn {
-
   0% {
-
     opacity: 0;
-
     -webkit-transform: translatey(40px);
-
             transform: translatey(40px);
-
   }
-
   100% {
-
     opacity: 1;
-
   }
-
 }
 
 .card-timeline {
-
   margin-top: 30px;
-
   position: relative;
-
 }
 
 .card-timeline:after {
-
   background: -webkit-gradient(linear, left bottom, left top, from(rgba(134, 214, 243, 0)), to(#516acc));
-
   background: linear-gradient(to top, rgba(134, 214, 243, 0) 0%, #516acc 100%);
-
   content: "";
-
   left: 42px;
-
   width: 2px;
-
   top: 0;
-
   height: 100%;
-
   position: absolute;
-
   content: "";
-
 }
 
 .card-item {
-
   position: relative;
-
   padding-left: 60px;
-
   padding-right: 20px;
-
   padding-bottom: 30px;
-
   z-index: 1;
-
 }
 
 .card-item:last-child {
-
   padding-bottom: 5px;
-
 }
 
 .card-item:after {
-
   content: attr(data-year);
-
   width: 10px;
-
   position: absolute;
-
   top: 0;
-
   left: 37px;
-
   width: 8px;
-
   height: 8px;
-
   line-height: 0.6;
-
   border: 2px solid #fff;
-
   font-size: 11px;
-
   text-indent: -35px;
-
   border-radius: 50%;
-
   color: rgba(134, 134, 134, 0.7);
-
   background: -webkit-gradient(linear, left top, left bottom, from(#a0aee3), to(#516acc));
-
   background: linear-gradient(to bottom, #a0aee3 0%, #516acc 100%);
-
 }
 
 .card-item-title {
-
   font-weight: 500;
-
   font-size: 14px;
-
   margin-bottom: 5px;
-
+  color: #00bfff; /* Colore azzurro per i titoli */
 }
 
 .card-item-desc {
-
   font-size: 13px;
-
-  color: #6f6f7b;
-
+  color: #00bfff; /* Colore azzurro per le descrizioni */
   line-height: 1.5;
-
   font-family: "DM Sans", sans-serif;
-
 }
 
 .card-contact-wrapper {
-
   margin-top: 20px;
-
+  
 }
 
 .card-contact {
-
   display: -webkit-box;
-
   display: flex;
-
   -webkit-box-align: center;
-
           align-items: center;
-
   font-size: 13px;
-
-  color: #6f6f7b;
-
+  color: #00bfff; /* Colore azzurro per i contatti */
   font-family: "DM Sans", sans-serif;
-
   line-height: 1.6;
-
   cursor: pointer;
-
+ 
 }
 
 .card-contact + .card-contact {
-
   margin-top: 16px;
-
 }
 
 .card-contact svg {
-
   flex-shrink: 0;
-
   width: 30px;
-
   min-height: 34px;
-
   margin-right: 12px;
-
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
-
   padding-right: 12px;
-
   border-right: 1px solid #dfe2ec;
-
 }
 
 .contact-me {
-
+  
   border: 0;
-
   outline: none;
-
-  background: linear-gradient(to right,#735ce7,#acc3ff);
-
+  background: linear-gradient(to right, grey ,#acc3ff);
   box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
-
-  color: #fff;
-
+  color:  rgba(0, 0, 40, 0.9) ;
   padding: 12px 16px;
-
   width: 100%;
-
   border-radius: 5px;
-
   margin-top: 25px;
-
   cursor: pointer;
-
-  font-size: 14px;
-
+  font-size: 15px;
   font-weight: 500;
-
   font-family: "Jost", sans-serif;
-
   -webkit-transition: 0.3s;
-
   transition: 0.3s;
-
+  
 }
+
+
+
+
+.card-contact {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative; /* Necessario per il posizionamento del tooltip */
+  color: #00bfff; /* Colore azzurro per i contatti */
+  
+ 
+}
+
+.card-contact span {
+  border-left: 1px solid #00bfff; /* Colore azzurro per il bordo */
+  height: 24px;
+  margin-right: 10px;
+}
+
+.tooltip {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8); /* Sfondo scuro per risaltare il testo */
+  color: #0080ff; /* Colore azzurro per il testo del tooltip */
+  border-radius: 4px;
+  padding: 8px;
+  position: absolute;
+  bottom: 100%; /* Posiziona il tooltip sopra l'icona */
+  left: 4%;
+  transform: translateX(-20%) translateY(-10px); /* Centra il tooltip rispetto all'icona */
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 0.9em;
+  white-space: nowrap;
+  border: 1px solid #0080ff; /* Bordo neon leggermente più scuro */
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; /* Posiziona la freccia sotto il tooltip */
+  left: 20%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Colore scuro per la freccia */
+  border-top-color: #0080ff; /* Bordo neon leggermente più scuro per la freccia */
+}
+
+.card-contact:hover .tooltip {
+  display: block;
+}
+
+
+
+
+
+
+
+
+:root {
+  --card-height: 1.8in;
+  --card-width: 2.8in;
+  --card-radius: 0.125in;
+  --card-thickness: 0in;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  max-width: 100vw;
+}
+
+html, body, h3, p {
+	margin: 0;
+	padding: 0;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.wrapper {
+  height: vh;
+  display: grid;
+  
+  place-items: center;
+/*   background: linear-gradient(#e66465, #9198e5); */
+  background: transparent;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera */
+.wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.card1 {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  height: var(--card-height);
+  width: var(--card-width);
+  border-radius: var(--card-radius);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1));
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+.card-details {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.top {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  position: relative;
+}
+
+.name {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 16px;
+  letter-spacing: 1px;
+  margin-top: 3px;
+  width: 50%;
+  font-size: 18px;
+}
+
+.title {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0 5px;
+}
+
+.bottom {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reader {
+  margin: 5px 0 0 20px;
+}
+
+.type {
+  text-align: right;
+  line-height: 25px;
+  position: relative;
+  margin: 0 -5px -25px;
+}
+
+.category {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.subcategory {
+  font-weight: 300;
+  font-family: "Nunito", sans-serif;
+}
+
+.cardholder {
+  font-family: 'IBM Plex Mono', monospace;
+  margin-left: 10px;
+}
+
+.logo img,
+.chip img,
+.number,
+.from,
+.to,
+.ring {
+  position: absolute;
+  /* All items inside card should have absolute position */
+}
+
+.logo img {
+  width: 45px;
+  height: auto;
+  right: 0;
+  bottom: 25px;
+}
+
+/* CHASE LOGO CSS */
+.hexagon {
+  position: relative;
+  width: 25px;
+}
+
+.trapezoid {
+  position: absolute;
+  border-bottom: 10px solid #fff;
+  border-left: 0px solid transparent;
+  border-right: 10px solid transparent;
+  height: 0;
+  width: 15px;
+}
+
+#t-1 {
+  top: 0;
+  left: 15px;
+}
+
+#t-2 {
+  transform: rotate(90deg);
+  top: 19px;
+  left: 23px;
+}
+
+#t-3 {
+  transform: rotate(180deg);
+  top: 27px;
+  left: 4px;
+}
+
+#t-4 {
+  transform: rotate(-90deg);
+  top: 8px;
+  left: -4px;
+}
+
+
+
+.hidden-code {
+            font-size: 5px;
+            color: whitesmoke;
+        }
+        .hidden-code code {
+            display: none;
+        }
+        .hidden-code .masked {
+            display: inline;
+        }
+        .eye-icon {
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        
+        .contact-me {
+            display: flex;
+            align-items: center;
+           -webkit-tap-highlight-color: transparent
+ 
+        }
+        
+        
+        
+   
+        
+        
+        .purchase-button {
+         
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 35px;
+            background-color: rgba(0, 242, 150);
+           color: rgba(0, 0, 40, 0.9);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            
+        }
+        
+        .purchase-button:active {
+    animation: clickAnimation 1s ease-in-out;
+}
+
+@keyframes clickAnimation {
+    0% { transform: scale(1); background-color: rgba(0, 242, 150); }
+    50% { transform: scale(1.2); background-color: rgba(0, 200, 120); }
+    100% { transform: scale(1); background-color: rgba(0, 242, 150); }
+}
+
+        
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .alert-box {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .close-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
