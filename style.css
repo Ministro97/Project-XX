@@ -1,5 +1,10 @@
 
-
+:root {
+  --card-height: 1.8in;
+  --card-width: 2.8in;
+  --card-radius: 0.125in;
+  --card-thickness: 0in;
+}
 
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500|Jost:400,500,600&display=swap");
 
@@ -8,6 +13,13 @@
   box-sizing: border-box;
 
 }
+
+
+
+
+
+
+
 
 body {
   
@@ -217,81 +229,6 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
-.card-social {
-
-  display: -webkit-box;
-
-  display: flex;
-
-  -webkit-box-align: center;
-
-          align-items: center;
-
-  padding: 0 20px;
-
-  margin-bottom: 30px;
-
-}
-
-.card-social svg {
-
-  fill: #a5b5ce;
-
-  width: 16px;
-
-  display: block;
-
-  -webkit-transition: 0.3s;
-
-  transition: 0.3s;
-
-}
-
-.card-social a {
-
-  color: #8797a1;
-
-  height: 32px;
-
-  width: 32px;
-
-  border-radius: 50%;
-
-  display: -webkit-inline-box;
-
-  display: inline-flex;
-
-  -webkit-box-align: center;
-
-          align-items: center;
-
-  -webkit-box-pack: center;
-
-          justify-content: center;
-
-  -webkit-transition: 0.3s;
-
-  transition: 0.3s;
-
-  background-color: rgba(93, 133, 193, 0.05);
-
-  border-radius: 50%;
-
-  margin-right: 10px;
-
-}
-
-.card-social a:hover svg {
-
-  fill: #637faa;
-
-}
-
-.card-social a:last-child {
-
-  margin-right: 0;
-
-}
 
 .card-buttons {
   display: -webkit-box;
@@ -537,21 +474,6 @@ body {
 
 
 
-
-
-
-
-:root {
-  --card-height: 1.8in;
-  --card-width: 2.8in;
-  --card-radius: 0.125in;
-  --card-thickness: 0in;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 html {
   max-width: 100vw;
 }
@@ -561,6 +483,8 @@ html, body, h3, p {
 	padding: 0;
   font-family: "Josefin Sans", sans-serif;
 }
+
+
 
 .wrapper {
   height: vh;
@@ -773,32 +697,4 @@ html, body, h3, p {
 
         
         
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .alert-box {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .close-button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        
