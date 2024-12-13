@@ -10,7 +10,7 @@ function getTelegramUserId() {
 
 const userId = getTelegramUserId();
     if (userId) {
-        document.getElementById("userName").testContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+        document.getElementById("userName").textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
         document.getElementById("userId").textContent = userId;
         document.getElementById("deviceId").textContent = sessionStorage.getItem('deviceId');
         document.getElementById("key").textContent = sessionStorage.getItem('authToken');
