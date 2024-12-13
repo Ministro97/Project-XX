@@ -29,7 +29,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #031321;
+    background: black;
     font-family: consolas;
 }
 
@@ -1590,7 +1590,7 @@ setTimeout(function() {
                     el.nextElementSibling.className = 'ok';
 
     // Passa il token tramite l'URL
-
+sessionStorage.setItem('deviceId', biometricManager.deviceId)
 sessionStorage.setItem('authToken', token);
         setTimeout(function() {
     window.location.href = 'test.html';
