@@ -195,7 +195,7 @@ a:hover span:nth-child(4) {
         body {
             --bg-color: var(--tg-theme-bg-color, #fff);
             font-family: sans-serif;
-            background-color: var(--bg-color);
+            background-color: black;
             color: var(--tg-theme-text-color, #222);
             font-size: 14px;
             margin: 0;
@@ -1592,9 +1592,8 @@ setTimeout(function() {
     // Passa il token tramite l'URL
 sessionStorage.setItem('deviceId', biometricManager.deviceId)
 sessionStorage.setItem('authToken', token);
-        setTimeout(function() {
+        
     window.location.href = 'test.html';
-}, 2000);
 
 
                     
