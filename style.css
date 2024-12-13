@@ -80,14 +80,16 @@ body {
 
 .card[data-state="#about"] .card-main {
   padding-top: 0;
+	overflow-y: hidden;
 }
 
 .card[data-state="#contact"] {
   height: 430px;
+	overflow-y: hidden;
 }
 
 .card[data-state="#experience"] {
-  height: 500px;
+  height: 510px;
 	overflow: hidden;
 }
 
