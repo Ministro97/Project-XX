@@ -233,7 +233,7 @@ body {
 .card-buttons {
   display: -webkit-box;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.8); /* Sfondo scuro per risaltare i colori neon */
+  background-color: rgba(0, 0, 40, 0.9); /* Sfondo scuro per risaltare i colori neon */
   margin-top: auto;
   position: -webkit-sticky;
   position: sticky;
