@@ -76,7 +76,7 @@ const messageElement = document.getElementById('message');
             if (token) { // Se il token esiste, l'autenticazione è riuscita
 
                 window.Telegram.WebApp.ready();
-
+document.getElementById('message').style.display = "none";
 document.getElementById('user_card').style.display = "block";
 
 
