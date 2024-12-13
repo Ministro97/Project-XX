@@ -8,13 +8,14 @@ function getTelegramUserId() {
 }
 
 
-const userData = getTelegramUserId();
-    if (userData) {
-        document.getElementById("userId").textContent = `${userId}`;
+const userId = getTelegramUserId();
+    if (userId) {
+        document.getElementById("userName").testContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+        document.getElementById("userId").textContent = userId;
         document.getElementById("deviceId").textContent = sessionStorage.getItem('deviceId');
         document.getElementById("key").textContent = sessionStorage.getItem('authToken');
     } else {
-        document.body.getElementById("userId").textContent = `Impossibile ottenere l'ID utente.`;
+        document.body.getElementById("userId").textContent = ` /`;
     }
 
 
