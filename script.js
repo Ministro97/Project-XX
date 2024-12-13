@@ -10,6 +10,14 @@ function getTelegramUserId() {
 
 const userId = getTelegramUserId();
     if (userId) {
+
+
+function getFirstName(fullName) {
+    return fullName.split(' ')[0];
+}
+
+        
+        document.getElementById("cardHolder").textContent = getFirstName(window.Telegram.WebApp.initDataUnsafe.user.first_name);
         document.getElementById("avatar").src = window.Telegram.WebApp.initDataUnsafe.user.photo_url;
         document.getElementById("userName").textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
         document.getElementById("userId").textContent = userId;
