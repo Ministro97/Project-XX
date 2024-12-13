@@ -74,7 +74,7 @@ body {
 }
 
 .card[data-state="#about"] {
-  height: 540px;
+  height: 600px;
 	
   overflow-y: hidden;
 }
@@ -92,7 +92,7 @@ body {
 .card[data-state="#experience"] {
   height: 510px;
 	overflow: hidden;
-	max-width: 350;
+	
 }
 
 .card.is-active .card-header {
