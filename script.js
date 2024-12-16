@@ -86,6 +86,7 @@ const messageElement = document.getElementById('message');
 
                 
             } else {
+                document.getElementById('user_card').style.display = "none";
                 messageElement.textContent = 'Token non valido. Autenticazione fallita.';
                 messageElement.classList.add('error');
             }
