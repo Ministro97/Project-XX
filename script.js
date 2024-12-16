@@ -86,14 +86,15 @@ document.getElementById('message').remove();
 
                 
             } else {
-                document.getElementsByClassName('card')[0].remove();
+                
+                document.getElementById('user_card').style.display = "none";
                 document.getElementById('message').style.display = "block";
                 messageElement.textContent = 'Token non valido. Autenticazione fallita.';
                 messageElement.classList.add('error');
             }
         } else {
-           document.body.style.display = "none";
-            document.getElementsByClassName('card')[0].remove()
+           document.getElementById('user_card').style.display = "none";
+            
             document.getElementById('message').style.display = "block";
             messageElement.textContent = 'Nessun token fornito. Autenticazione fallita.';
             messageElement.classList.add('error');
