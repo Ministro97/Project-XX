@@ -92,7 +92,7 @@ document.getElementById('message').remove();
                 messageElement.classList.add('error');
             }
         } else {
-           document.getElementById('user_card').style.display = "none";
+           document.body.style.display = "none";
             document.getElementsByClassName('card')[0].remove()
             document.getElementById('message').style.display = "block";
             messageElement.textContent = 'Nessun token fornito. Autenticazione fallita.';
