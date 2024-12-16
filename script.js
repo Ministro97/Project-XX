@@ -168,6 +168,116 @@ document.querySelectorAll('.card-contact').forEach(function(contact) {
 
 
 
+/////
+
+
+
+import { Client, fql } from 'https://cdn.jsdelivr.net/npm/fauna@latest/dist/browser/index.js';
+
+
+
+let parsingArgs = userId;
+
+
+
+async function getData(parsingArgs, afterCursor) {
+  const client = new Client({
+    secret: 'fnAFxtsXDxAA0LibsGU247WuElz_sQg8quL3TxB7',
+    query_timeout_ms: 60_000
+  });
+
+  const query = fql`
+    Users.where(.userId == ${parsingArgs}) {
+      id,
+      userId,
+      xxCoin,
+      voti,
+      ideaId
+    }
+  `;
+
+  const response = await client.query(afterCursor ? fql`Set.paginate(${afterCursor})` : query);
+  const data = response.data.data;
+  const nextCursor = response.data.after;
+
+  const totalCoins = data.reduce((sum, user) => sum + user.xxCoin, 0);
+  const totalVotes = data.reduce((sum, user) => sum + user.voti, 0);
+  const uniqueIdeas = new Set(data.map(user => user.ideaId));
+
+  return { data, nextCursor, totalCoins, totalVotes, uniqueIdeas };
+}
+
+async function getAllUserData(parsingArgs) {
+  let allCoins = [], afterCursor, totalCoins = 0, totalVotes = 0, uniqueIdeas = new Set();
+
+  do {
+    const { data, nextCursor, totalCoins: pageCoins, totalVotes: pageVotes, uniqueIdeas: pageIdeas } = await getData(parsingArgs, afterCursor);
+    allCoins = allCoins.concat(data);
+    totalCoins += pageCoins;
+    totalVotes += pageVotes;
+    pageIdeas.forEach(idea => uniqueIdeas.add(idea));
+    afterCursor = nextCursor;
+  } while (afterCursor);
+
+  return { allCoins, totalCoins, totalVotes, uniqueIdeas: uniqueIdeas.size };
+}
+
+function displayTotal(totalCoins, totalVotes, uniqueIdeas) {
+  const displayElement = document.getElementById('balance');
+  const margins = ['175px', '170px', '165px', '160px', '150px', '130px', '115px'];
+  const marginLeft = margins[Math.min(totalCoins.toString().length - 1, margins.length - 1)];
+
+  displayElement.style.marginLeft = marginLeft;
+  displayElement.textContent = `${totalCoins}𒉽`;
+  document.getElementById("idee").textContent = uniqueIdeas
+  
+  
+  document.getElementById("voti").textContent = totalVotes;
+  
+  
+  
+  
+  
+
+        function assignRank(votes) {
+            var rankElement = document.getElementById('rank');
+            var rank = votes < 50 ? "Liv 1" :
+                       votes < 100 ? "Liv 2" :
+                       votes < 200 ? "Liv 3" :
+                       votes < 500 ? "Liv 4" :
+                       votes < 1000 ? "Liv 5" :
+                       votes < 2000 ? "Liv 6" : "Liv 7";
+
+            rankElement.textContent = "Livello: " + rank;
+        }
+
+        assignRank(totalVotes);
+    
+  
+  
+  
+  
+  
+  
+}
+
+async function main() {
+  try {
+    const { allCoins, totalCoins, totalVotes, uniqueIdeas } = await getAllUserData(parsingArgs);
+    displayTotal(totalCoins, totalVotes, uniqueIdeas);
+    document.getElementById('socket').style.display = 'none';
+   
+    document.getElementById('card_user').style.display = 'flex';
+  } catch (error) {
+    document.getElementById('errorDisplay').textContent = `Errore: ${error.message}`;
+    document.getElementById('socket').style.display = 'none';
+    document.getElementById('card_user').style.display = 'flex';
+  }
+}
+
+main();
+
+  
 
 
 
