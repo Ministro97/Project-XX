@@ -76,7 +76,7 @@ const messageElement = document.getElementById('message');
             if (token) { // Se il token esiste, l'autenticazione è riuscita
 
                 window.Telegram.WebApp.ready();
-// document.getElementById('message').style.display = "none";
+document.getElementById('message').remove();
 // document.getElementById('user_card').style.display = "block";
 
 
@@ -87,10 +87,13 @@ const messageElement = document.getElementById('message');
                 
             } else {
                 document.getElementById('user_card').style.display = "none";
+                document.getElementById('message').style.display = "block";
                 messageElement.textContent = 'Token non valido. Autenticazione fallita.';
                 messageElement.classList.add('error');
             }
         } else {
+            document.getElementById('user_card').style.display = "none";
+            document.getElementById('message').style.display = "block";
             messageElement.textContent = 'Nessun token fornito. Autenticazione fallita.';
             messageElement.classList.add('error');
         }
