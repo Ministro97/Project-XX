@@ -72,7 +72,7 @@ const messageElement = document.getElementById('message');
 
                 window.Telegram.WebApp.ready();
 document.getElementById('message').remove();
-document.getElementById('user_card').style.display = "flex";
+document.getElementById('socket').style.display = "block";
 
 
 
