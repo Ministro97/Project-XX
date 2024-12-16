@@ -130,22 +130,6 @@ document.querySelectorAll('.card-contact').forEach(function(contact) {
   
   
   
-  function toggleVisibility() {
-            const masked = document.querySelector('.hidden-code .masked');
-            const unmasked = document.querySelector('.hidden-code .unmasked');
-            const eyeIcon = document.getElementById('eyeIcon');
-            if (masked.style.display === 'none') {
-                masked.style.display = 'inline';
-                unmasked.style.display = 'none';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                masked.style.display = 'none';
-                unmasked.style.display = 'inline';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
-        }
   
   
   document.addEventListener('DOMContentLoaded', (event) => {
