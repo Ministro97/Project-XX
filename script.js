@@ -220,19 +220,29 @@ function displayTotal(totalCoins, totalVotes, uniqueIdeas) {
   
   
   
-  
-  
+
 
         function assignRank(votes) {
             var rankElement = document.getElementById('rank');
-            var rank = votes < 50 ? "Liv 1" :
-                       votes < 100 ? "Liv 2" :
-                       votes < 200 ? "Liv 3" :
-                       votes < 500 ? "Liv 4" :
-                       votes < 1000 ? "Liv 5" :
-                       votes < 2000 ? "Liv 6" : "Liv 7";
 
-            rankElement.textContent = "Livello: " + rank;
+if (Number(userId) === 641846047 ) {
+rankElement.textContent = "Manager"
+}
+
+            else {
+            
+            var rank = votes < 50 ? "Novello" :
+                       votes < 100 ? "Ideista" :
+                       votes < 200 ? "Innovatore" :
+                       votes < 500 ? "Mentore" :
+                       votes < 1000 ? "Pioniere" :
+                       votes < 2000 ? "Visionario" : "Guru";
+
+
+            
+            rankElement.textContent = rank;
+
+            }
         }
 
         assignRank(totalVotes);
