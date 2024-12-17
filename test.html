@@ -488,9 +488,13 @@
  <div class="contact-me">
 <p id="wallet"></p>     
 
-  <button  class="purchase-button" onclick="showAlert()">
+
+     
+        
+            
+  <a href="javascript:;" class="purchase-button" onclick="DemoApp.showAlert('Hello');">
     <i class="fas fa-shopping-cart">&nbsp&nbsp</i> Shop
-  </button>
+  </a> 
 </div>
 
         
@@ -542,13 +546,14 @@ function toggleVisibility() {
 
 
 
- function ShowAlert(message) {
-            Telegram.WebApp.showAlert("Lo shop sarà disponibile a partire da Gennaio 2025.");
-        },
 
 </script>
     
+<script type="module">  
 
+    import DemoApp from "index.html"; 
+    
+</script>
 
 <script type="module" src="./script.js"></script>
 
