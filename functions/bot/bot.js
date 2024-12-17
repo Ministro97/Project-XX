@@ -28,14 +28,17 @@ let sessionOwner = null;
 
 // Test web app
 
-bot.command('test', (ctx) => {
-  ctx.reply('Benvenuto! Clicca sul pulsante qui sotto per aprire la web app.', 
-    Markup.inlineKeyboard([
-      Markup.button.webApp('Visualizza profilo', 'https://projectxx20242025.netlify.app/')
-    ])
-  );
+bot.command('profile_xx', (ctx) => {
+  if (ctx.chat.type !== 'private') {
+    ctx.replyWithHTML("Questa direttiva non può essere utilizzata in contesti pubblici, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> per poter visualizzare il tuo profilo XX" + copyright);
+  } else {
+    ctx.reply('Benvenuto! Clicca sul pulsante qui sotto per aprire la web app.', 
+      Markup.inlineKeyboard([
+        Markup.button.webApp('Visualizza profilo', 'https://projectxx20242025.netlify.app/')
+      ])
+    );
+  }
 });
-
 
 
 
