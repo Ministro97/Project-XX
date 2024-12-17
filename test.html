@@ -488,7 +488,7 @@
  <div class="contact-me">
 <p id="wallet"></p>     
 
-  <button  class="purchase-button" onclick="playClickSound()">
+  <button  class="purchase-button" onclick="showAlert()">
     <i class="fas fa-shopping-cart">&nbsp&nbsp</i> Shop
   </button>
 </div>
@@ -539,7 +539,12 @@ function toggleVisibility() {
                 eyeIcon.classList.add('fa-eye');
             }
         }
-  
+
+
+
+ function ShowAlert(message) {
+            Telegram.WebApp.showAlert("Lo shop sarà disponibile a partire da Gennaio 2025.");
+        },
 
 </script>
     
