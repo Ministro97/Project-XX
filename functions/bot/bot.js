@@ -30,7 +30,7 @@ let sessionOwner = null;
 
 bot.command('profile_xx', (ctx) => {
   if (ctx.chat.type !== 'private') {
-    ctx.replyWithHTML("Questa direttiva é utilizzabile in contesti pubblici. Per visualizzare il tuo profilo XX, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> oppure clicca sulla mia miniatura e poi su \"apri app\".");
+    ctx.replyWithHTML("Questa direttiva non é utilizzabile in contesti pubblici. Per visualizzare il tuo profilo XX, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> oppure clicca sulla mia miniatura e poi su \"apri app\".");
   } else {
     ctx.reply('Clicca sul pulsante qui sotto per aprire il tuo profilo XX.', 
       Markup.inlineKeyboard([
