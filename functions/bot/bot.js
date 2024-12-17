@@ -30,9 +30,9 @@ let sessionOwner = null;
 
 bot.command('profile_xx', (ctx) => {
   if (ctx.chat.type !== 'private') {
-    ctx.replyWithHTML("Questa direttiva non può essere utilizzata in contesti pubblici, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> per poter visualizzare il tuo profilo XX" + copyright);
+    ctx.replyWithHTML("Questa direttiva non può essere utilizzata nei contesti pubblici, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> per poter visualizzare il tuo profilo XX, oppure clicca semplicemente sulla mia thumbnail e successivamente clicca su \"apri app\".");
   } else {
-    ctx.reply('Benvenuto! Clicca sul pulsante qui sotto per aprire la web app.', 
+    ctx.reply('Clicca sul pulsante qui sotto per aprire il tuo profilo XX.', 
       Markup.inlineKeyboard([
         Markup.button.webApp('Visualizza profilo', 'https://projectxx20242025.netlify.app/')
       ])
