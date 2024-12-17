@@ -2,7 +2,7 @@
 
 
     
-    const DemoApp = {
+ export const DemoApp = {
         initData      : Telegram.WebApp.initData || '',
         initDataUnsafe: Telegram.WebApp.initDataUnsafe || {},
         MainButton: Telegram.WebApp.MainButton,
