@@ -1008,20 +1008,20 @@ async function generateLeaderboard() {
       let rank;
 
            
-      if (votes >= 1000) {
-        rank = 'Mentore XX';
-      } else if (votes >= 500) {
-        rank = 'Veterano XX';
+      if (votes >= 2000) {
+        rank = 'Guru';
+      } else if (votes >= 1000) {
+        rank = 'Mentore';
       } else if (votes >= 300) {
-        rank = 'Esperto XX';
+        rank = 'Stratega';
       } else if (votes >= 200) {
-        rank = 'Assistente';
+        rank = 'Innovatore';
       } else if (votes >= 100) {
-        rank = 'Apprendista Grado 1';
+        rank = '';
       } else if (votes >= 50) {
-        rank = 'Apprendista Grado 2';
+        rank = 'Ideista';
       } else {
-        rank = 'Apprendista Grado 3';
+        rank = 'Novello';
       }
       return { userId, username: userNames[userId], votes, rank, position: index + 1 };
     });
@@ -1970,6 +1970,7 @@ async function startBrainstorming(ctx) {
 
     try {
         if (sessionOwner === null) {
+            
             console.log("pre: " + sessionOwner);
             sessionOwner = ctx.from.id;
             console.log("start: " + sessionOwner);
@@ -1978,13 +1979,32 @@ async function startBrainstorming(ctx) {
             ideas = []; // Resetta le idee
 
 
+            //////
+const chat = ctx.chat;
+  const chatTitle = chat.title || 'N/A';
+  const topic = ctx.message.topic || 'N/A';
+ 
+            
+            //test
+            
+console.log(topic, chatTitle, chat);
+            
+let context;
+
+            
+if (topic) {
+context = topic
+} 
+            else context = chatTitle;
+
+            /////
+
             const message = await ctx.replyWithHTML('<b>Sessione di BrainStorming XX per Pokémon XX ♀️</b>')
 
 
             await ctx.replyWithHTML(`<i> Avviata da ${ctx.from.first_name}</i>
 
-
-Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per Pokémon XX. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
+Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per ${context}. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
 
 Ecco i tags che potrete utilizzare: 
 
