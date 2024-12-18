@@ -1981,8 +1981,8 @@ async function startBrainstorming(ctx) {
 
             //////
 const chat = ctx.chat;
-  const chatTitle = chat.title || 'N/A';
-  const topic = ctx.message.topic || 'N/A';
+  const chatTitle = chat.title || null;
+  const topic = ctx.message.topic || null;
  
             
             //test
