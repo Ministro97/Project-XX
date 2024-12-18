@@ -1999,12 +1999,12 @@ context = topic
 
             /////
 
-            const message = await ctx.replyWithHTML('<b>Sessione di BrainStorming XX per Pokémon XX ♀️</b>')
+            const message = await ctx.replyWithHTML(`<b>Sessione di BrainStorming XX ${context} ♀️</b>`)
 
 
             await ctx.replyWithHTML(`<i> Avviata da ${ctx.from.first_name}</i>
 
-Benvenuti zii! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per ${context}. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
+Benvenuti in questa sessione di Brainstorming XX! È il momento di liberare la vostra immaginazione e contribuire con delle idee straordinarie per ${context}. Fino allo scadere del tempo, potrete inviare in questo gruppo dei messaggi testuali con qualsiasi vostra idea. Ci sono solo due regole: \n\n1. Prima di ogni messaggio, aggiungete il tag corretto per l’argomento. \n\n2. La lunghezza dei messaggi è fissata a un massimo di 20 parole e 80 lettere, quindi non dovrete scrivere dei poemi, l'idea deve essere breve e concisa! \n\n
 
 Ecco i tags che potrete utilizzare: 
 
@@ -2016,7 +2016,21 @@ ${fourthPrefix} + [il tuo messaggio]
 Non vedo l’ora di vedere le vostre idee folli!💡
 
 
-Nota: la sessione verrà automaticamente terminata se non saranno inviate nuove idee.
+<b>Note</b>
+
+
+- La sessione si chiuderà automaticamente se non verranno inviate nuove idee.
+
+- Ogni nuova idea sarà salvata automaticamente nella blockchain delle idee (Idea~Chain).
+
+- Inviando un’idea su un determinato argomento, parteciperai alla Leaderboard XX, la classifica delle idee, e potrai vedere come la tua creatività si confronta con quella degli altri!
+
+- Ogni voto alla tua idea ti farà guadagnare XX coins, la valuta principale del progetto XX, utilizzabile per acquistare oggetti nello shop del Dr. Cosmos. Raggiungi un certo numero di voti e sarai promosso di rango!
+
+- Il costo di attivazione di un Brainstorming XX sará di 5𒉽, per ora è gratis! 
+
+- Questo servizio è ancora in fase di test e sarà completamente operativo entro il 2025.
+
 
 
 
