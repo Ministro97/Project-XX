@@ -54,41 +54,43 @@ function formatMemberNames(members) {
   }
 }
 
+let newMembersBuffer = [];
+
 bot.use(async (ctx, next) => {
   if (ctx.message && ctx.message.new_chat_members) {
-    const newMembers = ctx.message.new_chat_members;
-    const greeting = getGreeting();
-    const chatId = ctx.chat.id;
-    const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
+    newMembersBuffer.push(...ctx.message.new_chat_members);
 
-    for (const member of newMembers) {
-      try {
-        // Promuovi il nuovo membro ad amministratore
-        await ctx.telegram.promoteChatMember(chatId, member.id, {
-          can_change_info: false,
-          can_post_messages: true,
-          can_edit_messages: false,
-          can_delete_messages: false,
-          can_invite_users: true,
-          can_restrict_members: false,
-          can_pin_messages: false,
-          can_promote_members: false
-        });
+    // Imposta un timeout per processare i nuovi membri dopo un breve intervallo
+    setTimeout(async () => {
+      if (newMembersBuffer.length > 0) {
+        const newMembers = [...newMembersBuffer];
+        newMembersBuffer = []; // Svuota il buffer
 
-        // Imposta il soprannome del nuovo membro su "Novello"
-        await ctx.telegram.setChatAdministratorCustomTitle(chatId, member.id, 'Novello');
-      } catch (error) {
-        console.error(`Errore nel promuovere ${member.first_name}:`, error);
-      }
-    }
+        const greeting = getGreeting();
+        const chatId = ctx.chat.id;
+        const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
 
-      console.log(newMembers.length)
+        for (const member of newMembers) {
+          try {
+            await ctx.telegram.promoteChatMember(chatId, member.id, {
+              can_change_info: false,
+              can_post_messages: true,
+              can_edit_messages: false,
+              can_delete_messages: false,
+              can_invite_users: true,
+              can_restrict_members: false,
+              can_pin_messages: false,
+              can_promote_members: false
+            });
 
-    if (newMembers.length > 1) {
+            await ctx.telegram.setChatAdministratorCustomTitle(chatId, member.id, 'Novello');
+          } catch (error) {
+            console.error(`Errore nel promuovere ${member.first_name}:`, error);
+          }
+        }
 
-
-        
-      await ctx.replyWithHTML(`
+        if (newMembers.length > 1) {
+          await ctx.replyWithHTML(`
 ${greeting}, ${memberNames}! Benvenuti in questo gruppo, interamente gestito da me. Permettetemi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
 Cosa posso fare?
@@ -116,8 +118,8 @@ Ah, quasi dimenticavo! Vi ho appena promosso al grado di <i>Novello</i>. Per sal
 <b>Nota</b>
 I servizi saranno completamente disponibili entro gennaio 2025.
 `);
-    } else {
-      await ctx.replyWithHTML(`
+        } else {
+          await ctx.replyWithHTML(`
 ${greeting}, ${newMembers[0].first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
 Cosa posso fare?
@@ -145,14 +147,12 @@ Ah, quasi dimenticavo! Ti ho appena promosso al grado di <i>Novello</i>. Per sal
 <b>Nota</b>
 I servizi saranno completamente disponibili entro gennaio 2025.
 `);
-    }
+        }
+      }
+    }, 1000); // Attendi 1 secondo prima di processare i nuovi membri
   }
   return next();
 });
-
-
-
-
 
 
 
