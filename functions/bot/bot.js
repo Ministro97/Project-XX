@@ -135,7 +135,7 @@ bot.command('saldo', async (ctx) => {
   }
 });
 
-
+/*
 
 // test app 
 bot.command('saldoapp', async (ctx) => {
@@ -151,7 +151,7 @@ bot.command('saldoapp', async (ctx) => {
 });
 
 
-
+/*
 
 
 
@@ -354,7 +354,7 @@ bot.start(async (ctx) => {
 
   try {
     const response = await client.query(saveUserQuery);
-    ctx.reply(`Ciao ${username}, il tuo nome utente è stato salvato!`);
+    ctx.reply(`Ciao ${username}, il Ministro sta facendo del suo meglio per rendermi completamente operativo entro gennaio 2025!`);
   } catch (error) {
     console.error('Errore nel salvataggio:', error);
     ctx.reply('Si è verificato un errore nel salvataggio del tuo nome utente.');
@@ -677,7 +677,10 @@ async function isAdmin(ctx) {
 
 // Comando per cambiare i prefissi
 bot.command('set_tags_bs_xx', async(ctx) => {
-    if (ctx.message.message_thread_id !== undefined && set_tags_active === true) {
+
+const chat = ctx.chat;
+    
+    if (ctx.message.message_thread_id !== undefined && set_tags_active === true || !chat.is_forum && chat.type !== 'private') {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
             await ctx.replyWithHTML('Devi specificare esattamente 4 tags. \n\n\n<code> © 2024-2025 Project XX </code>');
@@ -695,7 +698,7 @@ bot.command('set_tags_bs_xx', async(ctx) => {
     } else if (set_tags_active === false) {
         await ctx.reply('Non puoi cambiare i tags mentre la sessione di Brain Storming XX è attiva.');
     } else {
-        await ctx.replyWithHTML("Non puoi cambiare i tags all'interno del MCS, se hai dubbi sull'uso di questa direttiva clicca su /masterdir");
+        await ctx.replyWithHTML("Non puoi cambiare i tags all'interno di questo contesto, se hai dubbi sull'uso di questa direttiva clicca su /masterdir");
     }
 });
 
@@ -1173,7 +1176,7 @@ bot.use(async(ctx, next) => { if (ctx.message && ctx.message.text && ctx.message
 
 
 bot.command('start_bs_xx', async(ctx) => {
-    if (canOpenSession === true) {
+    if (canOpenSession === true &&  chat.type !== 'private' ) {
         await startBrainstorming(ctx);
 
     }
@@ -1625,10 +1628,10 @@ try {
 
                   
                 } else {
-                    ctx.reply(`c`);
+                    console.log("1");
                 }
             }  else {
-                ctx.reply('c');
+                console.log("2");
         } 
         }
     }
