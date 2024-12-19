@@ -1176,7 +1176,8 @@ bot.use(async(ctx, next) => { if (ctx.message && ctx.message.text && ctx.message
 
 
 bot.command('start_bs_xx', async(ctx) => {
-    if (canOpenSession === true &&  chat.type !== 'private' ) {
+    
+    if (canOpenSession === true &&  ctx.chat.type !== 'private' ) {
         await startBrainstorming(ctx);
 
     }
