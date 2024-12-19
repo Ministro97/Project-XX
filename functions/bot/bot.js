@@ -680,7 +680,7 @@ bot.command('set_tags_bs_xx', async(ctx) => {
 
 const chat = ctx.chat;
     
-    if (ctx.message.message_thread_id !== undefined && set_tags_active === true || !chat.is_forum && chat.type !== 'private') {
+    if (ctx.message.message_thread_id !== undefined && set_tags_active === true || !chat.is_forum && chat.type !== 'private' && set_tags_active === true) {
         const args = ctx.message.text.split(' ').slice(1).join(' ').split(',');
         if (args.length !== 4) {
             await ctx.replyWithHTML('Devi specificare esattamente 4 tags. \n\n\n<code> © 2024-2025 Project XX </code>');
@@ -2040,7 +2040,9 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 
 
 <code> © 2024-2025 Project XX </code>
-`);
+`, Markup.keyboard([
+    ['Stop Brainstorming']
+  ]).resize().oneTime());  
 
             // const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
             pinnedMessageId = message.message_id;
@@ -2053,6 +2055,41 @@ Non vedo l’ora di vedere le vostre idee folli!💡
         await ctx.reply('Si è verificato un errore durante l\'avvio della sessione di brainstorming. Per favore, riprova più tardi.');
     }
 }
+
+
+
+///// stop keyboard test 
+
+
+
+
+bot.hears('Stop Brainstorming', async (ctx) => {
+  if (sessionOwner === null) {
+    console.log("No owner: " + sessionOwner);
+    await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
+  } else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
+    console.log("Owner: " + sessionOwner);
+    console.log(ctx.from.id === sessionOwner);
+    console.log("1 " + ctx.from.id + "2 " + sessionOwner.id);
+    brainstormingActive = false;
+    sessionOwner = null;
+    await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.');
+    if (pinnedMessageId) {
+      await ctx.telegram.unpinChatMessage(ctx.chat.id, pinnedMessageId);
+      pinnedMessageId = null;
+    }
+    await sendSummary(ctx);
+  } else {
+    console.log("Err owner: " + sessionOwner);
+    const warningMessage = await ctx.replyWithHTML("Non sei autorizzato a terminare questa sessione di Brainstorming XX, per poter terminare questa sessione chiedi all' admin del gruppo o al creatore di questa sessione.");
+    setTimeout(() => {
+      ctx.deleteMessage(warningMessage.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio di avviso:', err));
+      ctx.deleteMessage(ctx.message.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio dell\'utente:', err));
+    }, 3000);
+  }
+});
+
+
 
 
 
