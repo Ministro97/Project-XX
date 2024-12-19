@@ -112,21 +112,21 @@ ${greeting}, ${newMembers[0].first_name}! Benvenuto in questo gruppo, interament
 
 Cosa posso fare?
 
-<ul>
 
-<li>🔺 <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.</li>
 
-<li>🔺 <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.</li>
+🔺 <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.
 
-<li>🔺 <b>Impostare promemoria</b> per gli utenti del gruppo.</li>
+🔺 <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
 
-<li>🔺 <b>Ricordare ricorrenze</b> importanti.</li>
+🔺 <b>Impostare promemoria</b> per gli utenti del gruppo.
 
-<li>🔺 <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.</li>
+🔺 <b>Ricordare ricorrenze</b> importanti.
 
-<li>🔺 <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.</li>
+🔺 <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
 
-</ul>
+🔺 <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
+
+
 Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
 
 E non è tutto: con il tempo, le mie funzionalità e i miei servizi continueranno a crescere.
@@ -259,7 +259,7 @@ bot.command('quick_balance_xx', async (ctx) => {
   try {
     const { totalCoins } = await getAllUserCoins(userId);
     const displayCoins = isNaN(totalCoins) ? 0 : totalCoins; // Controlla se totalCoins è NaN
-    ctx.reply(`Il tuo saldo ammonta a ${displayCoins}𒉽`);
+    ctx.reply(`Il tuo saldo ammonta a <spoiler>${displayCoins}𒉽</spoiler>`);
   } catch (error) {
     console.error("Errore nel recupero del saldo:", error);
     ctx.reply("Si è verificato un errore nel recupero del saldo");
