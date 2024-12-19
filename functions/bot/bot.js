@@ -96,40 +96,51 @@ E non è tutto: con il tempo, le mie funzionalità e i miei servizi continuerann
 
 Che ne dite, pronti a scoprire tutto ciò che posso fare? 🔮
 
-Ah, quasi dimenticavo! Vi ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, vi basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
+
 
 <b>Nota</b>
-I servizi saranno completamente disponibili entro gennaio 2025.
-`);
+
+- Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, vi basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
+
+
+
+- I servizi saranno completamente disponibili entro gennaio 2025.
+` copyright);
         } else {
           await ctx.replyWithHTML(`
 ${greeting}, ${newMembers[0].first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
 Cosa posso fare?
 
-🔺 <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.
+<ul>
 
-🔺 <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
+<li>🔺 <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.</li>
 
-🔺 <b>Impostare promemoria</b> per gli utenti del gruppo.
+<li>🔺 <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.</li>
 
-🔺 <b>Ricordare ricorrenze</b> importanti.
+<li>🔺 <b>Impostare promemoria</b> per gli utenti del gruppo.</li>
 
-🔺 <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
+<li>🔺 <b>Ricordare ricorrenze</b> importanti.</li>
 
-🔺 <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
+<li>🔺 <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.</li>
 
+<li>🔺 <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.</li>
+
+</ul>
 Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
 
 E non è tutto: con il tempo, le mie funzionalità e i miei servizi continueranno a crescere.
 
-Che ne dici, pronto a scoprire tutto ciò che posso fare? 🔮
+Che ne dici, pronto a scoprire tutto ciò che posso fare? 
 
-Ah, quasi dimenticavo! Ti ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, ti basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrai avanzare di grado e accumulare XX coin.
+
 
 <b>Nota</b>
-I servizi saranno completamente disponibili entro gennaio 2025.
-`);
+
+- Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, ti basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
+
+- I servizi saranno completamente disponibili entro gennaio 2025.
+` + copyright);
         }
       }
     }, 1000); // Attendi 1 secondo prima di processare i nuovi membri
