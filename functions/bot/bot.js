@@ -25,6 +25,41 @@ let sessionOwner = null;
 
 
 
+// say hello new member 
+
+
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) {
+    return 'Buongiorno';
+  } else if (hour < 18) {
+    return 'Buon pomeriggio';
+  } else {
+    return 'Buonasera';
+  }
+}
+
+bot.use((ctx, next) => {
+  if (ctx.message && ctx.message.new_chat_members) {
+    const newMembers = ctx.message.new_chat_members;
+    const greeting = getGreeting();
+    if (newMembers.length === 1) {
+      const member = newMembers[0];
+      ctx.reply(`${greeting}, ${member.first_name}! Benvenuto nel gruppo!`);
+    } else {
+      const memberNames = newMembers.map(member => member.first_name).join(', ');
+      ctx.reply(`${greeting}, ${memberNames}! Benvenuti nel gruppo!`);
+    }
+  }
+  return next();
+});
+
+
+
+
+
+
+
 
 // Test web app
 
@@ -123,16 +158,22 @@ async function main() {
 
 
 // invio carta 
-bot.command('saldo', async (ctx) => {
+bot.command('xx_coin', async (ctx) => {
+
+
+   if( ctx.chat.type === 'private' ) {
   const userId = ctx.from.id; // Ottieni l'ID dell'utente dal contesto
   try {
     const { totalCoins } = await getAllUserCoins(userId);
     const displayCoins = isNaN(totalCoins) ? 0 : totalCoins; // Controlla se totalCoins è NaN
-    ctx.reply(`Il tuo saldo totale di xxCoin è: ${displayCoins}`);
+    ctx.reply(`Il tuo saldo totale di xx coin è: ${displayCoins}`);
   } catch (error) {
     console.error("Errore nel recupero del saldo:", error);
-    ctx.reply("Si è verificato un errore nel recupero del saldo. Riprova più tardi.");
-  }
+    ctx.reply("Si è verificato un errore nel recupero del saldo");
+  } 
+   } 
+   else ctx.replyWithHTML("Questa direttiva non é utilizzabile in contesti pubblici. Per visualizzare il tuo profilo XX, usa questa direttiva all'interno della mia <a href='https://t.me/Dr_Cosmos_bot'>chat privata</a> oppure clicca sulla mia miniatura e poi su \"apri app\".");
+  
 });
 
 /*
@@ -2053,7 +2094,7 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 
 - Inviando un’idea su un determinato argomento, parteciperai alla Leaderboard XX, la classifica delle idee, e potrai vedere come la tua creatività si confronta con quella degli altri!
 
-- Ogni voto alla tua idea ti farà guadagnare XX coins, la valuta principale del progetto XX, utilizzabile per acquistare oggetti nello shop del Dr. Cosmos. Raggiungi un certo numero di voti e sarai promosso di rango!
+- Ogni voto alla tua idea ti farà guadagnare XX coin (𒉽), la valuta principale del progetto XX, utilizzabile per acquistare oggetti nello shop del Dr. Cosmos. Raggiungi un certo numero di voti e sarai promosso di rango!
 
 - Il costo di attivazione di un Brainstorming XX sará di 5𒉽, per ora è gratis! 
 
