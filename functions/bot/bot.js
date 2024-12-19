@@ -259,7 +259,7 @@ bot.command('quick_balance_xx', async (ctx) => {
   try {
     const { totalCoins } = await getAllUserCoins(userId);
     const displayCoins = isNaN(totalCoins) ? 0 : totalCoins; // Controlla se totalCoins è NaN
-    ctx.reply(`Il tuo saldo ammonta a <spoiler>${displayCoins}𒉽</spoiler>`);
+    ctx.replyWithMarkdownV2(`Il tuo saldo ammonta a ||${displayCoins}𒉽||`);
   } catch (error) {
     console.error("Errore nel recupero del saldo:", error);
     ctx.reply("Si è verificato un errore nel recupero del saldo");
