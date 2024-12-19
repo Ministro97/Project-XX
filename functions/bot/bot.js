@@ -82,7 +82,12 @@ bot.use(async (ctx, next) => {
       }
     }
 
+      console.log(newMembers.length)
+
     if (newMembers.length > 1) {
+
+
+        
       await ctx.replyWithHTML(`
 ${greeting}, ${memberNames}! Benvenuti in questo gruppo, interamente gestito da me. Permettetemi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
