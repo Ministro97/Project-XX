@@ -32,6 +32,10 @@ let sessionOwner = null;
 
 
 
+  
+
+
+
 function getGreeting() {
   const now = new Date();
   const hour = now.getHours();
@@ -57,6 +61,7 @@ bot.use(async (ctx, next) => {
     const newMembers = ctx.message.new_chat_members;
     const greeting = getGreeting();
     const chatId = ctx.chat.id;
+    const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
 
     for (const member of newMembers) {
       try {
@@ -74,26 +79,23 @@ bot.use(async (ctx, next) => {
 
         // Imposta il soprannome del nuovo membro su "Novello"
         await ctx.telegram.setChatAdministratorCustomTitle(chatId, member.id, 'Novello');
+      } catch (error) {
+        console.error(`Errore nel promuovere ${member.first_name}:`, error);
+      }
+    }
 
-        // Invia il messaggio di benvenuto
-await ctx.replyWithHTML(`
-${greeting}, ${member.first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
+    if (newMembers.length === 1) {
+      await ctx.replyWithHTML(`
+${greeting}, ${newMembers[0].first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
 Cosa posso fare?
 
-
 ∆ <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.
-
 ∆ <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
-
 ∆ <b>Impostare promemoria</b> per gli utenti del gruppo.
-
 ∆ <b>Ricordare ricorrenze</b> importanti.
-
 ∆ <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
-
 ∆ <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
-
 
 Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
 
@@ -103,59 +105,37 @@ Che ne dici, pronto a scoprire tutto ciò che posso fare? 🔮
 
 Ah, quasi dimenticavo! Ti ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, ti basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrai avanzare di grado e accumulare XX coin.
 
-
-
 <b>Nota</b>
-
 I servizi saranno completamente disponibili entro gennaio 2025.
-` + copyright);
-
-      } catch (error) {
-        console.error(`Errore nel promuovere ${member.first_name}:`, error);
-      }
-    }
-
-    if (newMembers.length > 1) {
-      const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
-      await ctx.reply(`
-      ${greeting}, ${memberNames}! Benvenuti in questo gruppo, interamente gestito da me. Permettetemi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
+`);
+    } else {
+      await ctx.replyWithHTML(`
+${greeting}, ${memberNames}! Benvenuti in questo gruppo, interamente gestito da me. Permettetemi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
 
 Cosa posso fare?
 
-
 ∆ <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo/canale.
-
 ∆ <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
-
 ∆ <b>Impostare promemoria</b> per gli utenti del gruppo/canale.
-
 ∆ <b>Ricordare ricorrenze</b> importanti.
-
-∆ </b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
-
+∆ <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
 ∆ <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
-
 
 Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
 
 E non è tutto: con il tempo, le mie funzionalità e i miei servizi continueranno a crescere.
 
-
 Che ne dite, pronti a scoprire tutto ciò che posso fare? 🔮
 
-Ah, quasi dimenticavo! vi ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, vi basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
-
-
+Ah, quasi dimenticavo! Vi ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, vi basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
 
 <b>Nota</b>
-
-I servizi saranno completamente disponibili entro gennaio 2025.` + copyright);
+I servizi saranno completamente disponibili entro gennaio 2025.
+`);
     }
   }
   return next();
 });
-
-
 
 
 
