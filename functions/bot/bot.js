@@ -105,7 +105,7 @@ Che ne dite, pronti a scoprire tutto ciò che posso fare? 🔮
 
 
 - I servizi saranno completamente disponibili entro gennaio 2025.
-` copyright);
+` + copyright);
         } else {
           await ctx.replyWithHTML(`
 ${greeting}, ${newMembers[0].first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
