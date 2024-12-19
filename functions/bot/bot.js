@@ -558,7 +558,31 @@ bot.on('message', async(ctx) => {
 
 
 
-
+bot.hears('Stop Brainstorming XX', async (ctx) => {
+  if (sessionOwner === null) {
+    console.log("No owner: " + sessionOwner);
+    await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
+  } else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
+    console.log("Owner: " + sessionOwner);
+    console.log(ctx.from.id === sessionOwner);
+    console.log("1 " + ctx.from.id + "2 " + sessionOwner.id);
+    brainstormingActive = false;
+    sessionOwner = null;
+    await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.', Markup.removeKeyboard()) ;
+    if (pinnedMessageId) {
+      await ctx.telegram.unpinChatMessage(ctx.chat.id, pinnedMessageId);
+      pinnedMessageId = null;
+    }
+    await sendSummary(ctx);
+  } else {
+    console.log("Err owner: " + sessionOwner);
+    const warningMessage = await ctx.replyWithHTML("Non sei autorizzato a terminare questa sessione di Brainstorming XX, per poter terminare questa sessione chiedi all' admin del gruppo o al creatore di questa sessione.");
+    setTimeout(() => {
+      ctx.deleteMessage(warningMessage.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio di avviso:', err));
+      ctx.deleteMessage(ctx.message.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio dell\'utente:', err));
+    }, 3000);
+  }
+});
 
 
 
@@ -2041,7 +2065,7 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 
 <code> © 2024-2025 Project XX </code>
 `, Markup.keyboard([
-    ['Stop Brainstorming']
+    ['Stop Brainstorming XX']
   ]).resize().oneTime());  
 
             // const message = await ctx.reply('La sessione di Brainstorming XX è ora attiva!');
@@ -2063,31 +2087,7 @@ Non vedo l’ora di vedere le vostre idee folli!💡
 
 
 
-bot.hears('Stop Brainstorming', async (ctx) => {
-  if (sessionOwner === null) {
-    console.log("No owner: " + sessionOwner);
-    await ctx.replyWithHTML('Nessuna sessione di Brainstorming XX è attualmente attiva.\n\n Se desideri avviare una sessione di Brainstorming XX clicca sul comando /start_bs_xx');
-  } else if (await ctx.from.id === sessionOwner || await isAdmin(ctx)) {
-    console.log("Owner: " + sessionOwner);
-    console.log(ctx.from.id === sessionOwner);
-    console.log("1 " + ctx.from.id + "2 " + sessionOwner.id);
-    brainstormingActive = false;
-    sessionOwner = null;
-    await ctx.replyWithHTML('La sessione di Brainstorming XX è stata terminata.');
-    if (pinnedMessageId) {
-      await ctx.telegram.unpinChatMessage(ctx.chat.id, pinnedMessageId);
-      pinnedMessageId = null;
-    }
-    await sendSummary(ctx);
-  } else {
-    console.log("Err owner: " + sessionOwner);
-    const warningMessage = await ctx.replyWithHTML("Non sei autorizzato a terminare questa sessione di Brainstorming XX, per poter terminare questa sessione chiedi all' admin del gruppo o al creatore di questa sessione.");
-    setTimeout(() => {
-      ctx.deleteMessage(warningMessage.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio di avviso:', err));
-      ctx.deleteMessage(ctx.message.message_id).catch((err) => console.error('Errore nell\'eliminazione del messaggio dell\'utente:', err));
-    }, 3000);
-  }
-});
+
 
 
 
