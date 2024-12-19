@@ -54,6 +54,8 @@ function formatMemberNames(members) {
   }
 }
 
+
+
 let newMembersBuffer = [];
 
 bot.use(async (ctx, next) => {
@@ -69,25 +71,6 @@ bot.use(async (ctx, next) => {
         const greeting = getGreeting();
         const chatId = ctx.chat.id;
         const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
-
-        for (const member of newMembers) {
-          try {
-            await ctx.telegram.promoteChatMember(chatId, member.id, {
-              can_change_info: false,
-              can_post_messages: true,
-              can_edit_messages: false,
-              can_delete_messages: false,
-              can_invite_users: true,
-              can_restrict_members: false,
-              can_pin_messages: false,
-              can_promote_members: false
-            });
-
-            await ctx.telegram.setChatAdministratorCustomTitle(chatId, member.id, 'Novello');
-          } catch (error) {
-            console.error(`Errore nel promuovere ${member.first_name}:`, error);
-          }
-        }
 
         if (newMembers.length > 1) {
           await ctx.replyWithHTML(`
@@ -153,9 +136,6 @@ I servizi saranno completamente disponibili entro gennaio 2025.
   }
   return next();
 });
-
-
-
 
 
 
