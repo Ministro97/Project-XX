@@ -28,31 +28,134 @@ let sessionOwner = null;
 // say hello new member 
 
 
+
+
+
+
 function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) {
+  const now = new Date();
+  const hour = now.getHours();
+  if (hour >= 5 && hour < 12) {
     return 'Buongiorno';
-  } else if (hour < 18) {
+  } else if (hour >= 12 && hour < 18) {
     return 'Buon pomeriggio';
   } else {
     return 'Buonasera';
   }
 }
 
-bot.use((ctx, next) => {
+function formatMemberNames(members) {
+  if (members.length === 1) {
+    return members[0];
+  } else {
+    return members.slice(0, -1).join(', ') + ' e ' + members[members.length - 1];
+  }
+}
+
+bot.use(async (ctx, next) => {
   if (ctx.message && ctx.message.new_chat_members) {
     const newMembers = ctx.message.new_chat_members;
     const greeting = getGreeting();
-    if (newMembers.length === 1) {
-      const member = newMembers[0];
-      ctx.reply(`${greeting}, ${member.first_name}! Benvenuto nel gruppo!`);
-    } else {
-      const memberNames = newMembers.map(member => member.first_name).join(', ');
-      ctx.reply(`${greeting}, ${memberNames}! Benvenuti nel gruppo!`);
+    const chatId = ctx.chat.id;
+
+    for (const member of newMembers) {
+      try {
+        // Promuovi il nuovo membro ad amministratore
+        await ctx.telegram.promoteChatMember(chatId, member.id, {
+          can_change_info: false,
+          can_post_messages: true,
+          can_edit_messages: false,
+          can_delete_messages: false,
+          can_invite_users: true,
+          can_restrict_members: false,
+          can_pin_messages: false,
+          can_promote_members: false
+        });
+
+        // Imposta il soprannome del nuovo membro su "Novello"
+        await ctx.telegram.setChatAdministratorCustomTitle(chatId, member.id, 'Novello');
+
+        // Invia il messaggio di benvenuto
+await ctx.replyWithHTML(`
+${greeting}, ${member.first_name}! Benvenuto in questo gruppo, interamente gestito da me. Permettimi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
+
+Cosa posso fare?
+
+
+∆ <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo.
+
+∆ <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
+
+∆ <b>Impostare promemoria</b> per gli utenti del gruppo.
+
+∆ <b>Ricordare ricorrenze</b> importanti.
+
+∆ <b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
+
+∆ <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
+
+
+Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
+
+E non è tutto: con il tempo, le mie funzionalità e i miei servizi continueranno a crescere.
+
+Che ne dici, pronto a scoprire tutto ciò che posso fare? 🔮
+
+Ah, quasi dimenticavo! Ti ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, ti basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrai avanzare di grado e accumulare XX coin.
+
+
+
+<b>Nota</b>
+
+I servizi saranno completamente disponibili entro gennaio 2025.
+` + copyright);
+
+      } catch (error) {
+        console.error(`Errore nel promuovere ${member.first_name}:`, error);
+      }
+    }
+
+    if (newMembers.length > 1) {
+      const memberNames = formatMemberNames(newMembers.map(member => member.first_name));
+      await ctx.reply(`
+      ${greeting}, ${memberNames}! Benvenuti in questo gruppo, interamente gestito da me. Permettetemi di presentarmi: sono il Dr. Cosmos, un assistente virtuale creato nei laboratori di EporediuX per potenziare le funzionalità dei social di messaggistica e migliorare l'user experience.
+
+Cosa posso fare?
+
+
+∆ <b>Creare sessioni di Brainstorming XX</b> tra gli utenti del gruppo/canale.
+
+∆ <b>Generare nuovi Topics</b> e svilupparli grazie alle sinapsi con le mie hard skills.
+
+∆ <b>Impostare promemoria</b> per gli utenti del gruppo/canale.
+
+∆ <b>Ricordare ricorrenze</b> importanti.
+
+∆ </b>Creare il profilo personale degli utenti</b> e permettere loro di acquistare oggetti virtuali nel mio shop.
+
+∆ <b>Gestire autonomamente gruppi e canali Telegram</b>, analizzare i messaggi degli utenti, implementare un sistema di ranking e ban, e filtrare i contenuti appropriati.
+
+
+Tutte cose che un normale gruppo Telegram o WhatsApp non può fare!
+
+E non è tutto: con il tempo, le mie funzionalità e i miei servizi continueranno a crescere.
+
+
+Che ne dite, pronti a scoprire tutto ciò che posso fare? 🔮
+
+Ah, quasi dimenticavo! vi ho appena promosso al grado di <i>Novello</i>. Per salire di grado e guadagnare XX coin, la valuta ufficiale del progetto XX, vi basterà partecipare agli eventi o alle sessioni di brainstorming XX. Ottenendo feedback positivi (voti = 🔥) dai partecipanti, potrete avanzare di grado e accumulare XX coin.
+
+
+
+<b>Nota</b>
+
+I servizi saranno completamente disponibili entro gennaio 2025.` + copyright);
     }
   }
   return next();
 });
+
+
 
 
 
@@ -158,7 +261,7 @@ async function main() {
 
 
 // invio carta 
-bot.command('xx_coin', async (ctx) => {
+bot.command('quick_balance_xx', async (ctx) => {
 
 
    if( ctx.chat.type === 'private' ) {
@@ -166,7 +269,7 @@ bot.command('xx_coin', async (ctx) => {
   try {
     const { totalCoins } = await getAllUserCoins(userId);
     const displayCoins = isNaN(totalCoins) ? 0 : totalCoins; // Controlla se totalCoins è NaN
-    ctx.reply(`Il tuo saldo totale di xx coin è: ${displayCoins}`);
+    ctx.reply(`Il tuo saldo ammonta a ${displayCoins}𒉽`);
   } catch (error) {
     console.error("Errore nel recupero del saldo:", error);
     ctx.reply("Si è verificato un errore nel recupero del saldo");
@@ -1104,14 +1207,14 @@ async function generateLeaderboard() {
 // Funzione per promuovere un membro del gruppo a amministratore
 async function promoteToAdmin(ctx, userId) {
   await ctx.telegram.promoteChatMember(ctx.chat.id, userId, {
-    can_change_info: true,
+    can_change_info: false,
     can_post_messages: true,
-    can_edit_messages: true,
-    can_delete_messages: true,
+    can_edit_messages: false,
+    can_delete_messages: false,
     can_invite_users: true,
-    can_restrict_members: true,
-    can_pin_messages: true,
-    can_promote_members: true
+    can_restrict_members: false,
+    can_pin_messages: false,
+    can_promote_members: false
   });
 }
 
